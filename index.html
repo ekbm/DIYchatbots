@@ -8,215 +8,276 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0a0a0f;
-  --bg2:#111118;
-  --bg3:#16161f;
-  --surface:#1c1c28;
-  --surface2:#22222f;
-  --border:#2a2a3a;
-  --border2:#363650;
-  --accent:#7c6af7;
-  --accent2:#a78bfa;
-  --accent-glow:rgba(124,106,247,0.2);
-  --green:#34d399;
-  --amber:#fbbf24;
-  --coral:#fb7185;
-  --sky:#38bdf8;
-  --text:#f0effe;
-  --muted:#8b8ba7;
-  --muted2:#5a5a75;
-  --sans:'DM Sans',sans-serif;
-  --display:'Syne',sans-serif;
-  --mono:'DM Mono',monospace;
+  --bg:#08080f;--bg2:#0f0f18;--bg3:#141420;
+  --surface:#1a1a28;--surface2:#20202e;
+  --border:#252535;--border2:#2e2e42;
+  --accent:#6c63ff;--accent2:#a78bfa;--accent3:#38bdf8;
+  --green:#34d399;--amber:#fbbf24;--coral:#fb7185;
+  --text:#eeeeff;--muted:#7878a0;--muted2:#4a4a68;
+  --sans:'DM Sans',sans-serif;--display:'Syne',sans-serif;--mono:'DM Mono',monospace;
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -20%,rgba(108,99,255,0.07),transparent);pointer-events:none;z-index:0;}
 
-/* ── NOISE TEXTURE ── */
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5;}
+/* NAV */
+nav{position:sticky;top:0;z-index:200;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;background:rgba(8,8,15,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.logo{font-family:var(--display);font-size:1.35rem;font-weight:800;letter-spacing:-0.02em;color:var(--text);text-decoration:none;}
+.logo span{color:var(--accent);}
+.nav-r{display:flex;align-items:center;gap:10px;}
+.nav-link{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;padding:4px 0;}
+.nav-link:hover{color:var(--text);}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);transition:all .2s;text-decoration:none;white-space:nowrap;}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 0 20px rgba(108,99,255,0.3);}
+.btn-primary:hover{background:#5a52e0;transform:translateY(-1px);}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border2);}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+.btn-saas{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;box-shadow:0 0 20px rgba(245,158,11,0.25);}
+.btn-saas:hover{transform:translateY(-1px);box-shadow:0 0 28px rgba(245,158,11,0.35);}
 
-/* ── NAV ── */
-nav{position:sticky;top:0;z-index:100;padding:0 5vw;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
-.nav-logo{font-family:var(--display);font-size:1.4rem;font-weight:800;letter-spacing:-0.02em;color:var(--text);}
-.nav-logo span{color:var(--accent);}
-.nav-links{display:flex;gap:28px;align-items:center;}
-.nav-links a{font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s;font-weight:400;}
-.nav-links a:hover{color:var(--text);}
-.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);transition:all .2s;text-decoration:none;}
-.btn-primary{background:var(--accent);color:#fff;box-shadow:0 0 24px var(--accent-glow);}
-.btn-primary:hover{background:#6c5ae7;transform:translateY(-1px);box-shadow:0 0 32px rgba(124,106,247,0.35);}
-.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border2);}
-.btn-ghost:hover{color:var(--text);border-color:var(--accent);}
+/* SMB BANNER */
+.smb-banner{position:relative;z-index:1;margin:0;background:linear-gradient(135deg,#1a0f00,#1f1000,#1a0a00);border-bottom:1px solid rgba(245,158,11,0.2);overflow:hidden;}
+.smb-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,158,11,0.05),rgba(239,68,68,0.05));pointer-events:none;}
+.smb-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 5vw;gap:16px;flex-wrap:wrap;position:relative;}
+.smb-left{display:flex;align-items:center;gap:14px;}
+.smb-badge{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;}
+.smb-text{font-size:13.5px;color:rgba(255,220,100,0.9);line-height:1.4;}
+.smb-text strong{color:#fbbf24;}
+.smb-text span{color:var(--muted);font-size:12px;}
+.smb-cta-wrap{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.smb-cta{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;white-space:nowrap;box-shadow:0 4px 20px rgba(245,158,11,0.3);}
+.smb-cta:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(245,158,11,0.4);}
+.smb-skip{font-size:12px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:var(--sans);transition:color .2s;white-space:nowrap;}
+.smb-skip:hover{color:var(--text);}
 
-/* ── HERO ── */
-.hero{position:relative;padding:100px 5vw 80px;max-width:1100px;margin:0 auto;z-index:1;}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(124,106,247,0.12);border:1px solid rgba(124,106,247,0.25);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:500;color:var(--accent2);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:24px;}
-.hero-eyebrow::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
-.hero h1{font-family:var(--display);font-size:clamp(2.8rem,6vw,5.2rem);font-weight:800;line-height:1.05;letter-spacing:-0.03em;margin-bottom:24px;}
-.hero h1 .line2{color:var(--accent2);}
-.hero-sub{font-size:1.1rem;color:var(--muted);max-width:560px;line-height:1.7;margin-bottom:40px;font-weight:300;}
-.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:60px;}
-.btn-lg{padding:13px 28px;font-size:15px;border-radius:10px;}
-.hero-stats{display:flex;gap:40px;flex-wrap:wrap;}
-.stat{border-left:2px solid var(--border2);padding-left:18px;}
-.stat-num{font-family:var(--display);font-size:1.8rem;font-weight:700;color:var(--text);line-height:1;}
-.stat-label{font-size:12px;color:var(--muted);margin-top:2px;}
+/* HERO */
+.hero{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:80px 5vw 60px;text-align:center;}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(108,99,255,0.1);border:1px solid rgba(108,99,255,0.2);border-radius:20px;padding:6px 16px;font-size:11px;font-weight:500;color:var(--accent2);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:28px;}
+.blink{width:5px;height:5px;background:var(--accent);border-radius:50%;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:var(--display);font-size:clamp(2.6rem,5.5vw,4.8rem);font-weight:800;line-height:1.06;letter-spacing:-0.03em;margin-bottom:20px;}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:1.05rem;color:var(--muted);max-width:540px;margin:0 auto 16px;line-height:1.7;font-weight:300;}
+.free-note{display:inline-flex;align-items:center;gap:6px;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.2);border-radius:8px;padding:8px 16px;font-size:13px;color:var(--green);margin-bottom:36px;}
+.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:56px;}
+.btn-lg{padding:13px 30px;font-size:15px;border-radius:10px;}
+.hero-stats{display:flex;gap:0;justify-content:center;border:1px solid var(--border);border-radius:14px;overflow:hidden;max-width:600px;margin:0 auto;}
+.hstat{flex:1;padding:18px;text-align:center;border-right:1px solid var(--border);}
+.hstat:last-child{border-right:none;}
+.hstat-n{font-family:var(--display);font-size:1.7rem;font-weight:700;color:var(--text);line-height:1;}
+.hstat-l{font-size:11px;color:var(--muted);margin-top:3px;letter-spacing:0.04em;}
 
-/* floating blobs */
-.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
-.blob1{width:400px;height:400px;background:rgba(124,106,247,0.12);top:-100px;right:-50px;}
-.blob2{width:300px;height:300px;background:rgba(56,189,248,0.07);bottom:-50px;left:10%;}
+/* SECTION */
+.section{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:72px 5vw;}
+.section-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.section-title{font-family:var(--display);font-size:clamp(1.7rem,3vw,2.6rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:10px;}
+.section-sub{font-size:.95rem;color:var(--muted);max-width:500px;line-height:1.7;margin-bottom:44px;}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 5vw;position:relative;z-index:1;}
 
-/* ── SECTION COMMON ── */
-.section{padding:80px 5vw;max-width:1200px;margin:0 auto;position:relative;z-index:1;}
-.section-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
-.section-title{font-family:var(--display);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:12px;}
-.section-sub{font-size:1rem;color:var(--muted);max-width:520px;line-height:1.7;margin-bottom:48px;}
-.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 5vw;}
+/* SETUP TIP BOX */
+.setup-tip{background:linear-gradient(135deg,rgba(108,99,255,0.08),rgba(56,189,248,0.05));border:1px solid rgba(108,99,255,0.2);border-radius:14px;padding:20px 24px;display:flex;align-items:flex-start;gap:16px;margin-bottom:44px;}
+.tip-icon{font-size:28px;flex-shrink:0;margin-top:2px;}
+.tip-body{}
+.tip-title{font-family:var(--display);font-size:15px;font-weight:700;margin-bottom:6px;color:var(--accent2);}
+.tip-text{font-size:13px;color:var(--muted);line-height:1.65;}
+.tip-text strong{color:var(--text);}
 
-/* ── HOW IT WORKS ── */
-.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px;background:var(--border);border-radius:16px;overflow:hidden;}
-.how-card{background:var(--bg2);padding:32px 28px;transition:background .2s;}
-.how-card:hover{background:var(--surface);}
-.how-num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.1em;margin-bottom:16px;}
-.how-icon{font-size:24px;margin-bottom:14px;}
-.how-title{font-family:var(--display);font-size:16px;font-weight:700;margin-bottom:8px;}
-.how-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+/* TEMPLATES GRID */
+.templates-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px;}
+.tcard{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .25s;cursor:pointer;display:flex;flex-direction:column;}
+.tcard:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 16px 48px rgba(108,99,255,0.12);}
+.tcard-preview{height:170px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0;}
+.tp-it{background:linear-gradient(135deg,#0d1829,#162240);}
+.tp-hr{background:linear-gradient(135deg,#0c1f14,#163020);}
+.tp-retail{background:linear-gradient(135deg,#1e0f1e,#301830);}
+.tp-edu{background:linear-gradient(135deg,#1e1a08,#322c10);}
+.tp-health{background:linear-gradient(135deg,#0c1e20,#143030);}
+.tp-legal{background:linear-gradient(135deg,#161616,#282828);}
+.tp-hotel{background:linear-gradient(135deg,#1e1408,#302018);}
+.tp-finance{background:linear-gradient(135deg,#08121e,#101c2e);}
+.tcard-emoji{font-size:52px;filter:drop-shadow(0 4px 20px rgba(0,0,0,0.5));transition:transform .3s;}
+.tcard:hover .tcard-emoji{transform:scale(1.12);}
+.ttag{position:absolute;top:12px;right:12px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:0.05em;text-transform:uppercase;}
+.tag-pop{background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.25);}
+.tag-new{background:rgba(52,211,153,0.12);color:#34d399;border:1px solid rgba(52,211,153,0.22);}
+.tcard-body{padding:20px;flex:1;display:flex;flex-direction:column;}
+.tcard-ind{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:6px;}
+.tcard-name{font-family:var(--display);font-size:17px;font-weight:700;margin-bottom:6px;}
+.tcard-desc{font-size:12.5px;color:var(--muted);line-height:1.55;margin-bottom:14px;flex:1;}
+.tcard-feats{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
+.feat{font-size:11px;padding:3px 9px;background:var(--bg3);border:1px solid var(--border2);border-radius:16px;color:var(--muted);}
+.tcard-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.tbtn{padding:9px 8px;border-radius:8px;font-size:12.5px;font-weight:500;cursor:pointer;font-family:var(--sans);transition:all .2s;text-align:center;border:none;}
+.tbtn-demo{background:var(--bg3);border:1px solid var(--border2);color:var(--text);}
+.tbtn-demo:hover{border-color:var(--accent);color:var(--accent);}
+.tbtn-dl{background:var(--accent);color:#fff;}
+.tbtn-dl:hover{background:#5a52e0;}
 
-/* ── TEMPLATES ── */
-.templates-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
-.template-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .25s;cursor:pointer;position:relative;}
-.template-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 40px rgba(124,106,247,0.15);}
-.template-card::before{content:'';position:absolute;inset:0;border-radius:16px;opacity:0;transition:opacity .25s;pointer-events:none;}
-.template-card:hover::before{opacity:1;}
-.template-preview{height:160px;display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;overflow:hidden;}
-.tp-it{background:linear-gradient(135deg,#0f1729,#1a2a4a);}
-.tp-hr{background:linear-gradient(135deg,#0f1f15,#1a3520);}
-.tp-retail{background:linear-gradient(135deg,#1f0f1f,#3a1a35);}
-.tp-edu{background:linear-gradient(135deg,#1f1a0a,#3a3010);}
-.tp-health{background:linear-gradient(135deg,#0f1f20,#1a3535);}
-.tp-legal{background:linear-gradient(135deg,#1a1a1a,#2a2a2a);}
-.tp-hotel{background:linear-gradient(135deg,#1f1510,#3a2a1a);}
-.tp-finance{background:linear-gradient(135deg,#0a1520,#102030);}
-.template-tag{position:absolute;top:12px;right:12px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;letter-spacing:0.05em;text-transform:uppercase;}
-.tag-new{background:rgba(52,211,153,0.2);color:#34d399;border:1px solid rgba(52,211,153,0.3);}
-.tag-popular{background:rgba(251,191,36,0.2);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);}
-.tag-pro{background:rgba(124,106,247,0.2);color:var(--accent2);border:1px solid rgba(124,106,247,0.3);}
-.template-body{padding:20px;}
-.template-industry{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:6px;}
-.template-name{font-family:var(--display);font-size:18px;font-weight:700;margin-bottom:6px;}
-.template-desc{font-size:12.5px;color:var(--muted);line-height:1.55;margin-bottom:14px;}
-.template-features{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px;}
-.feat-tag{font-size:11px;padding:3px 9px;background:var(--surface2);border-radius:20px;color:var(--muted);border:1px solid var(--border);}
-.template-cta{width:100%;padding:10px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);transition:all .2s;text-align:center;}
-.template-card:hover .template-cta{background:var(--accent);border-color:var(--accent);color:#fff;}
+/* DEMO MODAL */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(8px);}
+.modal-ov.open{opacity:1;pointer-events:all;}
+.demo-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;width:820px;max-width:95vw;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;}
+.demo-modal-head{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.demo-modal-title{font-family:var(--display);font-size:1.2rem;font-weight:700;display:flex;align-items:center;gap:10px;}
+.demo-modal-tag{font-family:var(--mono);font-size:10px;color:var(--accent);background:rgba(108,99,255,0.1);border:1px solid rgba(108,99,255,0.2);padding:3px 9px;border-radius:20px;letter-spacing:.08em;text-transform:uppercase;}
+.demo-modal-close{width:32px;height:32px;background:var(--surface);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:15px;transition:all .2s;}
+.demo-modal-close:hover{color:var(--text);border-color:var(--border2);}
+.demo-modal-body{display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden;}
+@media(max-width:680px){.demo-modal-body{grid-template-columns:1fr;}.demo-info-panel{display:none;}}
+.demo-chat-panel{display:flex;flex-direction:column;border-right:1px solid var(--border);overflow:hidden;}
+.demo-chatbar{padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.demo-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.demo-av-info .demo-av-name{font-size:13px;font-weight:600;}
+.demo-av-info .demo-av-status{font-size:10px;color:var(--green);display:flex;align-items:center;gap:4px;}
+.demo-av-dot{width:5px;height:5px;background:var(--green);border-radius:50%;animation:blink 2s infinite;}
+.demo-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;background:#09090f;}
+.demo-messages::-webkit-scrollbar{width:3px;}
+.demo-messages::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.dm-row{display:flex;gap:8px;max-width:90%;}
+.dm-row.u{align-self:flex-end;flex-direction:row-reverse;}
+.dm-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:2px;}
+.dm-row.b .dm-av{font-size:13px;}
+.dm-row.u .dm-av{background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-weight:700;font-size:9px;}
+.dm-bub{padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.55;}
+.dm-row.b .dm-bub{background:var(--surface2);border:1px solid var(--border);border-bottom-left-radius:3px;}
+.dm-row.u .dm-bub{color:#fff;border-bottom-right-radius:3px;}
+.demo-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+.demo-chip{padding:5px 11px;background:var(--surface);border:1px solid var(--border2);border-radius:16px;font-size:11.5px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:var(--sans);}
+.demo-chip:hover{color:var(--text);}
+.demo-typing{display:flex;gap:4px;padding:10px 13px;align-items:center;}
+.tdot{width:6px;height:6px;border-radius:50%;animation:tb 1.2s infinite;}
+.tdot:nth-child(2){animation-delay:.2s;}
+.tdot:nth-child(3){animation-delay:.4s;}
+@keyframes tb{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.demo-input-row{padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px;background:var(--surface);flex-shrink:0;}
+.demo-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;transition:border .2s;}
+.demo-input:focus{border-color:var(--accent);}
+.demo-input::placeholder{color:var(--muted2);}
+.demo-send{width:34px;height:34px;border:none;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.demo-send svg{width:13px;height:13px;fill:none;stroke:#fff;stroke-width:2;}
+.demo-info-panel{padding:24px;overflow-y:auto;display:flex;flex-direction:column;gap:18px;}
+.dip-section-title{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.dip-feature{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.dip-feature-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.dip-feature-body .dip-ft{font-size:13px;font-weight:600;margin-bottom:2px;}
+.dip-feature-body .dip-fd{font-size:12px;color:var(--muted);line-height:1.5;}
+.dip-dl-btn{width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;font-family:var(--display);cursor:pointer;border:none;transition:all .2s;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;}
+.dip-dl-btn:hover{background:#5a52e0;transform:translateY(-1px);}
+.dip-dl-note{font-size:11px;color:var(--muted2);text-align:center;margin-top:8px;line-height:1.5;}
+.dip-saas-card{background:linear-gradient(135deg,rgba(245,158,11,0.06),rgba(239,68,68,0.04));border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:16px;}
+.dip-saas-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#f59e0b;margin-bottom:6px;}
+.dip-saas-text{font-size:12.5px;color:rgba(255,220,100,0.85);line-height:1.55;margin-bottom:10px;}
+.dip-saas-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:9px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;border:none;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .2s;}
+.dip-saas-btn:hover{transform:translateY(-1px);}
 
-/* ── BUILDER UI DEMO ── */
-.builder-demo{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;}
-.builder-tabs{display:flex;gap:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;}
-.btab{padding:14px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--sans);}
-.btab.active{color:var(--accent2);border-bottom-color:var(--accent);}
-.btab:hover:not(.active){color:var(--text);}
-.builder-panels{display:grid;grid-template-columns:1fr 1fr;min-height:500px;}
-@media(max-width:700px){.builder-panels{grid-template-columns:1fr;}}
-.config-panel{padding:28px;border-right:1px solid var(--border);}
-.preview-panel{padding:28px;background:var(--bg3);}
-.panel-label{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:20px;}
-.field-group{margin-bottom:18px;}
-.field-label{font-size:12px;font-weight:500;color:var(--muted);margin-bottom:6px;display:block;}
-.field-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;transition:border .2s;}
-.field-input:focus{border-color:var(--accent);}
-.field-input::placeholder{color:var(--muted2);}
-.color-row{display:flex;gap:8px;align-items:center;}
-.color-swatch{width:32px;height:32px;border-radius:6px;border:2px solid transparent;cursor:pointer;transition:all .15s;flex-shrink:0;}
-.color-swatch.active{border-color:#fff;transform:scale(1.15);}
-.color-input{width:100px;}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
-.toggle-label{font-size:13px;color:var(--text);}
-.toggle{position:relative;width:38px;height:22px;}
-.toggle input{opacity:0;width:0;height:0;}
-.toggle-slider{position:absolute;inset:0;background:var(--border2);border-radius:11px;cursor:pointer;transition:.2s;}
-.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;bottom:3px;left:3px;transition:.2s;}
-.toggle input:checked+.toggle-slider{background:var(--accent);}
-.toggle input:checked+.toggle-slider::before{transform:translateX(16px);}
+/* DOWNLOAD MODAL */
+.dl-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;width:500px;max-width:94vw;max-height:90vh;overflow-y:auto;}
+.dl-modal-head{padding:22px 26px 0;display:flex;align-items:center;justify-content:space-between;}
+.dl-modal-title{font-family:var(--display);font-size:1.25rem;font-weight:700;}
+.dl-modal-body{padding:20px 26px 26px;}
+.dl-tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+.dl-section{margin-bottom:18px;}
+.dl-section-label{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.dl-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.dl-field{display:flex;flex-direction:column;gap:5px;}
+.dl-label{font-size:12px;color:var(--muted);}
+.dl-input{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;width:100%;transition:border .2s;}
+.dl-input:focus{border-color:var(--accent);}
+.dl-input::placeholder{color:var(--muted2);}
+textarea.dl-input{resize:vertical;min-height:80px;line-height:1.5;}
+.dl-colors{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
+.dl-swatch{width:28px;height:28px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s;}
+.dl-swatch.sel{border-color:#fff;transform:scale(1.18);}
+.prog-bar{height:3px;background:var(--border);border-radius:2px;margin:14px 0;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width .4s ease;}
+.dl-includes{background:rgba(52,211,153,0.05);border:1px solid rgba(52,211,153,0.15);border-radius:10px;padding:14px;margin-bottom:16px;}
+.dl-includes-title{font-size:12px;font-weight:600;color:var(--green);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.dl-includes ul{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.dl-includes li{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px;}
+.dl-includes li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;}
+.dl-btn{width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;font-family:var(--display);cursor:pointer;transition:all .2s;}
+.dl-btn:hover{background:#5a52e0;transform:translateY(-1px);}
+.dl-note{font-size:11px;color:var(--muted2);text-align:center;margin-top:10px;line-height:1.5;}
 
-/* mini chat preview */
-.mini-chat{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;max-width:280px;}
-.mini-chat-header{padding:10px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);}
-.mini-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
-.mini-name{font-size:12px;font-weight:600;}
-.mini-status{font-size:10px;color:var(--green);}
-.mini-body{padding:12px;display:flex;flex-direction:column;gap:8px;}
-.mini-bubble{padding:8px 11px;border-radius:10px;font-size:11.5px;line-height:1.5;max-width:85%;}
-.mini-bubble.bot{background:var(--surface2);border-bottom-left-radius:3px;}
-.mini-bubble.user{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:3px;}
-.mini-input-row{padding:8px 10px;border-top:1px solid var(--border);display:flex;gap:6px;}
-.mini-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:11px;color:var(--muted);font-family:var(--sans);}
-.mini-send{width:26px;height:26px;background:var(--accent);border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.mini-send svg{width:11px;height:11px;fill:none;stroke:#fff;stroke-width:2;}
+/* SMB SECTION */
+.smb-section{position:relative;z-index:1;overflow:hidden;}
+.smb-section::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#120800,#0f0800,#0a1020);pointer-events:none;}
+.smb-section-inner{max-width:1100px;margin:0 auto;padding:80px 5vw;position:relative;z-index:1;}
+.smb-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+@media(max-width:680px){.smb-grid{grid-template-columns:1fr;}.smb-mockup-col{display:none;}}
+.smb-eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:600;color:#f59e0b;letter-spacing:.07em;text-transform:uppercase;margin-bottom:20px;}
+.smb-title{font-family:var(--display);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;letter-spacing:-0.02em;line-height:1.1;margin-bottom:16px;}
+.smb-title span{background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.smb-desc{font-size:.95rem;color:var(--muted);line-height:1.7;margin-bottom:24px;}
+.smb-feats{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+.smb-feat{display:flex;align-items:flex-start;gap:12px;}
+.smb-feat-icon{width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.15);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.smb-feat-body .smb-ft{font-size:13.5px;font-weight:600;margin-bottom:2px;}
+.smb-feat-body .smb-fd{font-size:12.5px;color:var(--muted);line-height:1.5;}
+.smb-cta-row{display:flex;gap:10px;flex-wrap:wrap;}
+.smb-main-cta{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 4px 24px rgba(245,158,11,0.3);font-family:var(--display);}
+.smb-main-cta:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(245,158,11,0.4);}
+.smb-secondary-cta{display:inline-flex;align-items:center;gap:6px;padding:13px 20px;background:transparent;color:rgba(255,210,80,0.8);border:1px solid rgba(245,158,11,0.25);border-radius:10px;font-size:14px;text-decoration:none;transition:all .2s;}
+.smb-secondary-cta:hover{border-color:rgba(245,158,11,0.5);color:#fbbf24;}
+.smb-mockup{background:var(--bg2);border:1px solid rgba(245,158,11,0.15);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+.smb-mockup-bar{background:#0d0d18;padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.smb-dots{display:flex;gap:5px;}
+.smb-dot{width:8px;height:8px;border-radius:50%;}
+.smb-mockup-content{padding:16px;}
+.smb-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.smb-stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;}
+.smb-stat-n{font-family:var(--display);font-size:1.3rem;font-weight:700;line-height:1;}
+.smb-stat-l{font-size:10px;color:var(--muted);margin-top:2px;}
+.smb-chart{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px;}
+.smb-chart-title{font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;}
+.smb-bars{display:flex;align-items:flex-end;gap:5px;height:50px;}
+.smb-bar{flex:1;border-radius:3px 3px 0 0;transition:height .3s;}
+.smb-recent{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;}
+.smb-recent-title{font-size:10px;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;}
+.smb-ticket{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);}
+.smb-ticket:last-child{border-bottom:none;}
+.smb-tick-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.smb-tick-text{font-size:11px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.smb-tick-badge{font-size:10px;padding:2px 6px;border-radius:10px;}
+.tick-r{background:rgba(52,211,153,0.1);color:#34d399;}
+.tick-o{background:rgba(251,191,36,0.1);color:#fbbf24;}
 
-/* ── PRICING ── */
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
-.pricing-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;position:relative;}
-.pricing-card.featured{border-color:var(--accent);background:linear-gradient(180deg,rgba(124,106,247,0.06),transparent);}
-.pricing-card.featured::before{content:'Most popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;white-space:nowrap;}
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;}
+.pcard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px;position:relative;}
+.pcard.featured{border-color:var(--accent);background:linear-gradient(180deg,rgba(108,99,255,0.05),transparent);}
+.pcard.featured::before{content:'Most popular';position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:3px 14px;border-radius:20px;white-space:nowrap;}
 .plan-name{font-family:var(--display);font-size:16px;font-weight:700;margin-bottom:6px;}
-.plan-price{font-family:var(--display);font-size:2.4rem;font-weight:800;line-height:1;margin-bottom:4px;}
-.plan-price span{font-size:16px;font-weight:400;color:var(--muted);}
-.plan-desc{font-size:13px;color:var(--muted);margin-bottom:20px;}
-.plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
-.plan-features li{font-size:13px;display:flex;align-items:center;gap:8px;}
-.plan-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;}
-.plan-features li.no::before{content:'✕';color:var(--muted2);}
-.plan-features li.no{color:var(--muted2);}
+.plan-price{font-family:var(--display);font-size:2.3rem;font-weight:800;line-height:1;margin-bottom:4px;}
+.plan-price sub{font-size:14px;font-weight:400;color:var(--muted);}
+.plan-desc{font-size:12.5px;color:var(--muted);margin-bottom:18px;line-height:1.5;}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:22px;}
+.plan-feats li{font-size:12.5px;display:flex;align-items:center;gap:8px;}
+.plan-feats li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;}
+.plan-feats li.no::before{content:'—';color:var(--muted2);}
+.plan-feats li.no{color:var(--muted2);}
+.plan-btn{width:100%;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .2s;border:none;}
+.plan-btn.solid{background:var(--accent);color:#fff;}
+.plan-btn.solid:hover{background:#5a52e0;}
+.plan-btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--border2);}
+.plan-btn.ghost:hover{color:var(--text);border-color:var(--border2);}
+.plan-btn.amber{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;}
+.plan-btn.amber:hover{transform:translateY(-1px);}
 
-/* ── FOOTER ── */
-footer{border-top:1px solid var(--border);padding:48px 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:gap;position:relative;z-index:1;}
-.footer-logo{font-family:var(--display);font-size:1.2rem;font-weight:800;color:var(--text);}
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:44px 5vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-family:var(--display);font-size:1.2rem;font-weight:800;}
 .footer-logo span{color:var(--accent);}
-.footer-links{display:flex;gap:24px;flex-wrap:wrap;}
-.footer-links a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;}
+.footer-links a{font-size:12.5px;color:var(--muted);text-decoration:none;transition:color .2s;}
 .footer-links a:hover{color:var(--text);}
 .footer-copy{font-size:12px;color:var(--muted2);}
 
-/* ── LAUNCH MODAL ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(6px);}
-.modal-overlay.open{opacity:1;pointer-events:all;}
-.modal{background:var(--surface);border:1px solid var(--border2);border-radius:20px;width:560px;max-width:92vw;max-height:90vh;overflow-y:auto;}
-.modal-head{padding:24px 28px 0;display:flex;align-items:center;justify-content:space-between;}
-.modal-title{font-family:var(--display);font-size:1.4rem;font-weight:700;}
-.modal-close{background:var(--bg3);border:1px solid var(--border);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:16px;transition:all .2s;}
-.modal-close:hover{color:var(--text);border-color:var(--border2);}
-.modal-body{padding:24px 28px 28px;}
-.modal-tag{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
-.modal-section{margin-bottom:20px;}
-.modal-section-title{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em;}
-.modal-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.modal-field{display:flex;flex-direction:column;gap:5px;}
-.modal-label{font-size:12px;color:var(--muted);}
-.modal-input{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;transition:border .2s;width:100%;}
-.modal-input:focus{border-color:var(--accent);}
-.modal-input::placeholder{color:var(--muted2);}
-textarea.modal-input{resize:vertical;min-height:80px;}
-.modal-colors{display:flex;gap:8px;flex-wrap:wrap;}
-.m-swatch{width:30px;height:30px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s;}
-.m-swatch.sel{border-color:#fff;transform:scale(1.15);}
-.modal-deploy-btn{width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:var(--display);cursor:pointer;transition:all .2s;margin-top:4px;}
-.modal-deploy-btn:hover{background:#6c5ae7;transform:translateY(-1px);}
-.modal-deploy-btn:disabled{background:var(--border2);color:var(--muted);cursor:not-allowed;transform:none;}
-.modal-note{font-size:11.5px;color:var(--muted2);text-align:center;margin-top:10px;line-height:1.5;}
-
-/* PROGRESS */
-.progress-bar{height:3px;background:var(--border);border-radius:2px;margin:16px 0;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width .4s ease;}
-
 @media(max-width:600px){
-  .hero h1{font-size:2.4rem;}
-  .nav-links a:not(:last-child){display:none;}
-  .builder-panels{grid-template-columns:1fr;}
-  .config-panel{border-right:none;border-bottom:1px solid var(--border);}
-  footer{flex-direction:column;gap:16px;text-align:center;}
+  .hero h1{font-size:2.3rem;}
+  .smb-banner .smb-inner{flex-direction:column;align-items:flex-start;}
+  nav .nav-link{display:none;}
+  .tcard-btns{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -224,68 +285,48 @@ textarea.modal-input{resize:vertical;min-height:80px;}
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">DIY<span>Chatbots</span></div>
-  <div class="nav-links">
-    <a href="#templates">Templates</a>
-    <a href="#builder">Builder</a>
-    <a href="#pricing">Pricing</a>
-    <a class="btn btn-ghost" href="#templates">Browse Templates</a>
-    <a class="btn btn-primary" href="#" onclick="openModal('generic')">Start Building →</a>
+  <a class="logo" href="#">DIY<span>Chatbots</span></a>
+  <div class="nav-r">
+    <a class="nav-link" href="#templates">Templates</a>
+    <a class="nav-link" href="#smb">For Business</a>
+    <a class="nav-link" href="#pricing">Pricing</a>
+    <a class="btn btn-saas" href="#smb">🚀 Full SaaS Platform →</a>
   </div>
 </nav>
 
-<!-- HERO -->
-<section style="position:relative;overflow:hidden;">
-  <div class="blob blob1"></div>
-  <div class="blob blob2"></div>
-  <div class="hero">
-    <div class="hero-eyebrow">No code required</div>
-    <h1>Your AI chatbot.<br/><span class="line2">Your brand. 10 minutes.</span></h1>
-    <p class="hero-sub">Pick a template for your industry, add your knowledge base, customise the branding — and deploy a fully AI-powered support agent to GitHub Pages for free.</p>
-    <div class="hero-ctas">
-      <a class="btn btn-primary btn-lg" href="#templates">Browse Templates ↓</a>
-      <a class="btn btn-ghost btn-lg" href="#builder">See How It Works</a>
+<!-- SMB TOP BANNER -->
+<div class="smb-banner" id="smbBanner">
+  <div class="smb-inner">
+    <div class="smb-left">
+      <div class="smb-badge">Not tech-savvy?</div>
+      <div class="smb-text">
+        <strong>Skip the setup entirely.</strong> Our fully managed SaaS platform has everything ready — no GitHub, no API keys, no configuration.<br/>
+        <span>Dashboard · Analytics · Multi-bot · Ticket management · All included.</span>
+      </div>
     </div>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-num">8+</div><div class="stat-label">Industry templates</div></div>
-      <div class="stat"><div class="stat-num">0</div><div class="stat-label">Coding required</div></div>
-      <div class="stat"><div class="stat-num">Free</div><div class="stat-label">GitHub Pages hosting</div></div>
-      <div class="stat"><div class="stat-num">10 min</div><div class="stat-label">From zero to live</div></div>
+    <div class="smb-cta-wrap">
+      <a class="smb-cta" href="#smb">Try the managed platform →</a>
+      <button class="smb-skip" onclick="document.getElementById('smbBanner').style.display='none'">Dismiss</button>
     </div>
   </div>
-</section>
+</div>
 
-<div class="divider"></div>
-
-<!-- HOW IT WORKS -->
-<section class="section" id="builder">
-  <div class="section-eyebrow">How it works</div>
-  <div class="section-title">Three steps to your AI agent</div>
-  <p class="section-sub">No servers, no code, no monthly subscription for hosting. Just your customised AI chatbot, live on the internet.</p>
-  <div class="how-grid">
-    <div class="how-card">
-      <div class="how-num">01</div>
-      <div class="how-icon">🎨</div>
-      <div class="how-title">Pick & customise</div>
-      <div class="how-desc">Choose a template that fits your industry. Add your company name, logo emoji, brand colours, and a persona for your AI agent.</div>
+<!-- HERO -->
+<section style="position:relative;z-index:1;">
+  <div class="hero">
+    <div class="hero-pill"><span class="blink"></span> All templates free to download</div>
+    <h1>Your AI chatbot.<br/><em>Your brand. Your rules.</em></h1>
+    <p class="hero-sub">Pick an industry template, customise the branding, feed it your knowledge — and deploy a live AI support agent in under 10 minutes.</p>
+    <div class="free-note">📦 Everything downloads free · HTML + setup guide bundled · No account needed</div>
+    <div class="hero-ctas">
+      <a class="btn btn-primary btn-lg" href="#templates">Browse Free Templates ↓</a>
+      <a class="btn btn-outline btn-lg" href="#smb">Need it done for you? →</a>
     </div>
-    <div class="how-card">
-      <div class="how-num">02</div>
-      <div class="how-icon">📚</div>
-      <div class="how-title">Feed your knowledge</div>
-      <div class="how-desc">Paste your FAQs, upload product manuals, add URLs from your help centre. The AI learns your business and answers based on your content.</div>
-    </div>
-    <div class="how-card">
-      <div class="how-num">03</div>
-      <div class="how-icon">🚀</div>
-      <div class="how-title">Deploy free</div>
-      <div class="how-desc">Download your customised HTML file. Upload to GitHub Pages — free hosting, your own URL. Share it with your team or embed it on your site.</div>
-    </div>
-    <div class="how-card">
-      <div class="how-num">04</div>
-      <div class="how-icon">📈</div>
-      <div class="how-title">Log & improve</div>
-      <div class="how-desc">Unresolved queries auto-generate support tickets. Resolved sessions improve the knowledge base over time — the bot gets smarter every week.</div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n">8+</div><div class="hstat-l">Templates</div></div>
+      <div class="hstat"><div class="hstat-n">Free</div><div class="hstat-l">To download</div></div>
+      <div class="hstat"><div class="hstat-n">0</div><div class="hstat-l">Code needed</div></div>
+      <div class="hstat"><div class="hstat-n">10 min</div><div class="hstat-l">To go live</div></div>
     </div>
   </div>
 </section>
@@ -294,680 +335,879 @@ textarea.modal-input{resize:vertical;min-height:80px;}
 
 <!-- TEMPLATES -->
 <section class="section" id="templates">
-  <div class="section-eyebrow">Templates</div>
+  <div class="section-eyebrow">Free Templates</div>
   <div class="section-title">Choose your industry</div>
-  <p class="section-sub">Every template comes pre-configured with relevant quick-actions, suggested knowledge base categories, and an industry-appropriate persona.</p>
+  <p class="section-sub">Every template is free. Click <strong style="color:var(--text)">Live Demo</strong> to try a working chatbot before you download anything.</p>
 
-  <div class="templates-grid">
-
-    <!-- IT / Printer Support -->
-    <div class="template-card" onclick="openModal('it')">
-      <div class="template-preview tp-it">
-        🖨️
-        <span class="template-tag tag-popular">Popular</span>
-      </div>
-      <div class="template-body">
-        <div class="template-industry">IT Support</div>
-        <div class="template-name">Hardware & Printer Support</div>
-        <div class="template-desc">Resolve printer jams, error codes, connectivity issues and driver problems before tickets are ever logged.</div>
-        <div class="template-features">
-          <span class="feat-tag">Error code lookup</span>
-          <span class="feat-tag">Step-by-step guides</span>
-          <span class="feat-tag">Auto ticket logging</span>
-        </div>
-        <div class="template-cta">Use this template →</div>
+  <!-- SETUP TIP -->
+  <div class="setup-tip">
+    <div class="tip-icon">📦</div>
+    <div class="tip-body">
+      <div class="tip-title">What you get when you download</div>
+      <div class="tip-text">
+        Every download includes <strong>two files</strong>: the ready-to-deploy <strong>chatbot HTML file</strong> and a <strong>step-by-step setup guide</strong> (plain English, no jargon). The guide covers: getting a free API key, uploading to GitHub Pages, adding your knowledge base, and going live. <strong>Not comfortable with tech?</strong> Scroll down — our <a href="#smb" style="color:var(--accent2);text-decoration:none;">fully managed platform</a> does it all for you.
       </div>
     </div>
-
-    <!-- HR -->
-    <div class="template-card" onclick="openModal('hr')">
-      <div class="template-preview tp-hr">
-        👥
-        <span class="template-tag tag-new">New</span>
-      </div>
-      <div class="template-body">
-        <div class="template-industry">Human Resources</div>
-        <div class="template-name">HR Policy Assistant</div>
-        <div class="template-desc">Answer employee questions about leave policies, benefits, onboarding procedures, and company policies 24/7.</div>
-        <div class="template-features">
-          <span class="feat-tag">Policy Q&A</span>
-          <span class="feat-tag">Leave calculator</span>
-          <span class="feat-tag">Onboarding flows</span>
-        </div>
-        <div class="template-cta">Use this template →</div>
-      </div>
-    </div>
-
-    <!-- Retail -->
-    <div class="template-card" onclick="openModal('retail')">
-      <div class="template-preview tp-retail">
-        🛍️
-        <span class="template-tag tag-popular">Popular</span>
-      </div>
-      <div class="template-body">
-        <div class="template-industry">Retail & E-commerce</div>
-        <div class="template-name">Customer Service Bot</div>
-        <div class="template-desc">Handle order status, returns, product questions and store policies. Escalate complex issues to human agents.</div>
-        <div class="template-features">
-          <span class="feat-tag">Order tracking</span>
-          <span class="feat-tag">Returns guidance</span>
-          <span class="feat-tag">Product FAQs</span>
-        </div>
-        <div class="template-cta">Use this template →</div>
-      </div>
-    </div>
-
-    <!-- Education -->
-    <div class="template-card" onclick="openModal('edu')">
-      <div class="template-preview tp-edu">
-        🎓
-      </div>
-      <div class="template-body">
-        <div class="template-industry">Education</div>
-        <div class="template-name">Student Support Assistant</div>
-        <div class="template-desc">Guide students through enrolment, assignment deadlines, campus resources, and academic policies.</div>
-        <div class="template-features">
-          <span class="feat-tag">Course info</span>
-          <span class="feat-tag">Deadline reminders</span>
-          <span class="feat-tag">Campus resources</span>
-        </div>
-        <div class="template-cta">Use this template →</div>
-      </div>
-    </div>
-
-    <!-- Healthcare -->
-    <div class="template-card" onclick="openModal('health')">
-      <div class="template-preview tp-health">
-        🏥
-        <span class="template-tag tag-pro">Pro</span>
-      </div>
-      <div class="template-body">
-        <div class="template-industry">Healthcare</div>
-        <div class="template-name">Patient Information Bot</div>
-        <div class="template-desc">Help patients navigate appointments, clinic hours, general health information, and triage to the right department.</div>
-        <div class="template-features">
-          <span class="feat-tag">Appointment guidance</span>
-          <span class="feat-tag">Symptom triage</span>
-          <span class="feat-tag">Department routing</span>
-        </div>
-        <div class="template-cta">Use this template →</div>
-      </div>
-    </div>
-
-    <!-- Legal -->
-    <div class="template-card" onclick="openModal('legal')">
-      <div class="template-preview tp-legal">
-        ⚖️
-      </div>
-      <div class="template-body">
-        <div class="template-industry">Legal & Compliance</div>
-        <div class="template-name">Legal FAQ Assistant</div>
-        <div class="template-desc">Answer general legal questions, guide clients through processes, and route to the right solicitor — with appropriate disclaimers.</div>
-        <div class="template-features">
-          <span class="feat-tag">Document guidance</span>
-          <span class="feat-tag">Auto disclaimers</span>
-          <span class="feat-tag">Solicitor routing</span>
-        </div>
-        <div class="template-cta">Use this template →</div>
-      </div>
-    </div>
-
-    <!-- Hospitality -->
-    <div class="template-card" onclick="openModal('hotel')">
-      <div class="template-preview tp-hotel">
-        🏨
-        <span class="template-tag tag-new">New</span>
-      </div>
-      <div class="template-body">
-        <div class="template-industry">Hospitality</div>
-        <div class="template-name">Hotel Concierge Bot</div>
-        <div class="template-desc">Handle room service requests, local recommendations, check-in info, and guest queries around the clock.</div>
-        <div class="template-features">
-          <span class="feat-tag">Room requests</span>
-          <span class="feat-tag">Local guides</span>
-          <span class="feat-tag">Multi-language</span>
-        </div>
-        <div class="template-cta">Use this template →</div>
-      </div>
-    </div>
-
-    <!-- Finance -->
-    <div class="template-card" onclick="openModal('finance')">
-      <div class="template-preview tp-finance">
-        💹
-        <span class="template-tag tag-pro">Pro</span>
-      </div>
-      <div class="template-body">
-        <div class="template-industry">Finance & Banking</div>
-        <div class="template-name">Financial Services Assistant</div>
-        <div class="template-desc">Guide customers through account queries, product options, fraud reporting, and escalate to advisors when needed.</div>
-        <div class="template-features">
-          <span class="feat-tag">Account FAQs</span>
-          <span class="feat-tag">Product guidance</span>
-          <span class="feat-tag">Secure escalation</span>
-        </div>
-        <div class="template-cta">Use this template →</div>
-      </div>
-    </div>
-
   </div>
+
+  <div class="templates-grid" id="templatesGrid"></div>
 </section>
 
 <div class="divider"></div>
 
-<!-- BUILDER PREVIEW -->
-<section class="section">
-  <div class="section-eyebrow">Live Builder</div>
-  <div class="section-title">Customise in real time</div>
-  <p class="section-sub">Every setting you change updates the preview instantly. No code, no surprises.</p>
-
-  <div class="builder-demo">
-    <div class="builder-tabs">
-      <button class="btab active" onclick="switchBuilderTab('brand',this)">Branding</button>
-      <button class="btab" onclick="switchBuilderTab('persona',this)">Persona</button>
-      <button class="btab" onclick="switchBuilderTab('kb',this)">Knowledge</button>
-    </div>
-    <div class="builder-panels">
-      <div class="config-panel">
-        <div class="panel-label">Configuration</div>
-
-        <div id="panel-brand">
-          <div class="field-group">
-            <label class="field-label">Company name</label>
-            <input class="field-input" id="cfg-company" value="Acme Corp" oninput="updatePreview()" placeholder="Your company name"/>
+<!-- SMB UPSELL SECTION -->
+<div class="smb-section" id="smb">
+  <div class="smb-section-inner">
+    <div class="smb-grid">
+      <div>
+        <div class="smb-eyebrow">⚡ For Small Businesses</div>
+        <div class="smb-title">Skip the setup.<br/><span>Just use the platform.</span></div>
+        <div class="smb-desc">The DIY route is great if you're comfortable with GitHub and APIs. But if you just want a chatbot that works — without touching any code — our managed SaaS platform is built for you.</div>
+        <div class="smb-feats">
+          <div class="smb-feat">
+            <div class="smb-feat-icon">🎨</div>
+            <div class="smb-feat-body"><div class="smb-ft">Visual builder, no code</div><div class="smb-fd">Click, type, done. Your chatbot is live in minutes with zero technical setup.</div></div>
           </div>
-          <div class="field-group">
-            <label class="field-label">Bot name</label>
-            <input class="field-input" id="cfg-botname" value="Acme Assistant" oninput="updatePreview()" placeholder="e.g. Aria, Max, Support Bot"/>
+          <div class="smb-feat">
+            <div class="smb-feat-icon">📊</div>
+            <div class="smb-feat-body"><div class="smb-ft">Dashboard & analytics</div><div class="smb-fd">See every conversation, resolution rate, and ticket log in a clean dashboard.</div></div>
           </div>
-          <div class="field-group">
-            <label class="field-label">Avatar emoji</label>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
-              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'💬')">💬</span>
-              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'🤖')">🤖</span>
-              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'⭐')">⭐</span>
-              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'🎯')">🎯</span>
-              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'🦾')">🦾</span>
-              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'🛎️')">🛎️</span>
-              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'📞')">📞</span>
-            </div>
+          <div class="smb-feat">
+            <div class="smb-feat-icon">🤖</div>
+            <div class="smb-feat-body"><div class="smb-ft">Multi-bot management</div><div class="smb-fd">Run different bots for different departments or locations from one account.</div></div>
           </div>
-          <div class="field-group">
-            <label class="field-label">Brand colour</label>
-            <div class="color-row">
-              <div class="color-swatch active" style="background:#7c6af7" onclick="setColor(this,'#7c6af7')"></div>
-              <div class="color-swatch" style="background:#003087" onclick="setColor(this,'#003087')"></div>
-              <div class="color-swatch" style="background:#059669" onclick="setColor(this,'#059669')"></div>
-              <div class="color-swatch" style="background:#dc2626" onclick="setColor(this,'#dc2626')"></div>
-              <div class="color-swatch" style="background:#d97706" onclick="setColor(this,'#d97706')"></div>
-              <div class="color-swatch" style="background:#0ea5e9" onclick="setColor(this,'#0ea5e9')"></div>
-              <div class="color-swatch" style="background:#ec4899" onclick="setColor(this,'#ec4899')"></div>
-              <input class="field-input color-input" id="cfg-color" type="text" value="#7c6af7" oninput="setColorDirect(this.value)"/>
-            </div>
+          <div class="smb-feat">
+            <div class="smb-feat-icon">🎫</div>
+            <div class="smb-feat-body"><div class="smb-ft">Built-in ticket management</div><div class="smb-fd">Unresolved chats auto-create tickets with full conversation context — no extra tools.</div></div>
           </div>
-          <div class="field-group">
-            <label class="field-label">Welcome message</label>
-            <input class="field-input" id="cfg-welcome" value="Hi! How can I help you today?" oninput="updatePreview()" placeholder="First message users see"/>
+          <div class="smb-feat">
+            <div class="smb-feat-icon">🌐</div>
+            <div class="smb-feat-body"><div class="smb-ft">Custom domain & embed</div><div class="smb-fd">Use your own domain or embed the chatbot directly on your website in one line.</div></div>
           </div>
         </div>
-
-        <div id="panel-persona" style="display:none;">
-          <div class="field-group">
-            <label class="field-label">Tone of voice</label>
-            <select class="field-input" id="cfg-tone" onchange="updatePreview()">
-              <option>Professional & concise</option>
-              <option>Friendly & conversational</option>
-              <option>Formal & precise</option>
-              <option>Enthusiastic & helpful</option>
-              <option>Empathetic & supportive</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label class="field-label">Specialist role</label>
-            <input class="field-input" id="cfg-role" value="Customer support specialist" oninput="updatePreview()" placeholder="e.g. IT technician, HR advisor"/>
-          </div>
-          <div class="field-group">
-            <label class="field-label">Escalation message</label>
-            <input class="field-input" id="cfg-escalate" value="I'll log a ticket and get a human to follow up." oninput="updatePreview()"/>
-          </div>
-          <div class="field-group">
-            <label class="field-label">Quick-action buttons</label>
-            <input class="field-input" id="cfg-q1" value="Track my order" oninput="updatePreview()" style="margin-bottom:6px;"/>
-            <input class="field-input" id="cfg-q2" value="Return an item" oninput="updatePreview()" style="margin-bottom:6px;"/>
-            <input class="field-input" id="cfg-q3" value="Speak to a human" oninput="updatePreview()"/>
-          </div>
-          <div>
-            <div class="toggle-row">
-              <span class="toggle-label">Show typing indicator</span>
-              <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
-            </div>
-            <div class="toggle-row">
-              <span class="toggle-label">Auto-log unresolved tickets</span>
-              <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
-            </div>
-            <div class="toggle-row">
-              <span class="toggle-label">Knowledge base ingestion panel</span>
-              <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
-            </div>
-          </div>
+        <div class="smb-cta-row">
+          <a class="smb-main-cta" href="#">🚀 Start free on the platform</a>
+          <a class="smb-secondary-cta" href="#">Watch 2-min demo →</a>
         </div>
-
-        <div id="panel-kb" style="display:none;">
-          <div class="field-group">
-            <label class="field-label">System instructions (what the AI knows about your business)</label>
-            <textarea class="field-input" style="min-height:120px;" placeholder="e.g. You are a support agent for Acme Corp, a retailer of outdoor equipment. Our return policy is 30 days…"></textarea>
-          </div>
-          <div class="field-group">
-            <label class="field-label">Knowledge base categories to show users</label>
-            <input class="field-input" value="Product guides, Returns policy, Shipping info" placeholder="Comma-separated categories"/>
-          </div>
-          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:12px;color:var(--muted);line-height:1.6;">
-            💡 In the deployed chatbot, users can also ingest their own documents via the Knowledge Base panel — manuals, PDFs, notes — giving them a personalised experience.
-          </div>
-        </div>
-
       </div>
-
-      <div class="preview-panel">
-        <div class="panel-label">Live preview</div>
-        <div class="mini-chat" id="miniChatPreview">
-          <div class="mini-chat-header">
-            <div class="mini-avatar" id="prev-avatar" style="background:#7c6af7">💬</div>
-            <div>
-              <div class="mini-name" id="prev-name">Acme Assistant</div>
-              <div class="mini-status">● Online</div>
+      <div class="smb-mockup-col">
+        <div class="smb-mockup">
+          <div class="smb-mockup-bar">
+            <div class="smb-dots"><div class="smb-dot" style="background:#ff5f57"></div><div class="smb-dot" style="background:#febc2e"></div><div class="smb-dot" style="background:#28c840"></div></div>
+            <div style="flex:1;text-align:center;font-size:11px;color:var(--muted2);">app.diychatbots.io/dashboard</div>
+          </div>
+          <div class="smb-mockup-content">
+            <div class="smb-stat-row">
+              <div class="smb-stat-card"><div class="smb-stat-n" style="color:var(--green)">94%</div><div class="smb-stat-l">Resolved</div></div>
+              <div class="smb-stat-card"><div class="smb-stat-n" style="color:var(--accent2)">1,284</div><div class="smb-stat-l">Chats this month</div></div>
+              <div class="smb-stat-card"><div class="smb-stat-n" style="color:var(--amber)">38</div><div class="smb-stat-l">Open tickets</div></div>
+            </div>
+            <div class="smb-chart">
+              <div class="smb-chart-title">Weekly conversations</div>
+              <div class="smb-bars">
+                <div class="smb-bar" style="height:35%;background:rgba(108,99,255,0.4);"></div>
+                <div class="smb-bar" style="height:55%;background:rgba(108,99,255,0.5);"></div>
+                <div class="smb-bar" style="height:45%;background:rgba(108,99,255,0.4);"></div>
+                <div class="smb-bar" style="height:70%;background:rgba(108,99,255,0.6);"></div>
+                <div class="smb-bar" style="height:60%;background:rgba(108,99,255,0.5);"></div>
+                <div class="smb-bar" style="height:90%;background:var(--accent);"></div>
+                <div class="smb-bar" style="height:75%;background:rgba(108,99,255,0.6);"></div>
+              </div>
+            </div>
+            <div class="smb-recent">
+              <div class="smb-recent-title">Recent tickets</div>
+              <div class="smb-ticket"><div class="smb-tick-dot" style="background:var(--green)"></div><div class="smb-tick-text">Paper jam on HP LaserJet — 3rd floor</div><span class="smb-tick-badge tick-r">Resolved</span></div>
+              <div class="smb-ticket"><div class="smb-tick-dot" style="background:var(--amber)"></div><div class="smb-tick-text">Printer offline — accounts dept</div><span class="smb-tick-badge tick-o">Open</span></div>
+              <div class="smb-ticket"><div class="smb-tick-dot" style="background:var(--green)"></div><div class="smb-tick-text">Toner replacement — level 2</div><span class="smb-tick-badge tick-r">Resolved</span></div>
             </div>
           </div>
-          <div class="mini-body">
-            <div class="mini-bubble bot" id="prev-welcome">Hi! How can I help you today?</div>
-            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:2px;">
-              <span style="font-size:10px;padding:3px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;cursor:pointer;color:var(--muted);" id="prev-q1">Track my order</span>
-              <span style="font-size:10px;padding:3px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;cursor:pointer;color:var(--muted);" id="prev-q2">Return an item</span>
-            </div>
-            <div class="mini-bubble user">How do I return something?</div>
-            <div class="mini-bubble bot">Sure! You have 30 days from purchase to return any item. Just bring your receipt to any store or use our online returns portal. Shall I walk you through it?</div>
-          </div>
-          <div class="mini-input-row">
-            <input class="mini-input" placeholder="Type a message…" readonly/>
-            <button class="mini-send"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
-          </div>
-        </div>
-
-        <div style="margin-top:20px;">
-          <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="openModal('generic')">
-            Generate My Chatbot →
-          </button>
-          <p style="font-size:11px;color:var(--muted2);text-align:center;margin-top:8px;">Downloads a ready-to-deploy HTML file</p>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <div class="divider"></div>
 
 <!-- PRICING -->
 <section class="section" id="pricing">
   <div class="section-eyebrow">Pricing</div>
-  <div class="section-title">Simple, transparent pricing</div>
-  <p class="section-sub">The chatbot itself is always free to host. You only pay for AI API usage — and only when it's actually answering questions.</p>
+  <div class="section-title">Simple and transparent</div>
+  <p class="section-sub">Templates are always free. Pay only if you want the managed platform — and only what you actually use.</p>
   <div class="pricing-grid">
-    <div class="pricing-card">
-      <div class="plan-name">Starter</div>
-      <div class="plan-price">Free <span>/ forever</span></div>
-      <div class="plan-desc">Perfect for individuals and small teams exploring AI support.</div>
-      <ul class="plan-features">
-        <li>All templates included</li>
-        <li>Unlimited customisation</li>
+    <div class="pcard">
+      <div class="plan-name">DIY Free</div>
+      <div class="plan-price">$0 <sub>/ forever</sub></div>
+      <div class="plan-desc">Download any template, self-host on GitHub Pages, bring your own API key.</div>
+      <ul class="plan-feats">
+        <li>All 8+ templates</li>
+        <li>Setup guide bundled</li>
         <li>GitHub Pages hosting</li>
         <li>Knowledge base ingestion</li>
-        <li>Demo mode (no AI key needed)</li>
-        <li class="no">Custom domain</li>
+        <li>Demo mode (no API key)</li>
         <li class="no">Analytics dashboard</li>
         <li class="no">Multi-bot management</li>
+        <li class="no">Ticket management</li>
       </ul>
-      <button class="btn btn-ghost" style="width:100%;justify-content:center;" onclick="openModal('generic')">Get started free</button>
+      <button class="plan-btn ghost" onclick="document.getElementById('templates').scrollIntoView({behavior:'smooth'})">Browse templates</button>
     </div>
-    <div class="pricing-card featured">
-      <div class="plan-name">Pro</div>
-      <div class="plan-price">$9 <span>/ month</span></div>
-      <div class="plan-desc">For businesses that want analytics, multiple bots, and a custom domain.</div>
-      <ul class="plan-features">
-        <li>Everything in Starter</li>
+    <div class="pcard featured">
+      <div class="plan-name">Managed Pro</div>
+      <div class="plan-price">$29 <sub>/ month</sub></div>
+      <div class="plan-desc">Full platform. No setup. Perfect for small businesses who want it working today.</div>
+      <ul class="plan-feats">
+        <li>Visual no-code builder</li>
         <li>Analytics & conversation logs</li>
-        <li>Multi-bot management</li>
-        <li>Custom domain support</li>
-        <li>Ticket system integrations</li>
-        <li>Priority support</li>
-        <li class="no">White-label removal</li>
-        <li class="no">SSO / SAML</li>
+        <li>Multi-bot (up to 5)</li>
+        <li>Built-in ticket management</li>
+        <li>Custom domain</li>
+        <li>Website embed widget</li>
+        <li>Email escalation</li>
+        <li class="no">White-label</li>
       </ul>
-      <button class="btn btn-primary" style="width:100%;justify-content:center;">Coming soon</button>
+      <button class="plan-btn solid" onclick="window.location.href='#smb'">Start free trial</button>
     </div>
-    <div class="pricing-card">
+    <div class="pcard">
       <div class="plan-name">Enterprise</div>
       <div class="plan-price">Custom</div>
-      <div class="plan-desc">For organisations that need full white-labelling, SSO, and dedicated support.</div>
-      <ul class="plan-features">
-        <li>Everything in Pro</li>
-        <li>White-label (no DIYChatbots branding)</li>
-        <li>SSO / SAML / Azure AD</li>
-        <li>ServiceNow / Jira integration</li>
-        <li>On-premise deployment</li>
-        <li>SLA & dedicated support</li>
-        <li>Custom AI model fine-tuning</li>
-        <li>GDPR / SOC 2 documentation</li>
+      <div class="plan-desc">Multi-tenant, white-label, SSO, ServiceNow/Jira, dedicated support.</div>
+      <ul class="plan-feats">
+        <li>Unlimited bots</li>
+        <li>White-label branding</li>
+        <li>SSO / Azure AD / SAML</li>
+        <li>ServiceNow / Jira API</li>
+        <li>On-premise option</li>
+        <li>SLA guarantee</li>
+        <li>Custom AI fine-tuning</li>
+        <li>GDPR / SOC 2 docs</li>
       </ul>
-      <button class="btn btn-ghost" style="width:100%;justify-content:center;">Contact us</button>
+      <button class="plan-btn amber">Contact sales</button>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
 <footer>
   <div class="footer-logo">DIY<span>Chatbots</span></div>
   <div class="footer-links">
     <a href="#templates">Templates</a>
-    <a href="#builder">Builder</a>
+    <a href="#smb">Managed Platform</a>
     <a href="#pricing">Pricing</a>
     <a href="#">GitHub</a>
     <a href="#">Docs</a>
+    <a href="#">Contact</a>
   </div>
-  <div class="footer-copy">© 2026 DIYChatbots. Built for everyone.</div>
+  <div class="footer-copy">© 2026 DIYChatbots. Free to build, easy to grow.</div>
 </footer>
 
-<!-- GENERATE MODAL -->
-<div class="modal-overlay" id="genModal">
-  <div class="modal">
-    <div class="modal-head">
-      <div class="modal-title" id="modal-title-text">Configure your chatbot</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+<!-- DEMO MODAL -->
+<div class="modal-ov" id="demoModal">
+  <div class="demo-modal">
+    <div class="demo-modal-head">
+      <div class="demo-modal-title">
+        <span id="demoEmojiHead"></span>
+        <span id="demoTitleHead"></span>
+        <span class="demo-modal-tag" id="demoTagHead"></span>
+      </div>
+      <button class="demo-modal-close" onclick="closeDemo()">✕</button>
     </div>
-    <div class="modal-body">
-      <div class="modal-tag" id="modal-template-tag">Generic template</div>
-
-      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-
-      <div class="modal-section">
-        <div class="modal-section-title">Brand & Identity</div>
-        <div class="modal-grid2">
-          <div class="modal-field">
-            <label class="modal-label">Company name</label>
-            <input class="modal-input" id="m-company" placeholder="Acme Corp" oninput="updateProgress()"/>
+    <div class="demo-modal-body">
+      <div class="demo-chat-panel">
+        <div class="demo-chatbar">
+          <div class="demo-av" id="demoChatAv"></div>
+          <div class="demo-av-info">
+            <div class="demo-av-name" id="demoChatName"></div>
+            <div class="demo-av-status"><span class="demo-av-dot"></span>Live demo</div>
           </div>
-          <div class="modal-field">
-            <label class="modal-label">Bot name</label>
-            <input class="modal-input" id="m-botname" placeholder="Aria" oninput="updateProgress()"/>
-          </div>
+        </div>
+        <div class="demo-messages" id="demoMessages"></div>
+        <div class="demo-input-row">
+          <input class="demo-input" id="demoInput" placeholder="Try typing a question…" onkeydown="if(event.key==='Enter')demoSend()"/>
+          <button class="demo-send" id="demoChatSendBtn" onclick="demoSend()"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+        </div>
+      </div>
+      <div class="demo-info-panel" id="demoInfoPanel"></div>
+    </div>
+  </div>
+</div>
+
+<!-- DOWNLOAD MODAL -->
+<div class="modal-ov" id="dlModal">
+  <div class="dl-modal">
+    <div class="dl-modal-head">
+      <div class="dl-modal-title" id="dlModalTitle">Customise & Download</div>
+      <button class="demo-modal-close" onclick="document.getElementById('dlModal').classList.remove('open')">✕</button>
+    </div>
+    <div class="dl-modal-body">
+      <div class="dl-tag" id="dlModalTag">Template</div>
+      <div class="prog-bar"><div class="prog-fill" id="dlProgress" style="width:25%"></div></div>
+
+      <div class="dl-section">
+        <div class="dl-section-label">Brand & Identity</div>
+        <div class="dl-grid2">
+          <div class="dl-field"><label class="dl-label">Company name</label><input class="dl-input" id="dl-company" placeholder="Acme Corp" oninput="updateDlProgress()"/></div>
+          <div class="dl-field"><label class="dl-label">Bot name</label><input class="dl-input" id="dl-botname" placeholder="Aria" oninput="updateDlProgress()"/></div>
         </div>
         <div style="margin-top:10px;">
-          <label class="modal-label" style="margin-bottom:8px;display:block;">Brand colour</label>
-          <div class="modal-colors">
-            <div class="m-swatch sel" style="background:#7c6af7" onclick="selectSwatch(this,'#7c6af7')"></div>
-            <div class="m-swatch" style="background:#003087" onclick="selectSwatch(this,'#003087')"></div>
-            <div class="m-swatch" style="background:#059669" onclick="selectSwatch(this,'#059669')"></div>
-            <div class="m-swatch" style="background:#dc2626" onclick="selectSwatch(this,'#dc2626')"></div>
-            <div class="m-swatch" style="background:#d97706" onclick="selectSwatch(this,'#d97706')"></div>
-            <div class="m-swatch" style="background:#0ea5e9" onclick="selectSwatch(this,'#0ea5e9')"></div>
-            <div class="m-swatch" style="background:#ec4899" onclick="selectSwatch(this,'#ec4899')"></div>
-            <div class="m-swatch" style="background:#1a1a1a" onclick="selectSwatch(this,'#1a1a1a')"></div>
+          <label class="dl-label" style="margin-bottom:8px;display:block;">Brand colour</label>
+          <div class="dl-colors" id="dlSwatches">
+            <div class="dl-swatch sel" style="background:#6c63ff" onclick="pickColor(this,'#6c63ff')"></div>
+            <div class="dl-swatch" style="background:#003087" onclick="pickColor(this,'#003087')"></div>
+            <div class="dl-swatch" style="background:#059669" onclick="pickColor(this,'#059669')"></div>
+            <div class="dl-swatch" style="background:#dc2626" onclick="pickColor(this,'#dc2626')"></div>
+            <div class="dl-swatch" style="background:#0ea5e9" onclick="pickColor(this,'#0ea5e9')"></div>
+            <div class="dl-swatch" style="background:#d97706" onclick="pickColor(this,'#d97706')"></div>
+            <div class="dl-swatch" style="background:#ec4899" onclick="pickColor(this,'#ec4899')"></div>
+            <div class="dl-swatch" style="background:#334155" onclick="pickColor(this,'#334155')"></div>
           </div>
         </div>
       </div>
 
-      <div class="modal-section">
-        <div class="modal-section-title">Persona & Behaviour</div>
-        <div class="modal-grid2">
-          <div class="modal-field">
-            <label class="modal-label">Avatar emoji</label>
-            <input class="modal-input" id="m-emoji" placeholder="🤖" maxlength="2" oninput="updateProgress()"/>
-          </div>
-          <div class="modal-field">
-            <label class="modal-label">Tone</label>
-            <select class="modal-input" id="m-tone">
-              <option>Professional & concise</option>
-              <option>Friendly & conversational</option>
-              <option>Formal & precise</option>
-              <option>Empathetic & supportive</option>
-            </select>
+      <div class="dl-section">
+        <div class="dl-section-label">Persona</div>
+        <div class="dl-grid2">
+          <div class="dl-field"><label class="dl-label">Avatar emoji</label><input class="dl-input" id="dl-emoji" placeholder="🤖" maxlength="2" oninput="updateDlProgress()"/></div>
+          <div class="dl-field"><label class="dl-label">Tone</label>
+            <select class="dl-input" id="dl-tone"><option>Professional & concise</option><option>Friendly & conversational</option><option>Formal & precise</option><option>Empathetic & supportive</option></select>
           </div>
         </div>
-        <div style="margin-top:10px;">
-          <label class="modal-label" style="margin-bottom:6px;display:block;">Welcome message</label>
-          <input class="modal-input" id="m-welcome" placeholder="Hi! I'm here to help. What can I assist you with?" oninput="updateProgress()"/>
-        </div>
+        <div style="margin-top:10px;"><label class="dl-label" style="margin-bottom:6px;display:block;">Welcome message</label><input class="dl-input" id="dl-welcome" placeholder="Hi! How can I help you today?" oninput="updateDlProgress()"/></div>
       </div>
 
-      <div class="modal-section">
-        <div class="modal-section-title">Knowledge Base (optional — add now or after deployment)</div>
-        <textarea class="modal-input" id="m-kb" placeholder="Paste your FAQs, policies, or any content you want the AI to know about your business…"></textarea>
+      <div class="dl-section">
+        <div class="dl-section-label">Knowledge base (optional — add after deploy too)</div>
+        <textarea class="dl-input" id="dl-kb" placeholder="Paste FAQs, policies, product info, or any content you want the AI to know…"></textarea>
       </div>
 
-      <div class="modal-section">
-        <div class="modal-section-title">Your Anthropic API Key (optional)</div>
-        <input class="modal-input" id="m-apikey" type="password" placeholder="sk-ant-api03-… (can be added later in the app)" oninput="updateProgress()"/>
+      <div class="dl-section">
+        <div class="dl-section-label">API Key (optional — can be entered in the app)</div>
+        <input class="dl-input" id="dl-apikey" type="password" placeholder="sk-ant-api03-… (leave blank to add later)"/>
       </div>
 
-      <button class="modal-deploy-btn" id="deployBtn" onclick="generateAndDownload()">⬇ Generate & Download Chatbot</button>
-      <p class="modal-note">A ready-to-deploy HTML file will download. Upload it to GitHub Pages as <strong>index.html</strong> — your chatbot is live in minutes. No personal data is stored.</p>
+      <div class="dl-includes">
+        <div class="dl-includes-title">📦 Your download includes:</div>
+        <ul>
+          <li>Your customised <strong>chatbot HTML file</strong> — upload to GitHub Pages as index.html</li>
+          <li>Plain-English <strong>setup guide</strong> (PDF-style HTML) — step-by-step, no jargon</li>
+          <li>Both files are <strong>completely free</strong> — no account, no sign-up</li>
+        </ul>
+      </div>
+
+      <button class="dl-btn" onclick="doDownload()">⬇ Download Free (HTML + Setup Guide)</button>
+      <p class="dl-note">Not comfortable with GitHub? <a href="#smb" style="color:var(--accent2);text-decoration:none;" onclick="document.getElementById('dlModal').classList.remove('open')">Try our managed platform →</a> — everything done for you.</p>
     </div>
   </div>
 </div>
 
 <script>
-// ── PREVIEW UPDATES ──
-let currentEmoji = '💬';
-let currentColor = '#7c6af7';
-
-function updatePreview() {
-  document.getElementById('prev-name').textContent = document.getElementById('cfg-botname').value || 'Your Bot';
-  document.getElementById('prev-welcome').textContent = document.getElementById('cfg-welcome').value || 'Hi! How can I help?';
-  document.getElementById('prev-q1').textContent = document.getElementById('cfg-q1').value || '';
-  document.getElementById('prev-q2').textContent = document.getElementById('cfg-q2').value || '';
-}
-
-function setEmoji(el, emoji) {
-  currentEmoji = emoji;
-  document.getElementById('prev-avatar').textContent = emoji;
-}
-
-function setColor(el, color) {
-  currentColor = color;
-  document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('cfg-color').value = color;
-  document.getElementById('prev-avatar').style.background = color;
-  document.getElementById('miniChatPreview').querySelector('.mini-send').style.background = color;
-}
-
-function setColorDirect(val) {
-  if (/^#[0-9a-f]{6}$/i.test(val)) {
-    currentColor = val;
-    document.getElementById('prev-avatar').style.background = val;
+// ── TEMPLATE DATA ──
+const TEMPLATES = [
+  { id:'it', ind:'IT Support', name:'Hardware & Printer Support', emoji:'🖨️', bg:'tp-it', tag:'Popular', tagClass:'tag-pop',
+    desc:'Resolve printer jams, error codes and connectivity issues before tickets are ever logged.',
+    feats:['Error code lookup','Step-by-step guides','Auto ticket logging'],
+    color:'#2563eb',
+    demoColor:'#2563eb',
+    welcome:'Hi! I\'m your IT Support assistant. Describe your printer or hardware issue and I\'ll walk you through a fix.',
+    quickReplies:['Paper jam on my printer','Printer shows offline','Streaky print quality','Error code C-0214'],
+    features:[{icon:'🔍',bg:'rgba(37,99,235,0.1)',title:'Error code lookup',desc:'Instantly identify what any error code means and the steps to fix it.'},{icon:'📋',bg:'rgba(37,99,235,0.1)',title:'Step-by-step guidance',desc:'Walks users through fixes one step at a time, confirming before moving on.'},{icon:'🎫',bg:'rgba(37,99,235,0.1)',title:'Auto ticket escalation',desc:'If unresolved, auto-drafts a pre-filled support ticket with full diagnostic context.'}],
+    responses:{
+      'paper jam':'Great, let\'s clear that! Try this:\n\n1. Open the front panel of the printer\n2. Locate the green release lever and pull toward you\n3. Gently pull the jammed paper straight out — don\'t force it\n4. Close the panel and run a test print\n\nDid the paper come out cleanly?',
+      'offline':'Printer offline is usually one of three things:\n\n1. Right-click the printer → untick "Use Printer Offline"\n2. Make sure it\'s set as the default printer\n3. Restart the Print Spooler (Services → Print Spooler → Restart)\n\nWhich step are you on?',
+      'streaky':'Streaks are usually a drum or toner issue:\n\n• **Low toner**: Remove cartridge, rock it gently 5x, reinsert\n• **Drum dirty**: Utility → Maintenance → Clean Drum\n\nAre the streaks horizontal lines or vertical?',
+      'c-0214':'Error C-0214 is a **fusing unit temperature error**. The fuser hasn\'t reached operating temperature.\n\n1. Power cycle completely (off 30 seconds, back on)\n2. Check the fusing unit is seated properly\n3. Ensure the room isn\'t too cold (<10°C)\n\nIf it returns after a power cycle, the fuser may need replacing — I\'ll log a ticket.',
+      default:'I can help with that! Could you tell me:\n• Which printer model you\'re using?\n• Any error code showing on the display?\n\nThat\'ll help me find the right fix quickly.'
+    }
+  },
+  { id:'hr', ind:'Human Resources', name:'HR Policy Assistant', emoji:'👥', bg:'tp-hr', tag:'New', tagClass:'tag-new',
+    desc:'Answer employee questions about leave policies, benefits, onboarding and company procedures 24/7.',
+    feats:['Policy Q&A','Leave guidance','Onboarding flows'],
+    color:'#059669',
+    demoColor:'#059669',
+    welcome:'Hi! I\'m your HR Assistant. Ask me anything about company policies, leave, benefits or procedures.',
+    quickReplies:['How many sick days do I get?','How do I request annual leave?','What\'s the onboarding process?','What are our working hours?'],
+    features:[{icon:'📄',bg:'rgba(5,150,105,0.1)',title:'Policy Q&A',desc:'Answers questions about leave, benefits, conduct and procedures instantly.'},{icon:'📅',bg:'rgba(5,150,105,0.1)',title:'Leave management',desc:'Guides employees through leave request processes and entitlement calculations.'},{icon:'🎯',bg:'rgba(5,150,105,0.1)',title:'Onboarding guide',desc:'Walks new starters through their first-day checklist and key contacts.'}],
+    responses:{
+      'sick':'Most employees receive **10 sick days** per calendar year. After 3 consecutive days you\'ll need a medical certificate.\n\nTo log a sick day, contact your manager before 9am and submit via the HR portal. Would you like the portal link?',
+      'annual leave':'To request annual leave:\n\n1. Submit your request in the HR portal at least 2 weeks in advance\n2. Your manager will approve or suggest an alternative\n3. You\'ll receive a confirmation email once approved\n\nYou currently have **15 days** accrued leave available. Need anything else?',
+      'onboarding':'Welcome! Your first week looks like this:\n\n• **Day 1**: IT setup, building access, team introductions\n• **Day 2-3**: Role-specific training with your manager\n• **Week 1**: Complete online compliance modules\n• **Week 2**: Shadow sessions & project handover\n\nHave you received your IT credentials yet?',
+      'working hours':'Standard working hours are **8:30am – 5:00pm** Monday to Friday, with a 30-minute unpaid lunch break.\n\nFlexible working arrangements are available — speak with your manager or submit a flex work request through the HR portal.',
+      default:'That\'s a great question. Could you give me a little more detail so I can point you to the right policy? For example, is this about leave, benefits, conduct, or something else?'
+    }
+  },
+  { id:'retail', ind:'Retail & E-commerce', name:'Customer Service Bot', emoji:'🛍️', bg:'tp-retail', tag:'Popular', tagClass:'tag-pop',
+    desc:'Handle order status, returns, product questions and store policies. Escalate complex issues to human agents.',
+    feats:['Order tracking','Returns guidance','Product FAQs'],
+    color:'#a855f7',
+    demoColor:'#a855f7',
+    welcome:'Hi! Welcome to our store. I can help with orders, returns, products and more. What do you need?',
+    quickReplies:['Where\'s my order?','How do I return something?','Do you have this in stock?','What\'s your refund policy?'],
+    features:[{icon:'📦',bg:'rgba(168,85,247,0.1)',title:'Order tracking',desc:'Customers get instant order status updates without calling support.'},{icon:'↩️',bg:'rgba(168,85,247,0.1)',title:'Returns & refunds',desc:'Guides customers through the returns process step by step.'},{icon:'❓',bg:'rgba(168,85,247,0.1)',title:'Product FAQs',desc:'Answers common product questions from your ingested catalogue.'}],
+    responses:{
+      'order':'I can look that up! To check your order status, I\'ll need your order number (it starts with #). You can find it in your confirmation email.\n\nAlternatively, log into your account at our website and go to Order History.',
+      'return':'Our returns policy is simple:\n\n• **30 days** from delivery to return any item\n• Item must be unused and in original packaging\n• Refund processed within 3-5 business days\n\nTo start a return: visit Returns Portal → enter your order number → select items → print the prepaid label.\n\nShall I send you the returns portal link?',
+      'stock':'I can check our inventory! Which item are you looking for? If you share the product name or code I\'ll check availability and let you know if we can ship it today.',
+      'refund':'Refunds are processed within **3-5 business days** once we receive the returned item. You\'ll get an email confirmation when it\'s done.\n\nIf it\'s been longer than 7 days, I can raise this for you. What\'s your order number?',
+      default:'Happy to help with that! Could you give me a bit more detail — for example, an order number, product name, or more about your question?'
+    }
+  },
+  { id:'edu', ind:'Education', name:'Student Support Assistant', emoji:'🎓', bg:'tp-edu', tag:'New', tagClass:'tag-new',
+    desc:'Guide students through enrolment, assignment deadlines, campus resources, and academic policies.',
+    feats:['Course info','Deadline reminders','Campus resources'],
+    color:'#d97706',
+    demoColor:'#d97706',
+    welcome:'Hey! I\'m your student support assistant. Ask me about courses, deadlines, campus resources or academic policies.',
+    quickReplies:['When is enrolment deadline?','How do I apply for an extension?','Where is the library?','How do I contact my lecturer?'],
+    features:[{icon:'📚',bg:'rgba(217,119,6,0.1)',title:'Course information',desc:'Answers questions about units, prerequisites, timetables and study loads.'},{icon:'⏰',bg:'rgba(217,119,6,0.1)',title:'Deadline tracking',desc:'Reminds students of key dates: enrolment, assignment submission, exam periods.'},{icon:'🏫',bg:'rgba(217,119,6,0.1)',title:'Campus resources',desc:'Directs students to the right service: counselling, library, IT help, welfare.'}],
+    responses:{
+      'enrolment':'Semester 2 enrolment closes **July 15th**. Make sure to:\n\n1. Log into the student portal\n2. Select your units (max 4 per semester)\n3. Check for any prerequisite conflicts\n4. Submit your enrolment\n\nNeed help choosing units?',
+      'extension':'To apply for an assignment extension:\n\n1. Log into the student portal\n2. Go to **My Assessments → Extension Request**\n3. Select the assignment and reason\n4. Submit at least 48hrs before the due date\n\nEmergency extensions (within 48hrs) need to go through your faculty office directly.',
+      'library':'The main library is in **Building C, Level 2**, open Mon–Fri 8am–10pm, Sat–Sun 9am–6pm.\n\nOnline resources (e-books, journals, databases) are available 24/7 via the library portal — log in with your student ID.',
+      'lecturer':'You can contact your lecturer via:\n• **Email**: first.last@university.edu\n• **Office hours**: listed on the unit page in the student portal\n• **Learning management system**: post in the unit discussion board\n\nWhich unit are you asking about?',
+      default:'I can help with that! Are you asking about a specific unit, deadline, campus service, or academic process? A little more detail will help me give you the right answer.'
+    }
+  },
+  { id:'health', ind:'Healthcare', name:'Patient Information Bot', emoji:'🏥', bg:'tp-health', tag:null, tagClass:'',
+    desc:'Help patients navigate appointments, clinic hours, general health information, and triage to the right department.',
+    feats:['Appointment guidance','Department routing','General health info'],
+    color:'#0891b2',
+    demoColor:'#0891b2',
+    welcome:'Hello! I\'m here to help you navigate our services. I can assist with appointments, clinic hours, and directing you to the right department.',
+    quickReplies:['How do I book an appointment?','What are your clinic hours?','I need to see a specialist','Is this an emergency?'],
+    features:[{icon:'📅',bg:'rgba(8,145,178,0.1)',title:'Appointment booking',desc:'Guides patients through booking, rescheduling and cancellation processes.'},{icon:'🏥',bg:'rgba(8,145,178,0.1)',title:'Department routing',desc:'Directs patients to the right specialist, clinic or ward quickly.'},{icon:'ℹ️',bg:'rgba(8,145,178,0.1)',title:'General health info',desc:'Provides clear, responsible health information based on your ingested content.'}],
+    responses:{
+      'appointment':'To book an appointment:\n\n• **Online**: patient portal → Book Appointment → select doctor & time\n• **Phone**: call (08) 9000 0000, Mon–Fri 8am–5pm\n• **Walk-in**: available for urgent same-day needs — arrive before 9am\n\nDo you have a preferred doctor, or is this your first visit?',
+      'hours':'Our clinic hours are:\n\n• **Mon–Fri**: 8:00am – 6:00pm\n• **Saturday**: 9:00am – 1:00pm\n• **Sunday**: Closed\n\nFor after-hours urgent care, the nearest 24hr clinic is Perth After Hours Medical Centre on Hay Street.',
+      'specialist':'I can help direct you! What type of specialist are you looking for? For example:\n\n• Cardiology → Level 3, Wing B\n• Orthopaedics → Level 2, Wing A\n• Dermatology → Level 1, Wing C\n\nOr tell me your symptoms and I\'ll suggest the right department.',
+      'emergency':'⚠️ If this is a medical emergency, please **call 000 immediately** or go to your nearest Emergency Department.\n\nFor urgent but non-emergency situations, our urgent care clinic is open 8am–8pm. Walk-ins are welcome.\n\nAre you currently experiencing an emergency?',
+      default:'I\'m here to help! Are you looking to book an appointment, find a department, or do you have a general health question? Please note I can\'t provide medical diagnoses — for health concerns, please speak with one of our doctors.'
+    }
+  },
+  { id:'hotel', ind:'Hospitality', name:'Hotel Concierge Bot', emoji:'🏨', bg:'tp-hotel', tag:'New', tagClass:'tag-new',
+    desc:'Handle room service requests, local recommendations, check-in info, and guest queries around the clock.',
+    feats:['Room requests','Local guides','Check-in info'],
+    color:'#b45309',
+    demoColor:'#b45309',
+    welcome:'Welcome! I\'m your virtual concierge. How can I make your stay more comfortable today?',
+    quickReplies:['What time is check-out?','Can I get room service?','What\'s nearby to visit?','I need extra towels'],
+    features:[{icon:'🛎️',bg:'rgba(180,83,9,0.1)',title:'Room service & requests',desc:'Handles requests for amenities, housekeeping, and dining — day or night.'},{icon:'🗺️',bg:'rgba(180,83,9,0.1)',title:'Local recommendations',desc:'Suggests restaurants, attractions and transport based on your guest\'s preferences.'},{icon:'🔑',bg:'rgba(180,83,9,0.1)',title:'Check-in / check-out',desc:'Answers all arrival and departure questions including late check-out requests.'}],
+    responses:{
+      'check-out':'Standard check-out is **11:00am**. \n\nLate check-out (until 2pm) is available for $30 — subject to availability. To request it, just let me know your room number and I\'ll check.\n\nWould you like an express check-out so your bill is ready at the door?',
+      'room service':'Room service is available **24 hours**. \n\nYou can order by:\n• Calling reception on **ext. 0**\n• Using the TV menu in your room\n• Asking me — just tell me what you\'d like!\n\nOur kitchen can accommodate dietary requirements. What would you like to order?',
+      'nearby':'Great choice of location! Here are some highlights nearby:\n\n🍽️ **Dining**: The Terrace (5 min walk) — excellent local cuisine\n🏛️ **Culture**: City Art Gallery (10 min walk) — free entry\n🛍️ **Shopping**: Central Mall (3 min walk)\n🌿 **Nature**: Riverside Walk (8 min walk)\n\nWould you like specific recommendations for tonight?',
+      'towels':'Of course! I\'ll arrange extra towels to be delivered to your room right away. \n\nCould you confirm your room number? Delivery usually takes 15–20 minutes. Is there anything else I can help with during your stay?',
+      default:'I\'m delighted to help make your stay perfect! Whether it\'s room requests, local tips, transport, or anything else — just ask. What can I arrange for you?'
+    }
+  },
+  { id:'legal', ind:'Legal & Compliance', name:'Legal FAQ Assistant', emoji:'⚖️', bg:'tp-legal', tag:null, tagClass:'',
+    desc:'Answer general legal questions, guide clients through processes, and route to the right solicitor — with auto disclaimers.',
+    feats:['Document guidance','Auto disclaimers','Solicitor routing'],
+    color:'#475569',
+    demoColor:'#475569',
+    welcome:'Hello. I can help with general legal questions and guide you to the right service. Please note I don\'t provide legal advice — always consult a qualified solicitor for your situation.',
+    quickReplies:['What does a contract need to be valid?','How long does conveyancing take?','What is a will and do I need one?','How do I find the right solicitor?'],
+    features:[{icon:'📋',bg:'rgba(71,85,105,0.15)',title:'Legal FAQs',desc:'Explains common legal concepts and processes in plain English.'},{icon:'⚠️',bg:'rgba(71,85,105,0.15)',title:'Auto disclaimers',desc:'Every response includes appropriate disclaimers to protect your firm.'},{icon:'👤',bg:'rgba(71,85,105,0.15)',title:'Solicitor routing',desc:'Matches client queries to the right practice area and books consultations.'}],
+    responses:{
+      'contract':'For a contract to be legally valid it generally needs:\n\n1. **Offer** — one party proposes terms\n2. **Acceptance** — the other agrees\n3. **Consideration** — something of value exchanged\n4. **Intention** — both parties intend legal obligations\n5. **Capacity** — both parties are legally able to contract\n\n⚠️ *This is general information only and not legal advice. Please consult a solicitor for your specific situation.*',
+      'conveyancing':'Residential conveyancing typically takes **6–12 weeks** from exchange of contracts to completion, depending on the chain.\n\nKey stages: instruction → searches → exchange of contracts → completion.\n\nWould you like to speak with one of our conveyancing solicitors? I can arrange a free 15-minute consultation.\n\n⚠️ *General information only — not legal advice.*',
+      'will':'A Will is a legal document that sets out how you want your estate distributed after you pass away. **If you die without a will (intestate)**, the law decides — which may not reflect your wishes.\n\nYou should consider a Will if you own property, have dependants, or have specific wishes about your estate.\n\nWould you like to book a Wills & Estates consultation?\n\n⚠️ *This is general information only.*',
+      'solicitor':'I can help match you to the right solicitor. Our practice areas include:\n\n• Property & Conveyancing\n• Family Law\n• Wills & Estates\n• Commercial & Business Law\n• Employment Law\n\nWhat area do you need help with? I\'ll connect you with a specialist.',
+      default:'Thank you for your question. I can provide general information on many legal topics. Could you tell me a little more about your situation — for example, is this related to property, family, employment, or another area of law?\n\n⚠️ *Please note: I provide general information only, not legal advice.*'
+    }
+  },
+  { id:'finance', ind:'Finance & Banking', name:'Financial Services Assistant', emoji:'💹', bg:'tp-finance', tag:null, tagClass:'',
+    desc:'Guide customers through account queries, product options, fraud reporting, and escalate to advisors when needed.',
+    feats:['Account FAQs','Product guidance','Secure escalation'],
+    color:'#0369a1',
+    demoColor:'#0369a1',
+    welcome:'Hello! I\'m here to help with account questions, product information, and directing you to the right advisor. How can I help?',
+    quickReplies:['I think I\'ve been scammed','What accounts do you offer?','How do I reset my PIN?','What are your loan rates?'],
+    features:[{icon:'🔒',bg:'rgba(3,105,161,0.1)',title:'Secure escalation',desc:'Sensitive queries are instantly escalated to a human advisor with context.'},{icon:'💼',bg:'rgba(3,105,161,0.1)',title:'Product guidance',desc:'Explains account types, loan products and investment options clearly.'},{icon:'🚨',bg:'rgba(3,105,161,0.1)',title:'Fraud reporting',desc:'Immediately routes fraud concerns to the security team with urgency flags.'}],
+    responses:{
+      'scammed':'🚨 **This needs immediate attention.** Please do not share any more information with anyone claiming to be from a bank or government body.\n\n**Immediately:**\n1. Call our fraud line: **1800 000 000** (24/7)\n2. Log into your account and change your password\n3. Do NOT transfer any money\n\nI\'m flagging this as urgent — a fraud specialist will call you back within 15 minutes. Is your money currently at immediate risk?',
+      'accounts':'We offer several account types:\n\n• **Everyday Account** — zero fees, tap-and-go, unlimited transactions\n• **Savings Account** — 4.85% p.a. interest, no fees\n• **Term Deposit** — fixed rates from 90 days to 5 years\n• **Business Account** — tailored for sole traders and companies\n\nWould you like me to compare these in more detail, or connect you with an advisor?',
+      'pin':'To reset your PIN:\n\n• **Online banking**: Settings → Security → Change PIN\n• **Mobile app**: Profile → Security → PIN reset\n• **ATM**: Insert card → Forgotten PIN → follow prompts\n• **Branch**: bring photo ID\n\nFor security, I can\'t reset PINs here. Is there anything else I can help with?',
+      'loan':'Our current loan rates:\n\n• **Personal loan**: from 8.99% p.a. (comparison 9.45%)\n• **Home loan (variable)**: from 5.89% p.a.\n• **Home loan (fixed 3yr)**: 5.65% p.a.\n• **Car loan**: from 7.49% p.a.\n\nRates depend on your credit profile and loan term. Would you like a personalised quote or to speak with a lending specialist?\n\n⚠️ *Rates indicative only — subject to assessment.*',
+      default:'I can help with that. For security, I\'m not able to access account details here. Could you clarify what you need — for example, is this about a product, a transaction query, or do you need to speak with an advisor?'
+    }
   }
-}
+];
 
-function switchBuilderTab(name, el) {
-  document.querySelectorAll('.btab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  ['brand','persona','kb'].forEach(p => {
-    document.getElementById('panel-'+p).style.display = p === name ? '' : 'none';
+let currentDemoTemplate = null;
+let currentDlTemplate = null;
+let dlColor = '#6c63ff';
+let demoConvHistory = [];
+
+// ── RENDER TEMPLATES ──
+function renderTemplates() {
+  const grid = document.getElementById('templatesGrid');
+  grid.innerHTML = '';
+  TEMPLATES.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'tcard';
+    card.innerHTML = `
+      <div class="tcard-preview ${t.bg}">
+        <div class="tcard-emoji">${t.emoji}</div>
+        ${t.tag ? `<span class="ttag ${t.tagClass}">${t.tag}</span>` : ''}
+      </div>
+      <div class="tcard-body">
+        <div class="tcard-ind">${t.ind}</div>
+        <div class="tcard-name">${t.name}</div>
+        <div class="tcard-desc">${t.desc}</div>
+        <div class="tcard-feats">${t.feats.map(f=>`<span class="feat">${f}</span>`).join('')}</div>
+        <div class="tcard-btns">
+          <button class="tbtn tbtn-demo" onclick="openDemo('${t.id}')">▶ Live Demo</button>
+          <button class="tbtn tbtn-dl" style="background:${t.color}" onclick="openDownload('${t.id}')">⬇ Download Free</button>
+        </div>
+      </div>`;
+    grid.appendChild(card);
   });
 }
 
-// ── MODAL ──
-const templateMeta = {
-  generic:{ label:'Generic template', title:'Build your chatbot', emoji:'💬', desc:'General-purpose AI assistant' },
-  it:     { label:'IT Support', title:'Hardware & Printer Support Bot', emoji:'🖨️', desc:'Resolve tech issues before tickets are logged' },
-  hr:     { label:'Human Resources', title:'HR Policy Assistant', emoji:'👥', desc:'Answer employee questions 24/7' },
-  retail: { label:'Retail / E-commerce', title:'Customer Service Bot', emoji:'🛍️', desc:'Handle orders, returns, and FAQs' },
-  edu:    { label:'Education', title:'Student Support Assistant', emoji:'🎓', desc:'Guide students through campus resources' },
-  health: { label:'Healthcare', title:'Patient Information Bot', emoji:'🏥', desc:'Navigate appointments and triage queries' },
-  legal:  { label:'Legal & Compliance', title:'Legal FAQ Assistant', emoji:'⚖️', desc:'Answer general legal questions with disclaimers' },
-  hotel:  { label:'Hospitality', title:'Hotel Concierge Bot', emoji:'🏨', desc:'Room service, local tips, guest queries' },
-  finance:{ label:'Finance & Banking', title:'Financial Services Assistant', emoji:'💹', desc:'Account queries and product guidance' },
-};
+// ── DEMO MODAL ──
+function openDemo(id) {
+  const t = TEMPLATES.find(x=>x.id===id);
+  if (!t) return;
+  currentDemoTemplate = t;
+  demoConvHistory = [];
 
-function openModal(type) {
-  const meta = templateMeta[type] || templateMeta.generic;
-  document.getElementById('modal-title-text').textContent = meta.title;
-  document.getElementById('modal-template-tag').textContent = meta.label;
-  document.getElementById('m-emoji').value = meta.emoji;
-  document.getElementById('genModal').classList.add('open');
-  updateProgress();
+  document.getElementById('demoEmojiHead').textContent = t.emoji + ' ';
+  document.getElementById('demoTitleHead').textContent = t.name;
+  document.getElementById('demoTagHead').textContent = t.ind;
+  document.getElementById('demoChatAv').textContent = t.emoji;
+  document.getElementById('demoChatAv').style.background = t.demoColor;
+  document.getElementById('demoChatName').textContent = t.name;
+  document.getElementById('demoChatSendBtn').style.background = t.demoColor;
+  document.getElementById('demoInput').style.setProperty('--focus-color', t.demoColor);
+
+  // Build info panel
+  const panel = document.getElementById('demoInfoPanel');
+  panel.innerHTML = `
+    <div>
+      <div class="dip-section-title">What this template includes</div>
+      ${t.features.map(f=>`
+        <div class="dip-feature">
+          <div class="dip-feature-icon" style="background:${f.bg}">${f.icon}</div>
+          <div class="dip-feature-body"><div class="dip-ft">${f.title}</div><div class="dip-fd">${f.desc}</div></div>
+        </div>`).join('')}
+    </div>
+    <div>
+      <button class="dip-dl-btn" style="background:${t.color}" onclick="closeDemo();openDownload('${t.id}')">⬇ Download Free — ${t.name}</button>
+      <p class="dip-dl-note">Includes chatbot HTML + plain-English setup guide. No account needed.</p>
+    </div>
+    <div class="dip-saas-card">
+      <div class="dip-saas-label">Not tech-savvy?</div>
+      <div class="dip-saas-text">Skip GitHub and API keys entirely. Our managed platform has this template ready in minutes — with a dashboard, analytics and ticket management built in.</div>
+      <button class="dip-saas-btn" onclick="closeDemo();document.getElementById('smb').scrollIntoView({behavior:'smooth'})">🚀 Try managed platform →</button>
+    </div>`;
+
+  // Render messages
+  const msgs = document.getElementById('demoMessages');
+  msgs.innerHTML = '';
+  addDemoMsg('b', t.welcome, true, t);
+  document.getElementById('demoModal').classList.add('open');
 }
 
-function closeModal() {
-  document.getElementById('genModal').classList.remove('open');
+function closeDemo() {
+  document.getElementById('demoModal').classList.remove('open');
 }
 
-document.getElementById('genModal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
+function addDemoMsg(role, text, withChips=false, template=null) {
+  const msgs = document.getElementById('demoMessages');
+  const t = template || currentDemoTemplate;
+  const row = document.createElement('div');
+  row.className = 'dm-row ' + role;
+  const isB = role === 'b';
+  const formatted = text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br/>');
+  const avStyle = isB ? `style="background:${t.demoColor}"` : '';
+  let chipsHtml = '';
+  if (withChips && isB && t.quickReplies) {
+    chipsHtml = `<div class="demo-chips">${t.quickReplies.map(q=>`<span class="demo-chip" style="border-color:rgba(108,99,255,0.2)" onclick="demoQuickSend('${q.replace(/'/g,"\\'")}')">→ ${q}</span>`).join('')}</div>`;
+  }
+  row.innerHTML = `<div class="dm-av" ${avStyle}>${isB ? t.emoji : 'ME'}</div><div><div class="dm-bub" style="${isB?'':'background:'+t.demoColor+';color:#fff;'">${formatted}</div>${chipsHtml}</div>`;
+  msgs.appendChild(row);
+  row.scrollIntoView({behavior:'smooth',block:'end'});
+}
 
-function selectSwatch(el, color) {
-  document.querySelectorAll('.m-swatch').forEach(s => s.classList.remove('sel'));
+function showDemoTyping() {
+  const msgs = document.getElementById('demoMessages');
+  const t = currentDemoTemplate;
+  const row = document.createElement('div');
+  row.className = 'dm-row b';
+  row.id = 'demoTyping';
+  row.innerHTML = `<div class="dm-av" style="background:${t.demoColor}">${t.emoji}</div><div class="dm-bub"><div class="demo-typing"><div class="tdot" style="background:${t.demoColor}"></div><div class="tdot" style="background:${t.demoColor}"></div><div class="tdot" style="background:${t.demoColor}"></div></div></div>`;
+  msgs.appendChild(row);
+  row.scrollIntoView({behavior:'smooth',block:'end'});
+}
+
+function hideDemoTyping() {
+  const t = document.getElementById('demoTyping');
+  if (t) t.remove();
+}
+
+function getDemoResponse(msg) {
+  const t = currentDemoTemplate;
+  const m = msg.toLowerCase();
+  for (const [key, resp] of Object.entries(t.responses)) {
+    if (key !== 'default' && m.includes(key)) return resp;
+  }
+  return t.responses.default;
+}
+
+function demoQuickSend(text) {
+  addDemoMsg('u', text);
+  showDemoTyping();
+  setTimeout(() => {
+    hideDemoTyping();
+    addDemoMsg('b', getDemoResponse(text));
+  }, 900 + Math.random()*500);
+}
+
+function demoSend() {
+  const input = document.getElementById('demoInput');
+  const val = input.value.trim();
+  if (!val) return;
+  input.value = '';
+  addDemoMsg('u', val);
+  showDemoTyping();
+  setTimeout(() => {
+    hideDemoTyping();
+    addDemoMsg('b', getDemoResponse(val));
+  }, 900 + Math.random()*500);
+}
+document.getElementById('demoInput').addEventListener('keydown', e => { if(e.key==='Enter') demoSend(); });
+
+// ── DOWNLOAD MODAL ──
+function openDownload(id) {
+  const t = TEMPLATES.find(x=>x.id===id);
+  if (!t) return;
+  currentDlTemplate = t;
+  document.getElementById('dlModalTitle').textContent = 'Download — ' + t.name;
+  document.getElementById('dlModalTag').textContent = t.ind;
+  document.getElementById('dl-emoji').value = t.emoji;
+  document.getElementById('dl-welcome').value = t.welcome;
+  // reset swatches
+  document.querySelectorAll('.dl-swatch').forEach(s => s.classList.remove('sel'));
+  document.querySelector('.dl-swatch').classList.add('sel');
+  dlColor = '#6c63ff';
+  // pre-select brand color
+  const match = document.querySelector(`.dl-swatch[onclick*="${t.color}"]`);
+  if (match) { document.querySelectorAll('.dl-swatch').forEach(s=>s.classList.remove('sel')); match.classList.add('sel'); dlColor = t.color; }
+  updateDlProgress();
+  document.getElementById('dlModal').classList.add('open');
+}
+
+function pickColor(el, color) {
+  document.querySelectorAll('.dl-swatch').forEach(s=>s.classList.remove('sel'));
   el.classList.add('sel');
-  window._selectedColor = color;
+  dlColor = color;
 }
-window._selectedColor = '#7c6af7';
 
-function updateProgress() {
-  const fields = ['m-company','m-botname','m-welcome','m-emoji'];
+function updateDlProgress() {
+  const fields = ['dl-company','dl-botname','dl-emoji','dl-welcome'];
   const filled = fields.filter(id => document.getElementById(id).value.trim()).length;
-  const pct = Math.round((filled / fields.length) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('dlProgress').style.width = Math.round((filled/fields.length)*100) + '%';
 }
 
-function generateAndDownload() {
-  const company = document.getElementById('m-company').value.trim() || 'My Company';
-  const botname = document.getElementById('m-botname').value.trim() || 'Assistant';
-  const emoji = document.getElementById('m-emoji').value.trim() || '🤖';
-  const welcome = document.getElementById('m-welcome').value.trim() || `Hi! I'm ${botname}, how can I help you today?`;
-  const tone = document.getElementById('m-tone').value;
-  const kb = document.getElementById('m-kb').value.trim();
-  const apikey = document.getElementById('m-apikey').value.trim();
-  const color = window._selectedColor || '#7c6af7';
-  const colorDark = shadeColor(color, -20);
-  const colorGlow = hexToRgba(color, 0.18);
+function doDownload() {
+  const company = document.getElementById('dl-company').value.trim() || 'My Company';
+  const botname = document.getElementById('dl-botname').value.trim() || 'Assistant';
+  const emoji   = document.getElementById('dl-emoji').value.trim() || currentDlTemplate.emoji;
+  const welcome = document.getElementById('dl-welcome').value.trim() || currentDlTemplate.welcome;
+  const tone    = document.getElementById('dl-tone').value;
+  const kb      = document.getElementById('dl-kb').value.trim();
+  const apikey  = document.getElementById('dl-apikey').value.trim();
+  const color   = dlColor;
 
-  const html = buildChatbotHTML({ company, botname, emoji, welcome, tone, kb, apikey, color, colorDark, colorGlow });
-  const blob = new Blob([html], { type: 'text/html' });
+  // Download chatbot HTML
+  const chatHtml = buildChatbot({ company, botname, emoji, welcome, tone, kb, apikey, color, template: currentDlTemplate });
+  triggerDownload(chatHtml, botname.replace(/\s+/g,'-').toLowerCase() + '-chatbot.html', 'text/html');
+
+  // Download setup guide
+  setTimeout(() => {
+    const guideHtml = buildSetupGuide({ company, botname, emoji, color });
+    triggerDownload(guideHtml, botname.replace(/\s+/g,'-').toLowerCase() + '-setup-guide.html', 'text/html');
+  }, 400);
+
+  document.getElementById('dlModal').classList.remove('open');
+}
+
+function triggerDownload(content, filename, mime) {
+  const blob = new Blob([content], { type: mime });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = botname.replace(/\s+/g,'-').toLowerCase() + '-chatbot.html';
+  a.download = filename;
   a.click();
-  closeModal();
 }
 
-function shadeColor(hex, pct) {
-  const num = parseInt(hex.replace('#',''),16);
-  const r = Math.max(0,Math.min(255,(num>>16)+pct));
-  const g = Math.max(0,Math.min(255,((num>>8)&0xff)+pct));
-  const b = Math.max(0,Math.min(255,(num&0xff)+pct));
-  return '#'+((r<<16)|(g<<8)|b).toString(16).padStart(6,'0');
-}
-
-function hexToRgba(hex, a) {
-  const num = parseInt(hex.replace('#',''),16);
-  return `rgba(${num>>16},${(num>>8)&0xff},${num&0xff},${a})`;
-}
-
-function buildChatbotHTML({ company, botname, emoji, welcome, tone, kb, apikey, color, colorDark, colorGlow }) {
+// ── BUILD SETUP GUIDE ──
+function buildSetupGuide({ company, botname, emoji, color }) {
+  const colorDark = shadeColor(color, -20);
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>${botname} — ${company} AI Assistant</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<title>${botname} — Setup Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#f8f8fc;color:#1a1a2e;min-height:100vh;}
+.header{background:#1a1a2e;padding:28px 5vw;display:flex;align-items:center;gap:14px;}
+.header-icon{width:44px;height:44px;background:${color};border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.header-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;}
+.header-sub{font-size:13px;color:rgba(255,255,255,0.5);margin-top:2px;}
+.hero-banner{background:linear-gradient(135deg,${color}18,${color}08);border-bottom:3px solid ${color};padding:28px 5vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.hb-text h2{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:6px;}
+.hb-text p{font-size:14px;color:#555;line-height:1.6;max-width:500px;}
+.free-badge{background:${color};color:#fff;padding:8px 20px;border-radius:8px;font-weight:700;font-size:13px;white-space:nowrap;}
+.content{max-width:780px;margin:0 auto;padding:40px 5vw;}
+.toc{background:#fff;border:1px solid #e5e5f0;border-radius:12px;padding:20px 24px;margin-bottom:36px;}
+.toc-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#1a1a2e;margin-bottom:12px;}
+.toc-links{display:flex;flex-direction:column;gap:6px;}
+.toc-links a{font-size:13px;color:${color};text-decoration:none;display:flex;align-items:center;gap:8px;}
+.toc-links a::before{content:'→';font-weight:600;}
+.step-section{margin-bottom:40px;}
+.step-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.step-num-circle{width:40px;height:40px;background:${color};color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:16px;flex-shrink:0;}
+.step-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;}
+.step-body{background:#fff;border:1px solid #e5e5f0;border-radius:12px;padding:20px 22px;}
+.step-body p{font-size:14px;line-height:1.7;color:#333;margin-bottom:12px;}
+.step-body p:last-child{margin-bottom:0;}
+.step-body ol,.step-body ul{margin-left:20px;display:flex;flex-direction:column;gap:8px;}
+.step-body li{font-size:14px;line-height:1.6;color:#333;}
+.step-body strong{color:#1a1a2e;}
+.code-box{background:#1a1a2e;border-radius:8px;padding:12px 16px;font-family:monospace;font-size:13px;color:#a5b4fc;margin:12px 0;}
+.note-box{background:${color}10;border-left:3px solid ${color};border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:13px;color:#1a1a2e;line-height:1.6;}
+.warning-box{background:#fff3cd;border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:13px;color:#7a5000;line-height:1.6;}
+.smb-box{background:linear-gradient(135deg,#1a0800,#120600);border-radius:12px;padding:22px;margin-top:40px;}
+.smb-box-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:#fbbf24;margin-bottom:8px;}
+.smb-box-text{font-size:13px;color:rgba(255,210,80,0.8);line-height:1.6;margin-bottom:14px;}
+.smb-box-btn{display:inline-block;padding:10px 22px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;}
+.footer{background:#1a1a2e;padding:20px 5vw;text-align:center;font-size:12px;color:rgba(255,255,255,0.35);margin-top:40px;}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-icon">${emoji}</div>
+  <div><div class="header-title">${botname} Setup Guide</div><div class="header-sub">${company} · DIYChatbots.io</div></div>
+</div>
+<div class="hero-banner">
+  <div class="hb-text"><h2>You're 4 steps away from going live 🚀</h2><p>This guide walks you through everything in plain English. No coding experience needed. Estimated time: <strong>10–15 minutes</strong>.</p></div>
+  <div class="free-badge">100% Free to Deploy</div>
+</div>
+<div class="content">
+  <div class="toc">
+    <div class="toc-title">📋 What's in this guide</div>
+    <div class="toc-links">
+      <a href="#step1">Step 1 — Get your free Anthropic API key</a>
+      <a href="#step2">Step 2 — Create a GitHub account (free)</a>
+      <a href="#step3">Step 3 — Upload your chatbot file</a>
+      <a href="#step4">Step 4 — Enable GitHub Pages (go live!)</a>
+      <a href="#step5">Step 5 — Add your knowledge base</a>
+      <a href="#step6">Troubleshooting & tips</a>
+    </div>
+  </div>
+
+  <div class="step-section" id="step1">
+    <div class="step-header"><div class="step-num-circle">1</div><div class="step-title">Get your free Anthropic API key</div></div>
+    <div class="step-body">
+      <p>The AI brain behind ${botname} is powered by Anthropic's Claude. You need an API key to activate it. Getting one is free and takes about 2 minutes.</p>
+      <ol>
+        <li>Go to <strong>console.anthropic.com</strong> in your browser</li>
+        <li>Click <strong>"Sign up"</strong> and create a free account with your email</li>
+        <li>Once logged in, click <strong>"API Keys"</strong> in the left sidebar</li>
+        <li>Click <strong>"Create Key"</strong> — give it any name (e.g. "${botname}")</li>
+        <li>Copy the key — it starts with <strong>sk-ant-api03-…</strong></li>
+      </ol>
+      <div class="note-box">💡 <strong>Keep your API key private.</strong> Don't share it publicly. When you open the chatbot, it asks for this key — it stays in your browser session only.</div>
+      <div class="warning-box">⚠️ <strong>Free tier note:</strong> Anthropic gives you free credits to start. For light use, this will last a long time. If you're getting many queries, check your usage at console.anthropic.com. The chatbot also has a "Demo mode" that works without a key — useful for testing.</div>
+    </div>
+  </div>
+
+  <div class="step-section" id="step2">
+    <div class="step-header"><div class="step-num-circle">2</div><div class="step-title">Create a free GitHub account</div></div>
+    <div class="step-body">
+      <p>GitHub is where your chatbot will be hosted — for free, forever. You don't need to know how to code. Think of it like Google Drive, but for websites.</p>
+      <ol>
+        <li>Go to <strong>github.com</strong> and click <strong>"Sign up"</strong></li>
+        <li>Enter your email, create a password, choose a username</li>
+        <li>Verify your email address</li>
+        <li>You're in! No credit card needed.</li>
+      </ol>
+      <div class="note-box">💡 If you already have a GitHub account, skip this step.</div>
+    </div>
+  </div>
+
+  <div class="step-section" id="step3">
+    <div class="step-header"><div class="step-num-circle">3</div><div class="step-title">Upload your chatbot file to GitHub</div></div>
+    <div class="step-body">
+      <p>Now we create a "repository" (think of it as a folder on GitHub) and upload your file.</p>
+      <ol>
+        <li>In GitHub, click the <strong>"+"</strong> button (top right) → <strong>"New repository"</strong></li>
+        <li>Name it: <div class="code-box">${botname.replace(/\s+/g,'-').toLowerCase()}</div></li>
+        <li>Set it to <strong>Public</strong> (required for free hosting)</li>
+        <li>Tick <strong>"Add a README file"</strong></li>
+        <li>Click <strong>"Create repository"</strong></li>
+        <li>Inside your new repo, click <strong>"Add file" → "Upload files"</strong></li>
+        <li>Drag your downloaded file <strong>(${botname.replace(/\s+/g,'-').toLowerCase()}-chatbot.html)</strong> onto the upload area</li>
+        <li><strong>Important:</strong> Before committing, rename the file to exactly: <div class="code-box">index.html</div></li>
+        <li>Click <strong>"Commit changes"</strong></li>
+      </ol>
+      <div class="warning-box">⚠️ The file MUST be named <strong>index.html</strong> exactly (lowercase). If it's named anything else, the page won't load.</div>
+    </div>
+  </div>
+
+  <div class="step-section" id="step4">
+    <div class="step-header"><div class="step-num-circle">4</div><div class="step-title">Enable GitHub Pages — go live!</div></div>
+    <div class="step-body">
+      <p>This is the step that publishes your chatbot to the internet. It takes about 2 minutes to activate.</p>
+      <ol>
+        <li>In your repository, click <strong>"Settings"</strong> (the tab at the top)</li>
+        <li>Scroll down to <strong>"Pages"</strong> in the left sidebar</li>
+        <li>Under <strong>"Source"</strong>, select: <strong>Deploy from a branch</strong></li>
+        <li>Set Branch to <strong>main</strong>, folder to <strong>/ (root)</strong></li>
+        <li>Click <strong>"Save"</strong></li>
+        <li>Wait 1–2 minutes, then refresh the page</li>
+        <li>Your live URL will appear at the top — it looks like: <div class="code-box">https://your-username.github.io/${botname.replace(/\s+/g,'-').toLowerCase()}</div></li>
+      </ol>
+      <div class="note-box">🎉 <strong>That's it!</strong> Your chatbot is now live on the internet. Share the URL with your team. When someone opens it, they enter the API key once (or you can pre-set it during download).</div>
+    </div>
+  </div>
+
+  <div class="step-section" id="step5">
+    <div class="step-header"><div class="step-num-circle">5</div><div class="step-title">Add your knowledge base</div></div>
+    <div class="step-body">
+      <p>This is what makes ${botname} smart about <em>your</em> business. Click the <strong>"📚 KB"</strong> button in the top-right of the chatbot to open the Knowledge Base panel.</p>
+      <p>You can add content three ways:</p>
+      <ul>
+        <li><strong>Text/Notes tab</strong> — paste in your FAQs, policies, product descriptions, or any information</li>
+        <li><strong>File Upload tab</strong> — upload .txt, .md, .csv files (e.g. exported FAQ documents)</li>
+        <li><strong>URL tab</strong> — add a reference link to your website's help page</li>
+      </ul>
+      <div class="note-box">💡 <strong>Good things to add:</strong> Your FAQs, product/service descriptions, opening hours, return policies, common troubleshooting steps, staff directory, pricing. The more relevant content you add, the better the AI's answers.</div>
+      <p>Knowledge base content is saved in your browser session. For permanent KB content, add it to the system instructions when downloading the chatbot (the "Knowledge base" field in the download form).</p>
+    </div>
+  </div>
+
+  <div class="step-section" id="step6">
+    <div class="step-header"><div class="step-num-circle" style="background:#f59e0b">?</div><div class="step-title">Troubleshooting & tips</div></div>
+    <div class="step-body">
+      <p><strong>Page shows "404 Not Found"</strong> — Make sure the file is named exactly <strong>index.html</strong> (lowercase) and GitHub Pages is enabled.</p>
+      <p><strong>AI not responding</strong> — Check your API key is entered correctly. It must start with <strong>sk-ant-api03-</strong>. Try the "Demo mode" option if you're testing.</p>
+      <p><strong>Updating the chatbot</strong> — Just upload a new index.html to your GitHub repo. It republishes automatically within ~60 seconds.</p>
+      <p><strong>Embedding on your website</strong> — Use an iframe: <div class="code-box">&lt;iframe src="https://your-username.github.io/${botname.replace(/\s+/g,'-').toLowerCase()}" width="100%" height="700px"&gt;&lt;/iframe&gt;</div></p>
+    </div>
+  </div>
+
+  <div class="smb-box">
+    <div class="smb-box-title">🚀 Rather have it all done for you?</div>
+    <div class="smb-box-text">If this feels like too much setup, our managed platform handles everything — no GitHub, no API keys, no configuration. You get a dashboard, analytics, ticket management, and your chatbot live in minutes. No technical knowledge needed.</div>
+    <a class="smb-box-btn" href="https://diychatbots.io/platform">Try the managed platform free →</a>
+  </div>
+</div>
+<div class="footer">DIYChatbots.io — Free templates, easy deployment. Made for everyone.</div>
+</body>
+</html>`;
+}
+
+// ── BUILD CHATBOT ──
+function buildChatbot({ company, botname, emoji, welcome, tone, kb, apikey, color, template }) {
+  const colorDark = shadeColor(color, -20);
+  const colorGlow = hexToRgba(color, 0.18);
+  const responses = template ? JSON.stringify(template.responses) : '{}';
+  const quickReplies = template ? JSON.stringify(template.quickReplies || []) : '[]';
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>${botname} — ${company}</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--accent:${color};--accent-dark:${colorDark};--accent-glow:${colorGlow};--bg:#0d0d14;--panel:#161622;--surface:#1e1e2c;--border:#2a2a3a;--text:#f0f0f8;--muted:#7a7a9a;--sans:'DM Sans',sans-serif;--mono:'DM Mono',monospace;}
+:root{--accent:${color};--accent-dark:${colorDark};--accent-glow:${colorGlow};--bg:#0a0a12;--panel:#12121e;--surface:#18182a;--border:#252535;--text:#eeeeff;--muted:#7070a0;--sans:'DM Sans',sans-serif;}
 html,body{height:100%;overflow:hidden;}
 body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex;flex-direction:column;height:100vh;}
 header{background:var(--panel);border-bottom:1px solid var(--border);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;position:relative;}
 header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent 50%);}
-.hlogo{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;color:var(--text);}
-.hlogo-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
-.hright{display:flex;align-items:center;gap:8px;}
-.pill{display:flex;align-items:center;gap:5px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.2);border-radius:20px;padding:4px 10px;font-size:11px;color:#34d399;}
+.hlogo{display:flex;align-items:center;gap:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;}
+.hlogo-box{width:30px;height:30px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.hright{display:flex;gap:8px;align-items:center;}
+.pill{display:flex;align-items:center;gap:5px;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.18);border-radius:20px;padding:4px 10px;font-size:11px;color:#34d399;}
 .dot{width:5px;height:5px;background:#34d399;border-radius:50%;animation:blink 2s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.kbbtn{background:var(--surface);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:5px 11px;font-size:11px;cursor:pointer;font-family:var(--sans);transition:all .2s;}
+.kbbtn:hover,.kbbtn.on{border-color:var(--accent);color:var(--accent);}
 .main{display:flex;flex:1;overflow:hidden;}
-.sidebar{width:300px;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;}
-.sidebar.hide{display:none;}
-.sb-head{padding:16px;border-bottom:1px solid var(--border);}
-.sb-title{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
-.sb-sub{font-size:12px;color:var(--muted);}
-.sb-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;}
-.tabs{display:flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:3px;}
+aside{width:290px;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:width .3s;}
+aside.hide{width:0;overflow:hidden;}
+.sb-head{padding:14px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.sb-t{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-family:'DM Mono',monospace;margin-bottom:3px;}
+.sb-s{font-size:12px;color:var(--muted);}
+.sb-body{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px;}
+.tabs{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:3px;gap:0;}
 .tab{flex:1;padding:6px;text-align:center;font-size:11px;font-weight:500;border-radius:5px;cursor:pointer;transition:all .2s;color:var(--muted);border:none;background:transparent;font-family:var(--sans);}
 .tab.on{background:var(--accent);color:#fff;}
 .ipanel{display:none;flex-direction:column;gap:8px;}
 .ipanel.on{display:flex;}
-.fl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
-.fi{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:8px 11px;font-size:12.5px;color:var(--text);font-family:var(--sans);outline:none;transition:border .2s;}
+.fl{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.fi{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:8px 11px;font-size:12.5px;color:var(--text);font-family:var(--sans);outline:none;transition:border .2s;}
 .fi:focus{border-color:var(--accent);}
-.fi::placeholder{color:#444460;}
-textarea.fi{resize:vertical;min-height:90px;line-height:1.5;}
-.btn-add{width:100%;padding:9px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:600;font-family:var(--sans);cursor:pointer;transition:background .2s;}
-.btn-add:hover{background:var(--accent-dark);}
-.dz{border:2px dashed var(--border);border-radius:9px;padding:24px 12px;text-align:center;cursor:pointer;background:var(--surface);}
+.fi::placeholder{color:#33334a;}
+textarea.fi{resize:vertical;min-height:85px;line-height:1.5;}
+.addBtn{width:100%;padding:9px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:600;font-family:var(--sans);cursor:pointer;}
+.addBtn:hover{background:var(--accent-dark);}
+.dz{border:2px dashed var(--border);border-radius:8px;padding:22px 10px;text-align:center;cursor:pointer;background:var(--surface);}
 .dz:hover{border-color:var(--accent);}
-.dz-icon{font-size:24px;margin-bottom:6px;}
-.dz-t{font-size:12px;font-weight:500;margin-bottom:3px;}
-.dz-s{font-size:11px;color:var(--muted);}
 .kbl{display:flex;flex-direction:column;gap:5px;}
-.kbe{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:9px 11px;display:flex;align-items:flex-start;gap:8px;}
-.kbe-icon{font-size:12px;flex-shrink:0;margin-top:1px;}
-.kbe-body{flex:1;min-width:0;}
-.kbe-t{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.kbe-p{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.kbe-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;flex-shrink:0;transition:color .15s;}
-.kbe-del:hover{color:var(--accent);}
-.empty-kb{text-align:center;padding:16px;color:#444460;font-size:12px;line-height:1.6;}
+.kbe{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:8px 10px;display:flex;align-items:flex-start;gap:8px;animation:si .2s ease;}
+@keyframes si{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.kbe-b{flex:1;min-width:0;}
+.kbe-t{font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.kbe-p{font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.kbe-d{background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;transition:color .15s;}
+.kbe-d:hover{color:var(--accent);}
+.empty{text-align:center;padding:14px;color:#33334a;font-size:12px;line-height:1.6;}
 .chat{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.avatar-zone{padding:16px 22px 0;display:flex;align-items:flex-end;gap:12px;flex-shrink:0;}
-.av{width:60px;height:60px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 0 20px var(--accent-glow);animation:breathe 3s ease-in-out infinite;flex-shrink:0;}
-@keyframes breathe{0%,100%{box-shadow:0 0 20px var(--accent-glow)}50%{box-shadow:0 0 36px calc(var(--accent-glow))}}
-.av-info{padding-bottom:4px;}
-.av-name{font-size:17px;font-weight:700;color:var(--text);}
-.av-tag{font-size:12px;color:var(--muted);font-style:italic;}
+.avzone{padding:16px 22px 0;display:flex;align-items:flex-end;gap:12px;flex-shrink:0;}
+.av{width:58px;height:58px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 0 22px var(--accent-glow);animation:breathe 3s ease-in-out infinite;flex-shrink:0;}
+@keyframes breathe{0%,100%{box-shadow:0 0 22px var(--accent-glow)}50%{box-shadow:0 0 36px var(--accent-glow)}}
+.av.thinking{animation:think .7s ease-in-out infinite;}
+@keyframes think{0%,100%{box-shadow:0 0 10px var(--accent-glow)}50%{box-shadow:0 0 44px var(--accent-glow)}}
+.av-n{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;}
+.av-s{font-size:12px;color:var(--muted);font-style:italic;}
 .msgs{flex:1;overflow-y:auto;padding:18px 22px;display:flex;flex-direction:column;gap:14px;}
 .msgs::-webkit-scrollbar{width:3px;}
 .msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
-.mrow{display:flex;gap:8px;max-width:85%;}
+.mrow{display:flex;gap:8px;max-width:86%;}
 .mrow.u{align-self:flex-end;flex-direction:row-reverse;}
-.mav{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.mav{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px;}
 .mrow.b .mav{background:var(--accent);font-size:13px;}
-.mrow.u .mav{background:var(--surface);border:1px solid var(--border);font-size:10px;font-weight:700;color:var(--muted);}
-.bub{padding:10px 14px;border-radius:13px;font-size:13.5px;line-height:1.6;}
+.mrow.u .mav{background:var(--surface);border:1px solid var(--border);font-size:9px;font-weight:700;color:var(--muted);}
+.bub{padding:10px 14px;border-radius:12px;font-size:13.5px;line-height:1.6;}
 .mrow.b .bub{background:var(--panel);border:1px solid var(--border);border-bottom-left-radius:3px;}
 .mrow.u .bub{background:var(--accent);color:#fff;border-bottom-right-radius:3px;}
-.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
-.chip{padding:5px 11px;background:var(--surface);border:1px solid var(--border);border-radius:18px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:var(--sans);}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px;}
+.chip{padding:5px 11px;background:var(--surface);border:1px solid var(--border);border-radius:16px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:var(--sans);}
 .chip:hover{border-color:var(--accent);color:var(--text);}
-.kb-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--accent);background:var(--accent-glow);border:1px solid rgba(124,106,247,0.15);border-radius:4px;padding:2px 7px;margin-top:5px;}
-.typing{display:flex;gap:4px;align-items:center;padding:13px 15px;}
-.tdot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:bounce 1.2s infinite;}
-.tdot:nth-child(2){animation-delay:.2s;}
-.tdot:nth-child(3){animation-delay:.4s;}
-@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
-.ticket-card{background:#1a1000;border:1px solid #3a2500;border-radius:9px;padding:10px 12px;margin-top:6px;font-size:12px;color:#fbbf24;}
+.kbtag{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--accent);background:var(--accent-glow);border:1px solid rgba(108,99,255,.12);border-radius:4px;padding:2px 7px;margin-top:5px;font-family:'DM Mono',monospace;}
+.typing-row{display:flex;gap:4px;align-items:center;padding:10px 12px;}
+.tdot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:tb 1.2s infinite;}
+.tdot:nth-child(2){animation-delay:.2s}
+.tdot:nth-child(3){animation-delay:.4s}
+@keyframes tb{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.ticket-card{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:9px;padding:10px 12px;margin-top:7px;font-size:12px;color:#fbbf24;}
 .ticket-card strong{display:block;color:#f59e0b;font-size:13px;margin-bottom:3px;}
 .input-area{padding:12px 20px 16px;border-top:1px solid var(--border);background:var(--panel);flex-shrink:0;}
-.input-wrap{display:flex;gap:8px;align-items:flex-end;}
-.ci{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:11px 14px;font-size:14px;color:var(--text);font-family:var(--sans);outline:none;resize:none;max-height:110px;min-height:44px;line-height:1.5;transition:border .2s;}
+.inp-wrap{display:flex;gap:8px;align-items:flex-end;}
+.ci{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-size:14px;color:var(--text);font-family:var(--sans);outline:none;resize:none;max-height:110px;min-height:44px;line-height:1.5;transition:border .2s;}
 .ci:focus{border-color:var(--accent);}
-.ci::placeholder{color:#444460;}
-.sb{width:44px;height:44px;background:var(--accent);border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
-.sb:hover{background:var(--accent-dark);}
-.sb svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;}
-.hint{font-size:11px;color:#444460;margin-top:6px;display:flex;align-items:center;gap:5px;}
-.kb-hint{color:var(--accent);}
-.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(4px);}
+.ci::placeholder{color:#33334a;}
+.sb2{width:44px;height:44px;background:var(--accent);border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.sb2:hover{background:var(--accent-dark);}
+.sb2 svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;}
+.hint{font-size:11px;color:#33334a;margin-top:6px;display:flex;align-items:center;gap:5px;}
+.kbhint{color:var(--accent);}
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(4px);}
 .modal-box{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:26px;width:400px;max-width:90vw;}
-.modal-box h3{font-size:18px;font-weight:700;margin-bottom:6px;}
+.modal-box h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:8px;}
 .modal-box p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:18px;}
 .modal-box a{color:var(--accent);text-decoration:none;}
 .modal-btns{display:flex;gap:8px;}
@@ -976,113 +1216,117 @@ textarea.fi{resize:vertical;min-height:90px;line-height:1.5;}
 .mbtn.p:hover{background:var(--accent-dark);}
 .mbtn.g{background:transparent;color:var(--muted);border:1px solid var(--border);}
 .mbtn.g:hover{color:var(--text);}
-.modal-note-sm{font-size:11px;color:#444460;margin-top:10px;line-height:1.5;}
 </style>
 </head>
 <body>
 <header>
-  <div class="hlogo">
-    <div class="hlogo-icon">${emoji}</div>
-    <span>${company}</span>
-  </div>
+  <div class="hlogo"><div class="hlogo-box">${emoji}</div>${company}</div>
   <div class="hright">
-    <div class="pill"><span class="dot"></span><span id="statusLbl">AI Online</span></div>
-    <button style="background:var(--surface);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:var(--sans);" onclick="toggleSidebar()">📚 KB <span id="kbC">0</span></button>
+    <div class="pill"><span class="dot"></span><span id="stLbl">AI Online</span></div>
+    <button class="kbbtn" id="kbbtnEl" onclick="toggleSB()">📚 KB <span id="kbC">0</span></button>
   </div>
 </header>
 <div class="main">
-  <aside class="sidebar" id="sidebar">
-    <div class="sb-head"><div class="sb-title">Knowledge Base</div><div class="sb-sub">Add content for the AI to reference.</div></div>
+  <aside id="sidebar">
+    <div class="sb-head"><div class="sb-t">Knowledge Base</div><div class="sb-s">Add content for the AI to reference.</div></div>
     <div class="sb-body">
       <div class="tabs">
-        <button class="tab on" onclick="sbTab('text',this)">Text</button>
-        <button class="tab" onclick="sbTab('file',this)">File</button>
-        <button class="tab" onclick="sbTab('url',this)">URL</button>
+        <button class="tab on" onclick="sbtab('text',this)">Text</button>
+        <button class="tab" onclick="sbtab('file',this)">File</button>
+        <button class="tab" onclick="sbtab('url',this)">URL</button>
       </div>
       <div class="ipanel on" id="sp-text">
-        <div><div class="fl">Title</div><input class="fi" id="kbTitle" placeholder="Document title"/></div>
-        <div><div class="fl">Content</div><textarea class="fi" id="kbContent" placeholder="Paste any content here…"></textarea></div>
-        <button class="btn-add" onclick="addKb()">+ Add to KB</button>
+        <div><div class="fl">Title</div><input class="fi" id="kbT" placeholder="Document title"/></div>
+        <div><div class="fl">Content</div><textarea class="fi" id="kbCon" placeholder="Paste content here…"></textarea></div>
+        <button class="addBtn" onclick="addkb()">+ Add</button>
       </div>
       <div class="ipanel" id="sp-file">
-        <div class="dz" onclick="document.getElementById('fi').click()" ondragover="ev.preventDefault()" ondrop="handleDrop(event)">
-          <div class="dz-icon">📄</div><div class="dz-t">Drop or click to upload</div><div class="dz-s">.txt .md .csv .json</div>
-        </div>
-        <input type="file" id="fi" accept=".txt,.md,.csv,.json" multiple style="display:none" onchange="handleFiles(event)"/>
+        <div class="dz" onclick="document.getElementById('fi').click()"><div style="font-size:22px;margin-bottom:6px;">📄</div><div style="font-size:12px;font-weight:500;">Drop or click to upload</div><div style="font-size:11px;color:var(--muted);">.txt .md .csv .json</div></div>
+        <input type="file" id="fi" accept=".txt,.md,.csv,.json" multiple style="display:none" onchange="handleF(event)"/>
       </div>
       <div class="ipanel" id="sp-url">
-        <div><div class="fl">URL</div><input class="fi" id="kbUrl" placeholder="https://…" type="url"/></div>
-        <div><div class="fl">Description</div><input class="fi" id="kbUrlDesc" placeholder="What does this page cover?"/></div>
-        <button class="btn-add" onclick="addUrl()">+ Add URL</button>
+        <div><div class="fl">URL</div><input class="fi" id="kbU" type="url" placeholder="https://…"/></div>
+        <div><div class="fl">Description</div><input class="fi" id="kbUD" placeholder="What does this cover?"/></div>
+        <button class="addBtn" onclick="addurl()">+ Add URL</button>
       </div>
-      <div class="fl" style="margin-top:4px;">Ingested documents</div>
-      <div class="kbl" id="kbList"><div class="empty-kb" id="kbEmpty">No documents yet.<br/>Add content to enhance AI responses.</div></div>
+      <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px;">Ingested documents</div>
+      <div class="kbl" id="kbList"><div class="empty" id="kbEmp">No documents yet.</div></div>
     </div>
   </aside>
   <div class="chat">
-    <div class="avatar-zone">
+    <div class="avzone">
       <div class="av" id="avEl">${emoji}</div>
-      <div class="av-info"><div class="av-name">${botname}</div><div class="av-tag" id="avTag">${company} AI Assistant</div></div>
+      <div><div class="av-n">${botname}</div><div class="av-s" id="avTag">${company} AI Assistant</div></div>
     </div>
     <div class="msgs" id="msgs">
-      <div class="mrow b"><div class="mav">${emoji}</div><div><div class="bub">${welcome}</div></div></div>
+      <div class="mrow b"><div class="mav">${emoji}</div><div><div class="bub">${welcome}</div>${(template && template.quickReplies && template.quickReplies.length) ? `<div class="chips">${(template.quickReplies||[]).map(q=>`<span class="chip" onclick="qs('${q.replace(/'/g,"\\'")}')">${q}</span>`).join('')}</div>` : ''}</div></div>
     </div>
     <div class="input-area">
-      <div class="input-wrap">
+      <div class="inp-wrap">
         <textarea class="ci" id="ci" placeholder="Ask me anything…" rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,110)+'px'"></textarea>
-        <button class="sb" onclick="send()"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+        <button class="sb2" onclick="send()"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
       </div>
-      <div class="hint">Enter to send · Shift+Enter new line <span id="kbHintSpan" style="display:none">· <span class="kb-hint">📚 <span id="kbHintN">0</span> KB docs active</span></span></div>
+      <div class="hint">Enter to send · Shift+Enter new line <span id="kbHint" style="display:none">· <span class="kbhint">📚 <span id="kbN">0</span> KB docs active</span></span></div>
     </div>
   </div>
 </div>
-
 <div class="modal-ov" id="apiModal">
   <div class="modal-box">
-    <h3>${botname} Setup</h3>
-    <p>Enter your Anthropic API key to activate the AI. Your key stays in browser session only — never stored.<br/><br/><a href="https://console.anthropic.com" target="_blank">Get a key at console.anthropic.com →</a></p>
+    <h3>${botname} — Connect AI</h3>
+    <p>Enter your Anthropic API key to activate full AI responses. Your key stays in this browser session only — never stored.<br/><br/><a href="https://console.anthropic.com" target="_blank">Get a free key at console.anthropic.com →</a><br/><br/>No key? Use <strong>Demo mode</strong> for scripted responses.</p>
     <input class="fi" id="apiIn" type="password" placeholder="sk-ant-api03-…" style="margin-bottom:12px;" value="${apikey}"/>
     <div class="modal-btns">
       <button class="mbtn g" onclick="skipApi()">Demo mode</button>
       <button class="mbtn p" onclick="saveApi()">Connect AI</button>
     </div>
-    <p class="modal-note-sm">Demo mode uses scripted responses. Connect an API key for live AI answers informed by your knowledge base.</p>
   </div>
 </div>
-
 <script>
-let apiKey='';let demoMode=${apikey ? 'false' : 'true'};let kbEntries=[];let sbOpen=true;
-const SYS=\`You are ${botname}, an AI assistant for ${company}. Tone: ${tone}. Be helpful, concise, and practical. If you cannot resolve an issue, acknowledge it and offer to escalate.\n${kb ? 'KNOWLEDGE BASE:\n' + kb : ''}\`;
-
-function saveApi(){const v=document.getElementById('apiIn').value.trim();if(!v.startsWith('sk-')){alert('Invalid key');return;}apiKey=v;document.getElementById('apiModal').style.display='none';document.getElementById('statusLbl').textContent='AI Connected';}
-function skipApi(){demoMode=true;document.getElementById('apiModal').style.display='none';document.getElementById('statusLbl').textContent='Demo Mode';}
-function toggleSidebar(){sbOpen=!sbOpen;document.getElementById('sidebar').classList.toggle('hide',!sbOpen);}
-function sbTab(n,el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.ipanel').forEach(p=>p.classList.remove('on'));el.classList.add('on');document.getElementById('sp-'+n).classList.add('on');}
-
-function addKb(){const t=document.getElementById('kbTitle').value.trim();const c=document.getElementById('kbContent').value.trim();if(!t||!c)return;kbEntries.push({id:Date.now(),icon:'📝',title:t,content:c,preview:c.slice(0,60)+'…'});document.getElementById('kbTitle').value='';document.getElementById('kbContent').value='';renderKb();}
-function addUrl(){const u=document.getElementById('kbUrl').value.trim();const d=document.getElementById('kbUrlDesc').value.trim()||u;if(!u)return;kbEntries.push({id:Date.now(),icon:'🔗',title:d,content:'[URL: '+u+'] '+d,preview:u});document.getElementById('kbUrl').value='';document.getElementById('kbUrlDesc').value='';renderKb();}
-function handleFiles(e){Array.from(e.target.files).forEach(f=>{const r=new FileReader();r.onload=ev=>{kbEntries.push({id:Date.now(),icon:'📄',title:f.name,content:ev.target.result,preview:f.name+' ('+Math.round(f.size/1024)+'kb)'});renderKb();};r.readAsText(f);});}
-function handleDrop(e){e.preventDefault();handleFiles({target:{files:e.dataTransfer.files}});}
-function delKb(id){kbEntries=kbEntries.filter(e=>e.id!==id);renderKb();}
-function renderKb(){const l=document.getElementById('kbList');const emp=document.getElementById('kbEmpty');l.innerHTML='';if(!kbEntries.length){l.appendChild(emp);return;}kbEntries.forEach(e=>{const d=document.createElement('div');d.className='kbe';d.innerHTML=\`<span class="kbe-icon">\${e.icon}</span><div class="kbe-body"><div class="kbe-t">\${e.title}</div><div class="kbe-p">\${e.preview}</div></div><button class="kbe-del" onclick="delKb(\${e.id})">✕</button>\`;l.appendChild(d);});const n=kbEntries.length;document.getElementById('kbC').textContent=n;const h=document.getElementById('kbHintSpan');h.style.display=n?'inline':'none';document.getElementById('kbHintN').textContent=n;}
-
-async function send(){const ci=document.getElementById('ci');const text=ci.value.trim();if(!text)return;ci.value='';ci.style.height='auto';addMsg('u',text);showTyping();try{let reply;if(demoMode||!apiKey){reply=await demoReply(text);}else{reply=await aiReply(text);}hideTyping();addMsg('b',reply,kbEntries.length>0);}catch(err){hideTyping();addMsg('b','⚠️ Error: '+err.message);}}
-
-async function aiReply(msg){let sys=SYS;if(kbEntries.length){sys+='\n\nADDITIONAL KB:\n'+kbEntries.map(e=>'['+e.title+']: '+e.content.slice(0,600)).join('\n\n');}const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:sys,messages:[{role:'user',content:msg}]})});if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'API error '+res.status);}const d=await res.json();return d.content[0].text;}
-
-async function demoReply(msg){await new Promise(r=>setTimeout(r,900+Math.random()*500));if(kbEntries.length)return 'I\'d reference your '+kbEntries.length+' knowledge base document'+(kbEntries.length>1?'s':'')+' to answer that. Connect an Anthropic API key for live AI responses informed by your content.';return 'Thanks for your message! In the live version I\'d give you a detailed, AI-powered answer based on your knowledge base. Connect an API key at setup to activate full responses.';}
-
-function addMsg(role,text,hasKb=false){const msgs=document.getElementById('msgs');const row=document.createElement('div');row.className='mrow '+role;const isB=role==='b';const fmt=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br/>');row.innerHTML=\`<div class="mav">\${isB?'${emoji}':'ME'}</div><div class="bub">\${fmt}\${isB&&hasKb?'<div class=\\"kb-tag\\">📚 KB referenced</div>':''}</div>\`;msgs.appendChild(row);row.scrollIntoView({behavior:'smooth',block:'end'});}
-
-let typingRow=null;
-function showTyping(){const msgs=document.getElementById('msgs');typingRow=document.createElement('div');typingRow.className='mrow b';typingRow.id='tr';typingRow.innerHTML='<div class="mav">${emoji}</div><div class="bub"><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div></div>';msgs.appendChild(typingRow);typingRow.scrollIntoView({behavior:'smooth',block:'end'});}
-function hideTyping(){const t=document.getElementById('tr');if(t)t.remove();}
-
-${apikey ? `document.getElementById('apiModal').style.display='none'; apiKey='${apikey}'; document.getElementById('statusLbl').textContent='AI Connected';` : ''}
+let ak='',demo=${apikey?'false':'true'},kbE=[],sbOpen=true;
+const RESPONSES=${responses};
+const QR=${quickReplies};
+const SYS=\`You are ${botname}, the AI assistant for ${company}. Tone: ${tone}. Be helpful, concise and practical. If you cannot resolve an issue, acknowledge it and offer to escalate to a human.\n${kb?'KNOWLEDGE BASE:\n'+kb:''}\`;
+function saveApi(){const v=document.getElementById('apiIn').value.trim();if(!v.startsWith('sk-')){alert('Invalid key. Must start with sk-');return;}ak=v;document.getElementById('apiModal').style.display='none';document.getElementById('stLbl').textContent='AI Connected';}
+function skipApi(){demo=true;document.getElementById('apiModal').style.display='none';document.getElementById('stLbl').textContent='Demo Mode';}
+function toggleSB(){sbOpen=!sbOpen;document.getElementById('sidebar').classList.toggle('hide',!sbOpen);document.getElementById('kbbtnEl').classList.toggle('on',sbOpen);}
+function sbtab(n,el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.ipanel').forEach(p=>p.classList.remove('on'));el.classList.add('on');document.getElementById('sp-'+n).classList.add('on');}
+function addkb(){const t=document.getElementById('kbT').value.trim(),c=document.getElementById('kbCon').value.trim();if(!t||!c)return;kbE.push({id:Date.now(),icon:'📝',title:t,content:c,preview:c.slice(0,55)+'…'});document.getElementById('kbT').value='';document.getElementById('kbCon').value='';renderKb();}
+function addurl(){const u=document.getElementById('kbU').value.trim(),d=document.getElementById('kbUD').value.trim()||u;if(!u)return;kbE.push({id:Date.now(),icon:'🔗',title:d,content:'[URL:'+u+'] '+d,preview:u});document.getElementById('kbU').value='';document.getElementById('kbUD').value='';renderKb();}
+function handleF(e){Array.from(e.target.files).forEach(f=>{const r=new FileReader();r.onload=ev=>{kbE.push({id:Date.now(),icon:'📄',title:f.name,content:ev.target.result,preview:f.name});renderKb();};r.readAsText(f);});}
+function delKb(id){kbE=kbE.filter(e=>e.id!==id);renderKb();}
+function renderKb(){const l=document.getElementById('kbList'),em=document.getElementById('kbEmp');l.innerHTML='';if(!kbE.length){l.appendChild(em);return;}kbE.forEach(e=>{const d=document.createElement('div');d.className='kbe';d.innerHTML=\`<span style="font-size:13px">\${e.icon}</span><div class="kbe-b"><div class="kbe-t">\${e.title}</div><div class="kbe-p">\${e.preview}</div></div><button class="kbe-d" onclick="delKb(\${e.id})">✕</button>\`;l.appendChild(d);});const n=kbE.length;document.getElementById('kbC').textContent=n;const kh=document.getElementById('kbHint');kh.style.display=n?'inline':'none';document.getElementById('kbN').textContent=n;}
+function qs(t){document.getElementById('ci').value=t;send();}
+async function send(){const ci=document.getElementById('ci');const text=ci.value.trim();if(!text)return;ci.value='';ci.style.height='auto';addM('u',text);showT();document.querySelector('.sb2').disabled=true;try{const reply=demo||!ak?await demoR(text):await aiR(text);hideT();addM('b',reply,kbE.length>0);}catch(err){hideT();addM('b','⚠️ Error: '+err.message);}document.querySelector('.sb2').disabled=false;}
+async function aiR(msg){document.getElementById('avEl').classList.add('thinking');document.getElementById('avTag').textContent='Thinking…';let sys=SYS;if(kbE.length){sys+='\n\nADDITIONAL KB:\n'+kbE.map(e=>'['+e.title+']: '+e.content.slice(0,500)).join('\n\n');}const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':ak,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:sys,messages:[{role:'user',content:msg}]})});document.getElementById('avEl').classList.remove('thinking');document.getElementById('avTag').textContent='${company} AI Assistant';if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'API error '+res.status);}const d=await res.json();return d.content[0].text;}
+async function demoR(msg){await new Promise(r=>setTimeout(r,900+Math.random()*500));const m=msg.toLowerCase();for(const[k,v]of Object.entries(RESPONSES)){if(k!=='default'&&m.includes(k))return v;}if(kbE.length)return 'I\'d use your '+kbE.length+' KB document'+(kbE.length>1?'s':'')+' to answer that. Connect an API key for live AI responses.';return RESPONSES.default||'Thanks for your message! Connect an Anthropic API key for live AI-powered responses based on your knowledge base.';}
+function addM(role,text,hasKb=false){const msgs=document.getElementById('msgs');const row=document.createElement('div');row.className='mrow '+role;const isB=role==='b';const fmt=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br/>');row.innerHTML=\`<div class="mav">\${isB?'${emoji}':'ME'}</div><div class="bub">\${fmt}\${isB&&hasKb?'<div class=\\"kbtag\\">📚 KB referenced</div>':''}</div>\`;msgs.appendChild(row);row.scrollIntoView({behavior:'smooth',block:'end'});}
+let tRow=null;
+function showT(){const msgs=document.getElementById('msgs');tRow=document.createElement('div');tRow.className='mrow b';tRow.id='tr';tRow.innerHTML='<div class="mav">${emoji}</div><div class="bub"><div class="typing-row"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div></div>';msgs.appendChild(tRow);tRow.scrollIntoView({behavior:'smooth',block:'end'});}
+function hideT(){const t=document.getElementById('tr');if(t)t.remove();}
+${apikey?`document.getElementById('apiModal').style.display='none';ak='${apikey}';document.getElementById('stLbl').textContent='AI Connected';`:''}
 <\/script>
 </body>
 </html>`;
 }
+
+// ── UTILS ──
+function shadeColor(hex, pct) {
+  const num = parseInt(hex.replace('#',''),16);
+  const r = Math.max(0,Math.min(255,(num>>16)+pct));
+  const g = Math.max(0,Math.min(255,((num>>8)&0xff)+pct));
+  const b = Math.max(0,Math.min(255,(num&0xff)+pct));
+  return '#' + ((r<<16)|(g<<8)|b).toString(16).padStart(6,'0');
+}
+function hexToRgba(hex, a) {
+  const num = parseInt(hex.replace('#',''),16);
+  return `rgba(${num>>16},${(num>>8)&0xff},${num&0xff},${a})`;
+}
+
+// Close modals on overlay click
+document.getElementById('demoModal').addEventListener('click', e => { if(e.target===document.getElementById('demoModal')) closeDemo(); });
+document.getElementById('dlModal').addEventListener('click', e => { if(e.target===document.getElementById('dlModal')) document.getElementById('dlModal').classList.remove('open'); });
+
+renderTemplates();
 </script>
 </body>
 </html>
