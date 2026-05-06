@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DIYChatbots — Build Your AI Assistant in Minutes</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0f;
+  --bg2:#111118;
+  --bg3:#16161f;
+  --surface:#1c1c28;
+  --surface2:#22222f;
+  --border:#2a2a3a;
+  --border2:#363650;
+  --accent:#7c6af7;
+  --accent2:#a78bfa;
+  --accent-glow:rgba(124,106,247,0.2);
+  --green:#34d399;
+  --amber:#fbbf24;
+  --coral:#fb7185;
+  --sky:#38bdf8;
+  --text:#f0effe;
+  --muted:#8b8ba7;
+  --muted2:#5a5a75;
+  --sans:'Plus Jakarta Sans',sans-serif;
+  --display:'Fraunces',serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;letter-spacing:-0.01em;}
+
+/* ── NOISE TEXTURE ── */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5;}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;padding:0 5vw;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--display);font-size:1.35rem;font-weight:700;letter-spacing:-0.01em;color:var(--text);font-style:italic;}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-links a{font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s;font-weight:400;}
+.nav-links a:hover{color:var(--text);}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);transition:all .2s;text-decoration:none;}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 0 24px var(--accent-glow);}
+.btn-primary:hover{background:#6c5ae7;transform:translateY(-1px);box-shadow:0 0 32px rgba(124,106,247,0.35);}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border2);}
+.btn-ghost:hover{color:var(--text);border-color:var(--accent);}
+
+/* ── HERO ── */
+.hero{position:relative;padding:100px 5vw 80px;max-width:1100px;margin:0 auto;z-index:1;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(124,106,247,0.12);border:1px solid rgba(124,106,247,0.25);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:500;color:var(--accent2);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:24px;}
+.hero-eyebrow::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.hero h1{font-family:var(--display);font-size:clamp(2.6rem,5.5vw,4.8rem);font-weight:700;line-height:1.08;letter-spacing:-0.02em;margin-bottom:24px;}
+.hero h1 .line2{color:var(--accent2);}
+.hero-sub{font-size:1.1rem;color:var(--muted);max-width:560px;line-height:1.75;margin-bottom:40px;font-weight:400;letter-spacing:0;}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:60px;}
+.btn-lg{padding:13px 28px;font-size:15px;border-radius:10px;}
+.hero-stats{display:flex;gap:40px;flex-wrap:wrap;}
+.stat{border-left:2px solid var(--border2);padding-left:18px;}
+.stat-num{font-family:var(--display);font-size:1.8rem;font-weight:700;color:var(--text);line-height:1;}
+.stat-label{font-size:12px;color:var(--muted);margin-top:2px;}
+
+/* floating blobs */
+.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+.blob1{width:400px;height:400px;background:rgba(124,106,247,0.12);top:-100px;right:-50px;}
+.blob2{width:300px;height:300px;background:rgba(56,189,248,0.07);bottom:-50px;left:10%;}
+
+/* ── SECTION COMMON ── */
+.section{padding:80px 5vw;max-width:1200px;margin:0 auto;position:relative;z-index:1;}
+.section-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.section-title{font-family:var(--display);font-size:clamp(1.7rem,3.2vw,2.6rem);font-weight:700;letter-spacing:-0.015em;margin-bottom:12px;line-height:1.15;}
+.section-sub{font-size:1rem;color:var(--muted);max-width:520px;line-height:1.75;margin-bottom:48px;font-weight:400;letter-spacing:0;}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 5vw;}
+
+/* ── HOW IT WORKS ── */
+.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px;background:var(--border);border-radius:16px;overflow:hidden;}
+.how-card{background:var(--bg2);padding:32px 28px;transition:background .2s;}
+.how-card:hover{background:var(--surface);}
+.how-num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.08em;margin-bottom:16px;}
+.how-icon{font-size:24px;margin-bottom:14px;}
+.how-title{font-family:var(--display);font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-0.01em;}
+.how-desc{font-size:13.5px;color:var(--muted);line-height:1.65;font-weight:400;}
+
+/* ── TEMPLATES ── */
+.templates-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+.template-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .25s;cursor:pointer;position:relative;}
+.template-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 40px rgba(124,106,247,0.15);}
+.template-card::before{content:'';position:absolute;inset:0;border-radius:16px;opacity:0;transition:opacity .25s;pointer-events:none;}
+.template-card:hover::before{opacity:1;}
+.template-preview{height:160px;display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;overflow:hidden;}
+.tp-it{background:linear-gradient(135deg,#0f1729,#1a2a4a);}
+.tp-hr{background:linear-gradient(135deg,#0f1f15,#1a3520);}
+.tp-retail{background:linear-gradient(135deg,#1f0f1f,#3a1a35);}
+.tp-edu{background:linear-gradient(135deg,#1f1a0a,#3a3010);}
+.tp-health{background:linear-gradient(135deg,#0f1f20,#1a3535);}
+.tp-legal{background:linear-gradient(135deg,#1a1a1a,#2a2a2a);}
+.tp-hotel{background:linear-gradient(135deg,#1f1510,#3a2a1a);}
+.tp-finance{background:linear-gradient(135deg,#0a1520,#102030);}
+.template-tag{position:absolute;top:12px;right:12px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;letter-spacing:0.05em;text-transform:uppercase;}
+.tag-new{background:rgba(52,211,153,0.2);color:#34d399;border:1px solid rgba(52,211,153,0.3);}
+.tag-popular{background:rgba(251,191,36,0.2);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);}
+.tag-pro{background:rgba(124,106,247,0.2);color:var(--accent2);border:1px solid rgba(124,106,247,0.3);}
+.template-body{padding:20px;}
+.template-industry{font-family:var(--mono);font-size:10px;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted2);margin-bottom:6px;}
+.template-name{font-family:var(--display);font-size:18px;font-weight:700;margin-bottom:7px;letter-spacing:-0.01em;line-height:1.2;}
+.template-desc{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:14px;}
+.template-features{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px;}
+.feat-tag{font-size:11.5px;padding:3px 10px;background:var(--surface2);border-radius:20px;color:var(--muted);border:1px solid var(--border);font-weight:400;letter-spacing:0;}
+.template-cta{width:100%;padding:10px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .2s;text-align:center;letter-spacing:0;}
+.template-card:hover .template-cta{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* ── BUILDER UI DEMO ── */
+.builder-demo{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;}
+.builder-tabs{display:flex;gap:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;}
+.btab{padding:14px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--sans);}
+.btab.active{color:var(--accent2);border-bottom-color:var(--accent);}
+.btab:hover:not(.active){color:var(--text);}
+.builder-panels{display:grid;grid-template-columns:1fr 1fr;min-height:500px;}
+@media(max-width:700px){.builder-panels{grid-template-columns:1fr;}}
+.config-panel{padding:28px;border-right:1px solid var(--border);}
+.preview-panel{padding:28px;background:var(--bg3);}
+.panel-label{font-family:var(--mono);font-size:10px;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted2);margin-bottom:20px;}
+.field-group{margin-bottom:18px;}
+.field-label{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px;display:block;letter-spacing:0;}
+.field-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13.5px;color:var(--text);font-family:var(--sans);outline:none;transition:border .2s;letter-spacing:0;}
+.field-input:focus{border-color:var(--accent);}
+.field-input::placeholder{color:var(--muted2);}
+.color-row{display:flex;gap:8px;align-items:center;}
+.color-swatch{width:32px;height:32px;border-radius:6px;border:2px solid transparent;cursor:pointer;transition:all .15s;flex-shrink:0;}
+.color-swatch.active{border-color:#fff;transform:scale(1.15);}
+.color-input{width:100px;}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
+.toggle-label{font-size:13px;color:var(--text);}
+.toggle{position:relative;width:38px;height:22px;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:var(--border2);border-radius:11px;cursor:pointer;transition:.2s;}
+.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;bottom:3px;left:3px;transition:.2s;}
+.toggle input:checked+.toggle-slider{background:var(--accent);}
+.toggle input:checked+.toggle-slider::before{transform:translateX(16px);}
+
+/* mini chat preview */
+.mini-chat{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;max-width:280px;}
+.mini-chat-header{padding:10px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);}
+.mini-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.mini-name{font-size:12px;font-weight:600;}
+.mini-status{font-size:10px;color:var(--green);}
+.mini-body{padding:12px;display:flex;flex-direction:column;gap:8px;}
+.mini-bubble{padding:8px 11px;border-radius:10px;font-size:11.5px;line-height:1.5;max-width:85%;}
+.mini-bubble.bot{background:var(--surface2);border-bottom-left-radius:3px;}
+.mini-bubble.user{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:3px;}
+.mini-input-row{padding:8px 10px;border-top:1px solid var(--border);display:flex;gap:6px;}
+.mini-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:11px;color:var(--muted);font-family:var(--sans);}
+.mini-send{width:26px;height:26px;background:var(--accent);border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.mini-send svg{width:11px;height:11px;fill:none;stroke:#fff;stroke-width:2;}
+
+/* ── PRICING ── */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+.pricing-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;position:relative;}
+.pricing-card.featured{border-color:var(--accent);background:linear-gradient(180deg,rgba(124,106,247,0.06),transparent);}
+.pricing-card.featured::before{content:'Most popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;white-space:nowrap;}
+.plan-name{font-family:var(--display);font-size:17px;font-weight:700;margin-bottom:6px;letter-spacing:-0.01em;}
+.plan-price{font-family:var(--display);font-size:2.4rem;font-weight:700;line-height:1;margin-bottom:4px;letter-spacing:-0.02em;}
+.plan-price span{font-size:15px;font-weight:400;color:var(--muted);font-family:var(--sans);}
+.plan-desc{font-size:13.5px;color:var(--muted);margin-bottom:20px;line-height:1.6;font-weight:400;}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.plan-features li{font-size:13.5px;display:flex;align-items:center;gap:8px;line-height:1.5;}
+.plan-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;}
+.plan-features li.no::before{content:'✕';color:var(--muted2);}
+.plan-features li.no{color:var(--muted2);}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:48px 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:gap;position:relative;z-index:1;}
+.footer-logo{font-family:var(--display);font-size:1.2rem;font-weight:700;color:var(--text);letter-spacing:-0.01em;font-style:italic;}
+.footer-logo span{color:var(--accent);}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap;}
+.footer-links a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--text);}
+.footer-copy{font-size:12px;color:var(--muted2);}
+
+/* ── LAUNCH MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(6px);}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:20px;width:560px;max-width:92vw;max-height:90vh;overflow-y:auto;}
+.modal-head{padding:24px 28px 0;display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-family:var(--display);font-size:1.35rem;font-weight:700;letter-spacing:-0.01em;}
+.modal-close{background:var(--bg3);border:1px solid var(--border);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:16px;transition:all .2s;}
+.modal-close:hover{color:var(--text);border-color:var(--border2);}
+.modal-body{padding:24px 28px 28px;}
+.modal-tag{font-family:var(--mono);font-size:10px;letter-spacing:0.09em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+.modal-section{margin-bottom:20px;}
+.modal-section-title{font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em;}
+.modal-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.modal-field{display:flex;flex-direction:column;gap:5px;}
+.modal-label{font-size:12.5px;color:var(--muted);font-weight:400;}
+.modal-input{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13.5px;color:var(--text);font-family:var(--sans);outline:none;transition:border .2s;width:100%;letter-spacing:0;}
+.modal-input:focus{border-color:var(--accent);}
+.modal-input::placeholder{color:var(--muted2);}
+textarea.modal-input{resize:vertical;min-height:80px;}
+.modal-colors{display:flex;gap:8px;flex-wrap:wrap;}
+.m-swatch{width:30px;height:30px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s;}
+.m-swatch.sel{border-color:#fff;transform:scale(1.15);}
+.modal-deploy-btn{width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;font-family:var(--sans);cursor:pointer;transition:all .2s;margin-top:4px;letter-spacing:0;}
+.modal-deploy-btn:hover{background:#6c5ae7;transform:translateY(-1px);}
+.modal-deploy-btn:disabled{background:var(--border2);color:var(--muted);cursor:not-allowed;transform:none;}
+.modal-note{font-size:12.5px;color:var(--muted2);text-align:center;margin-top:10px;line-height:1.6;}
+
+/* PROGRESS */
+.progress-bar{height:3px;background:var(--border);border-radius:2px;margin:16px 0;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width .4s ease;}
+
+@media(max-width:600px){
+  .hero h1{font-size:2.4rem;}
+  .nav-links a:not(:last-child){display:none;}
+  .builder-panels{grid-template-columns:1fr;}
+  .config-panel{border-right:none;border-bottom:1px solid var(--border);}
+  footer{flex-direction:column;gap:16px;text-align:center;}
+}
+
+/* ── DEMO MODAL ── */
+.demo-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(8px);}
+.demo-modal-overlay.open{opacity:1;pointer-events:all;}
+.demo-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;width:860px;max-width:96vw;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;}
+.demo-modal-head{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;}
+.demo-head-left{display:flex;align-items:center;gap:10px;}
+.demo-head-emoji{font-size:22px;}
+.demo-head-title{font-family:var(--display);font-size:1.1rem;font-weight:700;letter-spacing:-0.01em;}
+.demo-head-tag{font-family:var(--mono);font-size:10px;color:var(--accent);background:rgba(124,106,247,0.1);border:1px solid rgba(124,106,247,0.2);padding:3px 9px;border-radius:20px;letter-spacing:.07em;text-transform:uppercase;}
+.demo-modal-close{background:var(--bg3);border:1px solid var(--border);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:14px;transition:all .2s;flex-shrink:0;}
+.demo-modal-close:hover{color:var(--text);border-color:var(--border2);}
+.demo-modal-body{display:grid;grid-template-columns:1fr 320px;flex:1;overflow:hidden;min-height:0;}
+@media(max-width:680px){.demo-modal-body{grid-template-columns:1fr;}.demo-right-panel{display:none;}}
+.demo-chat-col{display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border);}
+.demo-chat-topbar{padding:10px 14px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.demo-av-circle{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.demo-av-name{font-size:13px;font-weight:600;letter-spacing:0;}
+.demo-av-status{font-size:10px;color:var(--green);display:flex;align-items:center;gap:4px;}
+.demo-av-dot{width:5px;height:5px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
+.demo-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:11px;background:#09090e;}
+.demo-messages::-webkit-scrollbar{width:3px;}
+.demo-messages::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.dm{display:flex;gap:8px;max-width:88%;}
+.dm.u{align-self:flex-end;flex-direction:row-reverse;}
+.dm-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:2px;}
+.dm.b .dm-av{font-size:13px;}
+.dm.u .dm-av{background:var(--surface2);border:1px solid var(--border);font-size:9px;font-weight:700;color:var(--muted);}
+.dm-bub{padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.55;}
+.dm.b .dm-bub{background:var(--surface2);border:1px solid var(--border);border-bottom-left-radius:3px;color:var(--text);}
+.dm.u .dm-bub{color:#fff;border-bottom-right-radius:3px;}
+.demo-quick-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+.demo-chip{padding:5px 11px;background:var(--surface);border:1px solid var(--border2);border-radius:16px;font-size:11.5px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:var(--sans);}
+.demo-chip:hover{border-color:var(--accent);color:var(--text);}
+.demo-typing-row{display:flex;gap:4px;align-items:center;padding:10px 13px;}
+.demo-tdot{width:6px;height:6px;border-radius:50%;animation:bounce 1.2s infinite;}
+.demo-tdot:nth-child(2){animation-delay:.2s;}
+.demo-tdot:nth-child(3){animation-delay:.4s;}
+.demo-input-bar{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;background:var(--surface);flex-shrink:0;}
+.demo-text-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:13px;color:var(--text);font-family:var(--sans);outline:none;transition:border .2s;}
+.demo-text-input:focus{border-color:var(--accent);}
+.demo-text-input::placeholder{color:var(--muted2);}
+.demo-send-btn{width:34px;height:34px;border:none;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.demo-send-btn svg{width:13px;height:13px;fill:none;stroke:#fff;stroke-width:2;}
+.demo-right-panel{padding:20px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;background:var(--bg3);}
+.demo-right-panel::-webkit-scrollbar{width:3px;}
+.demo-section-label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px;}
+.demo-feat-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.demo-feat-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:rgba(124,106,247,0.1);}
+.demo-feat-title{font-size:13px;font-weight:600;margin-bottom:2px;}
+.demo-feat-desc{font-size:11.5px;color:var(--muted);line-height:1.5;}
+.demo-dl-btn{width:100%;padding:12px;border-radius:10px;font-size:14px;font-weight:600;font-family:var(--display);cursor:pointer;border:none;transition:all .2s;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;gap:7px;}
+.demo-dl-btn:hover{background:#6c5ae7;transform:translateY(-1px);}
+.demo-dl-note{font-size:11px;color:var(--muted2);text-align:center;margin-top:6px;line-height:1.5;}
+.setup-tip-box{background:rgba(124,106,247,0.06);border:1px solid rgba(124,106,247,0.18);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6;}
+.setup-tip-box strong{color:var(--text);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">DIY<span>Chatbots</span></div>
+  <div class="nav-links">
+    <a href="#templates">Templates</a>
+    <a href="#builder">Builder</a>
+    <a href="#pricing">Pricing</a>
+    <a class="btn btn-ghost" href="#templates">Browse Templates</a>
+    <a class="btn btn-primary" href="#" onclick="openModal('generic')">Start Building →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section style="position:relative;overflow:hidden;">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="hero">
+    <div class="hero-eyebrow">No code required</div>
+    <h1>Your AI chatbot.<br/><span class="line2">Your brand. 10 minutes.</span></h1>
+    <p class="hero-sub">Pick a template for your industry, add your knowledge base, customise the branding — and deploy a fully AI-powered support agent to GitHub Pages for free.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary btn-lg" href="#templates">Browse Templates ↓</a>
+      <a class="btn btn-ghost btn-lg" href="#builder">See How It Works</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">8+</div><div class="stat-label">Industry templates</div></div>
+      <div class="stat"><div class="stat-num">0</div><div class="stat-label">Coding required</div></div>
+      <div class="stat"><div class="stat-num">Free</div><div class="stat-label">GitHub Pages hosting</div></div>
+      <div class="stat"><div class="stat-num">10 min</div><div class="stat-label">From zero to live</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="builder">
+  <div class="section-eyebrow">How it works</div>
+  <div class="section-title">Three steps to your AI agent</div>
+  <p class="section-sub">No servers, no code, no monthly subscription for hosting. Just your customised AI chatbot, live on the internet.</p>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-num">01</div>
+      <div class="how-icon">🎨</div>
+      <div class="how-title">Pick & customise</div>
+      <div class="how-desc">Choose a template that fits your industry. Add your company name, logo emoji, brand colours, and a persona for your AI agent.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">02</div>
+      <div class="how-icon">📚</div>
+      <div class="how-title">Feed your knowledge</div>
+      <div class="how-desc">Paste your FAQs, upload product manuals, add URLs from your help centre. The AI learns your business and answers based on your content.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">03</div>
+      <div class="how-icon">🚀</div>
+      <div class="how-title">Deploy free</div>
+      <div class="how-desc">Download your customised HTML file. Upload to GitHub Pages — free hosting, your own URL. Share it with your team or embed it on your site.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">04</div>
+      <div class="how-icon">📈</div>
+      <div class="how-title">Log & improve</div>
+      <div class="how-desc">Unresolved queries auto-generate support tickets. Resolved sessions improve the knowledge base over time — the bot gets smarter every week.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TEMPLATES -->
+<section class="section" id="templates">
+  <div class="section-eyebrow">Templates</div>
+  <div class="section-title">Choose your industry</div>
+  <p class="section-sub">Every template comes pre-configured with relevant quick-actions, suggested knowledge base categories, and an industry-appropriate persona.</p>
+
+  <div class="templates-grid">
+
+    <!-- IT Support -->
+    <div class="template-card">
+      <div class="template-preview tp-it" onclick="openDemo('it')" style="cursor:pointer;">
+        🖨️
+        <span class="template-tag tag-popular">Popular</span>
+      </div>
+      <div class="template-body">
+        <div class="template-industry">IT Support</div>
+        <div class="template-name">IT Support Assistant</div>
+        <div class="template-desc">Resolve printer jams, error codes, connectivity issues and driver problems before tickets are ever logged.</div>
+        <div class="template-features">
+          <span class="feat-tag">Error code lookup</span>
+          <span class="feat-tag">Step-by-step guides</span>
+          <span class="feat-tag">Auto ticket logging</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="template-cta" style="background:var(--surface);border:1px solid var(--accent);color:var(--accent);" onclick="openDemo('it')">▶ Live Demo</button>
+          <button class="template-cta" onclick="openModal('it')">Download Free →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- HR -->
+    <div class="template-card">
+      <div class="template-preview tp-hr" onclick="openDemo('hr')" style="cursor:pointer;">
+        👥
+        <span class="template-tag tag-new">New</span>
+      </div>
+      <div class="template-body">
+        <div class="template-industry">Human Resources</div>
+        <div class="template-name">HR Policy Assistant</div>
+        <div class="template-desc">Answer employee questions about leave policies, benefits, onboarding procedures, and company policies 24/7.</div>
+        <div class="template-features">
+          <span class="feat-tag">Policy Q&A</span>
+          <span class="feat-tag">Leave calculator</span>
+          <span class="feat-tag">Onboarding flows</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="template-cta" style="background:var(--surface);border:1px solid var(--accent);color:var(--accent);" onclick="openDemo('hr')">▶ Live Demo</button>
+          <button class="template-cta" onclick="openModal('hr')">Download Free →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Retail -->
+    <div class="template-card">
+      <div class="template-preview tp-retail" onclick="openDemo('retail')" style="cursor:pointer;">
+        🛍️
+        <span class="template-tag tag-popular">Popular</span>
+      </div>
+      <div class="template-body">
+        <div class="template-industry">Retail & E-commerce</div>
+        <div class="template-name">Customer Service Bot</div>
+        <div class="template-desc">Handle order status, returns, product questions and store policies. Escalate complex issues to human agents.</div>
+        <div class="template-features">
+          <span class="feat-tag">Order tracking</span>
+          <span class="feat-tag">Returns guidance</span>
+          <span class="feat-tag">Product FAQs</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="template-cta" style="background:var(--surface);border:1px solid var(--accent);color:var(--accent);" onclick="openDemo('retail')">▶ Live Demo</button>
+          <button class="template-cta" onclick="openModal('retail')">Download Free →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="template-card">
+      <div class="template-preview tp-edu" onclick="openDemo('edu')" style="cursor:pointer;">
+        🎓
+      </div>
+      <div class="template-body">
+        <div class="template-industry">Education</div>
+        <div class="template-name">Student Support Assistant</div>
+        <div class="template-desc">Guide students through enrolment, assignment deadlines, campus resources, and academic policies.</div>
+        <div class="template-features">
+          <span class="feat-tag">Course info</span>
+          <span class="feat-tag">Deadline reminders</span>
+          <span class="feat-tag">Campus resources</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="template-cta" style="background:var(--surface);border:1px solid var(--accent);color:var(--accent);" onclick="openDemo('edu')">▶ Live Demo</button>
+          <button class="template-cta" onclick="openModal('edu')">Download Free →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Healthcare -->
+    <div class="template-card">
+      <div class="template-preview tp-health" onclick="openDemo('health')" style="cursor:pointer;">
+        🏥
+        <span class="template-tag tag-pro">Pro</span>
+      </div>
+      <div class="template-body">
+        <div class="template-industry">Healthcare</div>
+        <div class="template-name">Patient Information Bot</div>
+        <div class="template-desc">Help patients navigate appointments, clinic hours, general health information, and triage to the right department.</div>
+        <div class="template-features">
+          <span class="feat-tag">Appointment guidance</span>
+          <span class="feat-tag">Symptom triage</span>
+          <span class="feat-tag">Department routing</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="template-cta" style="background:var(--surface);border:1px solid var(--accent);color:var(--accent);" onclick="openDemo('health')">▶ Live Demo</button>
+          <button class="template-cta" onclick="openModal('health')">Download Free →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legal -->
+    <div class="template-card">
+      <div class="template-preview tp-legal" onclick="openDemo('legal')" style="cursor:pointer;">
+        ⚖️
+      </div>
+      <div class="template-body">
+        <div class="template-industry">Legal & Compliance</div>
+        <div class="template-name">Legal FAQ Assistant</div>
+        <div class="template-desc">Answer general legal questions, guide clients through processes, and route to the right solicitor — with appropriate disclaimers.</div>
+        <div class="template-features">
+          <span class="feat-tag">Document guidance</span>
+          <span class="feat-tag">Auto disclaimers</span>
+          <span class="feat-tag">Solicitor routing</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="template-cta" style="background:var(--surface);border:1px solid var(--accent);color:var(--accent);" onclick="openDemo('legal')">▶ Live Demo</button>
+          <button class="template-cta" onclick="openModal('legal')">Download Free →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hospitality -->
+    <div class="template-card">
+      <div class="template-preview tp-hotel" onclick="openDemo('hotel')" style="cursor:pointer;">
+        🏨
+        <span class="template-tag tag-new">New</span>
+      </div>
+      <div class="template-body">
+        <div class="template-industry">Hospitality</div>
+        <div class="template-name">Hotel Concierge Bot</div>
+        <div class="template-desc">Handle room service requests, local recommendations, check-in info, and guest queries around the clock.</div>
+        <div class="template-features">
+          <span class="feat-tag">Room requests</span>
+          <span class="feat-tag">Local guides</span>
+          <span class="feat-tag">Multi-language</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="template-cta" style="background:var(--surface);border:1px solid var(--accent);color:var(--accent);" onclick="openDemo('hotel')">▶ Live Demo</button>
+          <button class="template-cta" onclick="openModal('hotel')">Download Free →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Finance -->
+    <div class="template-card">
+      <div class="template-preview tp-finance" onclick="openDemo('finance')" style="cursor:pointer;">
+        💹
+        <span class="template-tag tag-pro">Pro</span>
+      </div>
+      <div class="template-body">
+        <div class="template-industry">Finance & Banking</div>
+        <div class="template-name">Financial Services Assistant</div>
+        <div class="template-desc">Guide customers through account queries, product options, fraud reporting, and escalate to advisors when needed.</div>
+        <div class="template-features">
+          <span class="feat-tag">Account FAQs</span>
+          <span class="feat-tag">Product guidance</span>
+          <span class="feat-tag">Secure escalation</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="template-cta" style="background:var(--surface);border:1px solid var(--accent);color:var(--accent);" onclick="openDemo('finance')">▶ Live Demo</button>
+          <button class="template-cta" onclick="openModal('finance')">Download Free →</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BUILDER PREVIEW -->
+<section class="section">
+  <div class="section-eyebrow">Live Builder</div>
+  <div class="section-title">Customise in real time</div>
+  <p class="section-sub">Every setting you change updates the preview instantly. No code, no surprises.</p>
+
+  <div class="builder-demo">
+    <div class="builder-tabs">
+      <button class="btab active" onclick="switchBuilderTab('brand',this)">Branding</button>
+      <button class="btab" onclick="switchBuilderTab('persona',this)">Persona</button>
+      <button class="btab" onclick="switchBuilderTab('kb',this)">Knowledge</button>
+    </div>
+    <div class="builder-panels">
+      <div class="config-panel">
+        <div class="panel-label">Configuration</div>
+
+        <div id="panel-brand">
+          <div class="field-group">
+            <label class="field-label">Company name</label>
+            <input class="field-input" id="cfg-company" value="Acme Corp" oninput="updatePreview()" placeholder="Your company name"/>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Bot name</label>
+            <input class="field-input" id="cfg-botname" value="Acme Assistant" oninput="updatePreview()" placeholder="e.g. Aria, Max, Support Bot"/>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Avatar emoji</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'💬')">💬</span>
+              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'🤖')">🤖</span>
+              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'⭐')">⭐</span>
+              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'🎯')">🎯</span>
+              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'🦾')">🦾</span>
+              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'🛎️')">🛎️</span>
+              <span style="font-size:22px;cursor:pointer;padding:4px;" onclick="setEmoji(this,'📞')">📞</span>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Brand colour</label>
+            <div class="color-row">
+              <div class="color-swatch active" style="background:#7c6af7" onclick="setColor(this,'#7c6af7')"></div>
+              <div class="color-swatch" style="background:#003087" onclick="setColor(this,'#003087')"></div>
+              <div class="color-swatch" style="background:#059669" onclick="setColor(this,'#059669')"></div>
+              <div class="color-swatch" style="background:#dc2626" onclick="setColor(this,'#dc2626')"></div>
+              <div class="color-swatch" style="background:#d97706" onclick="setColor(this,'#d97706')"></div>
+              <div class="color-swatch" style="background:#0ea5e9" onclick="setColor(this,'#0ea5e9')"></div>
+              <div class="color-swatch" style="background:#ec4899" onclick="setColor(this,'#ec4899')"></div>
+              <input class="field-input color-input" id="cfg-color" type="text" value="#7c6af7" oninput="setColorDirect(this.value)"/>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Welcome message</label>
+            <input class="field-input" id="cfg-welcome" value="Hi! How can I help you today?" oninput="updatePreview()" placeholder="First message users see"/>
+          </div>
+        </div>
+
+        <div id="panel-persona" style="display:none;">
+          <div class="field-group">
+            <label class="field-label">Tone of voice</label>
+            <select class="field-input" id="cfg-tone" onchange="updatePreview()">
+              <option>Professional & concise</option>
+              <option>Friendly & conversational</option>
+              <option>Formal & precise</option>
+              <option>Enthusiastic & helpful</option>
+              <option>Empathetic & supportive</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Specialist role</label>
+            <input class="field-input" id="cfg-role" value="Customer support specialist" oninput="updatePreview()" placeholder="e.g. IT technician, HR advisor"/>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Escalation message</label>
+            <input class="field-input" id="cfg-escalate" value="I'll log a ticket and get a human to follow up." oninput="updatePreview()"/>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Quick-action buttons</label>
+            <input class="field-input" id="cfg-q1" value="Track my order" oninput="updatePreview()" style="margin-bottom:6px;"/>
+            <input class="field-input" id="cfg-q2" value="Return an item" oninput="updatePreview()" style="margin-bottom:6px;"/>
+            <input class="field-input" id="cfg-q3" value="Speak to a human" oninput="updatePreview()"/>
+          </div>
+          <div>
+            <div class="toggle-row">
+              <span class="toggle-label">Show typing indicator</span>
+              <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-label">Auto-log unresolved tickets</span>
+              <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-label">Knowledge base ingestion panel</span>
+              <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+        </div>
+
+        <div id="panel-kb" style="display:none;">
+          <div class="field-group">
+            <label class="field-label">System instructions (what the AI knows about your business)</label>
+            <textarea class="field-input" style="min-height:120px;" placeholder="e.g. You are a support agent for Acme Corp, a retailer of outdoor equipment. Our return policy is 30 days…"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Knowledge base categories to show users</label>
+            <input class="field-input" value="Product guides, Returns policy, Shipping info" placeholder="Comma-separated categories"/>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:12px;color:var(--muted);line-height:1.6;">
+            💡 In the deployed chatbot, users can also ingest their own documents via the Knowledge Base panel — manuals, PDFs, notes — giving them a personalised experience.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="preview-panel">
+        <div class="panel-label">Live preview</div>
+        <div class="mini-chat" id="miniChatPreview">
+          <div class="mini-chat-header">
+            <div class="mini-avatar" id="prev-avatar" style="background:#7c6af7">💬</div>
+            <div>
+              <div class="mini-name" id="prev-name">Acme Assistant</div>
+              <div class="mini-status">● Online</div>
+            </div>
+          </div>
+          <div class="mini-body">
+            <div class="mini-bubble bot" id="prev-welcome">Hi! How can I help you today?</div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:2px;">
+              <span style="font-size:10px;padding:3px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;cursor:pointer;color:var(--muted);" id="prev-q1">Track my order</span>
+              <span style="font-size:10px;padding:3px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;cursor:pointer;color:var(--muted);" id="prev-q2">Return an item</span>
+            </div>
+            <div class="mini-bubble user">How do I return something?</div>
+            <div class="mini-bubble bot">Sure! You have 30 days from purchase to return any item. Just bring your receipt to any store or use our online returns portal. Shall I walk you through it?</div>
+          </div>
+          <div class="mini-input-row">
+            <input class="mini-input" placeholder="Type a message…" readonly/>
+            <button class="mini-send"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;">
+          <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="openModal('generic')">
+            Generate My Chatbot →
+          </button>
+          <p style="font-size:11px;color:var(--muted2);text-align:center;margin-top:8px;">Downloads a ready-to-deploy HTML file</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="section-eyebrow">Pricing</div>
+  <div class="section-title">Simple, transparent pricing</div>
+  <p class="section-sub">The chatbot itself is always free to host. You only pay for AI API usage — and only when it's actually answering questions.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">Free <span>/ forever</span></div>
+      <div class="plan-desc">Perfect for individuals and small teams exploring AI support.</div>
+      <ul class="plan-features">
+        <li>All templates included</li>
+        <li>Unlimited customisation</li>
+        <li>GitHub Pages hosting</li>
+        <li>Knowledge base ingestion</li>
+        <li>Demo mode (no AI key needed)</li>
+        <li class="no">Custom domain</li>
+        <li class="no">Analytics dashboard</li>
+        <li class="no">Multi-bot management</li>
+      </ul>
+      <button class="btn btn-ghost" style="width:100%;justify-content:center;" onclick="openModal('generic')">Get started free</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">$9 <span>/ month</span></div>
+      <div class="plan-desc">For businesses that want analytics, multiple bots, and a custom domain.</div>
+      <ul class="plan-features">
+        <li>Everything in Starter</li>
+        <li>Analytics & conversation logs</li>
+        <li>Multi-bot management</li>
+        <li>Custom domain support</li>
+        <li>Ticket system integrations</li>
+        <li>Priority support</li>
+        <li class="no">White-label removal</li>
+        <li class="no">SSO / SAML</li>
+      </ul>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;">Coming soon</button>
+    </div>
+    <div class="pricing-card">
+      <div class="plan-name">Enterprise</div>
+      <div class="plan-price">Custom</div>
+      <div class="plan-desc">For organisations that need full white-labelling, SSO, and dedicated support.</div>
+      <ul class="plan-features">
+        <li>Everything in Pro</li>
+        <li>White-label (no DIYChatbots branding)</li>
+        <li>SSO / SAML / Azure AD</li>
+        <li>ServiceNow / Jira integration</li>
+        <li>On-premise deployment</li>
+        <li>SLA & dedicated support</li>
+        <li>Custom AI model fine-tuning</li>
+        <li>GDPR / SOC 2 documentation</li>
+      </ul>
+      <button class="btn btn-ghost" style="width:100%;justify-content:center;">Contact us</button>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+<footer>
+  <div class="footer-logo">DIY<span>Chatbots</span></div>
+  <div class="footer-links">
+    <a href="#templates">Templates</a>
+    <a href="#builder">Builder</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#">GitHub</a>
+    <a href="#">Docs</a>
+  </div>
+  <div class="footer-copy">© 2026 DIYChatbots. Built for everyone.</div>
+</footer>
+
+<!-- DEMO MODAL -->
+<div class="demo-modal-overlay" id="demoModal">
+  <div class="demo-modal">
+    <div class="demo-modal-head">
+      <div class="demo-head-left">
+        <span class="demo-head-emoji" id="demoHeadEmoji"></span>
+        <span class="demo-head-title" id="demoHeadTitle"></span>
+        <span class="demo-head-tag" id="demoHeadTag"></span>
+      </div>
+      <button class="demo-modal-close" onclick="closeDemo()">✕</button>
+    </div>
+    <div class="demo-modal-body">
+      <!-- CHAT -->
+      <div class="demo-chat-col">
+        <div class="demo-chat-topbar">
+          <div class="demo-av-circle" id="demoAvCircle"></div>
+          <div>
+            <div class="demo-av-name" id="demoAvName"></div>
+            <div class="demo-av-status"><span class="demo-av-dot"></span>Live demo</div>
+          </div>
+        </div>
+        <div class="demo-messages" id="demoMessages"></div>
+        <div class="demo-input-bar">
+          <input class="demo-text-input" id="demoTextInput" placeholder="Type a question to try it…" onkeydown="if(event.key==='Enter')demoSend()"/>
+          <button class="demo-send-btn" id="demoSendBtn" onclick="demoSend()">
+            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- INFO PANEL -->
+      <div class="demo-right-panel">
+        <div>
+          <div class="demo-section-label">What's included</div>
+          <div id="demoFeatsList"></div>
+        </div>
+        <div>
+          <button class="demo-dl-btn" id="demoDlBtn">⬇ Download Free — includes setup guide</button>
+          <p class="demo-dl-note">Downloads <strong>chatbot.html</strong> + <strong>setup-guide.html</strong>. No account needed.</p>
+        </div>
+        <div class="setup-tip-box">
+          💡 <strong>What you get:</strong> A ready-to-deploy HTML file + a plain-English step-by-step guide covering GitHub account creation, uploading your file, enabling free hosting, and adding your knowledge base. Estimated setup time: 10–15 minutes.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GENERATE MODAL -->
+<div class="modal-overlay" id="genModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-title-text">Configure your chatbot</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tag" id="modal-template-tag">Generic template</div>
+
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+      <div class="modal-section">
+        <div class="modal-section-title">Brand & Identity</div>
+        <div class="modal-grid2">
+          <div class="modal-field">
+            <label class="modal-label">Company name</label>
+            <input class="modal-input" id="m-company" placeholder="Acme Corp" oninput="updateProgress()"/>
+          </div>
+          <div class="modal-field">
+            <label class="modal-label">Bot name</label>
+            <input class="modal-input" id="m-botname" placeholder="Aria" oninput="updateProgress()"/>
+          </div>
+        </div>
+        <div style="margin-top:10px;">
+          <label class="modal-label" style="margin-bottom:8px;display:block;">Brand colour</label>
+          <div class="modal-colors">
+            <div class="m-swatch sel" style="background:#7c6af7" onclick="selectSwatch(this,'#7c6af7')"></div>
+            <div class="m-swatch" style="background:#003087" onclick="selectSwatch(this,'#003087')"></div>
+            <div class="m-swatch" style="background:#059669" onclick="selectSwatch(this,'#059669')"></div>
+            <div class="m-swatch" style="background:#dc2626" onclick="selectSwatch(this,'#dc2626')"></div>
+            <div class="m-swatch" style="background:#d97706" onclick="selectSwatch(this,'#d97706')"></div>
+            <div class="m-swatch" style="background:#0ea5e9" onclick="selectSwatch(this,'#0ea5e9')"></div>
+            <div class="m-swatch" style="background:#ec4899" onclick="selectSwatch(this,'#ec4899')"></div>
+            <div class="m-swatch" style="background:#1a1a1a" onclick="selectSwatch(this,'#1a1a1a')"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-title">Persona & Behaviour</div>
+        <div class="modal-grid2">
+          <div class="modal-field">
+            <label class="modal-label">Avatar emoji</label>
+            <input class="modal-input" id="m-emoji" placeholder="🤖" maxlength="2" oninput="updateProgress()"/>
+          </div>
+          <div class="modal-field">
+            <label class="modal-label">Tone</label>
+            <select class="modal-input" id="m-tone">
+              <option>Professional & concise</option>
+              <option>Friendly & conversational</option>
+              <option>Formal & precise</option>
+              <option>Empathetic & supportive</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-top:10px;">
+          <label class="modal-label" style="margin-bottom:6px;display:block;">Welcome message</label>
+          <input class="modal-input" id="m-welcome" placeholder="Hi! I'm here to help. What can I assist you with?" oninput="updateProgress()"/>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-title">Knowledge Base (optional — add now or after deployment)</div>
+        <textarea class="modal-input" id="m-kb" placeholder="Paste your FAQs, policies, or any content you want the AI to know about your business…"></textarea>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-title">Your Anthropic API Key (optional)</div>
+        <input class="modal-input" id="m-apikey" type="password" placeholder="sk-ant-api03-… (can be added later in the app)" oninput="updateProgress()"/>
+      </div>
+
+      <button class="modal-deploy-btn" id="deployBtn" onclick="generateAndDownload()">⬇ Download Free — Chatbot + Setup Guide</button>
+      <p class="modal-note">Two files will download: your <strong>chatbot HTML file</strong> and a <strong>plain-English setup guide</strong> covering GitHub account creation, uploading, enabling free hosting, and adding your knowledge base. No account needed.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── PREVIEW UPDATES ──
+let currentEmoji = '💬';
+let currentColor = '#7c6af7';
+
+function updatePreview() {
+  document.getElementById('prev-name').textContent = document.getElementById('cfg-botname').value || 'Your Bot';
+  document.getElementById('prev-welcome').textContent = document.getElementById('cfg-welcome').value || 'Hi! How can I help?';
+  document.getElementById('prev-q1').textContent = document.getElementById('cfg-q1').value || '';
+  document.getElementById('prev-q2').textContent = document.getElementById('cfg-q2').value || '';
+}
+
+function setEmoji(el, emoji) {
+  currentEmoji = emoji;
+  document.getElementById('prev-avatar').textContent = emoji;
+}
+
+function setColor(el, color) {
+  currentColor = color;
+  document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('cfg-color').value = color;
+  document.getElementById('prev-avatar').style.background = color;
+  document.getElementById('miniChatPreview').querySelector('.mini-send').style.background = color;
+}
+
+function setColorDirect(val) {
+  if (/^#[0-9a-f]{6}$/i.test(val)) {
+    currentColor = val;
+    document.getElementById('prev-avatar').style.background = val;
+  }
+}
+
+function switchBuilderTab(name, el) {
+  document.querySelectorAll('.btab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  ['brand','persona','kb'].forEach(p => {
+    document.getElementById('panel-'+p).style.display = p === name ? '' : 'none';
+  });
+}
+
+// ── MODAL ──
+const templateMeta = {
+  generic:{ label:'Generic template', title:'Build your chatbot', emoji:'💬', desc:'General-purpose AI assistant' },
+  it:     { label:'IT Support', title:'IT Support Assistant', emoji:'💬', desc:'Resolve IT issues before tickets are logged' },
+  hr:     { label:'Human Resources', title:'HR Policy Assistant', emoji:'👥', desc:'Answer employee questions 24/7' },
+  retail: { label:'Retail / E-commerce', title:'Customer Service Bot', emoji:'🛍️', desc:'Handle orders, returns, and FAQs' },
+  edu:    { label:'Education', title:'Student Support Assistant', emoji:'🎓', desc:'Guide students through campus resources' },
+  health: { label:'Healthcare', title:'Patient Information Bot', emoji:'🏥', desc:'Navigate appointments and triage queries' },
+  legal:  { label:'Legal & Compliance', title:'Legal FAQ Assistant', emoji:'⚖️', desc:'Answer general legal questions with disclaimers' },
+  hotel:  { label:'Hospitality', title:'Hotel Concierge Bot', emoji:'🏨', desc:'Room service, local tips, guest queries' },
+  finance:{ label:'Finance & Banking', title:'Financial Services Assistant', emoji:'💹', desc:'Account queries and product guidance' },
+};
+
+function openModal(type) {
+  const meta = templateMeta[type] || templateMeta.generic;
+  document.getElementById('modal-title-text').textContent = meta.title;
+  document.getElementById('modal-template-tag').textContent = meta.label;
+  document.getElementById('m-emoji').value = meta.emoji;
+  document.getElementById('genModal').classList.add('open');
+  updateProgress();
+}
+
+function closeModal() {
+  document.getElementById('genModal').classList.remove('open');
+}
+
+document.getElementById('genModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+function selectSwatch(el, color) {
+  document.querySelectorAll('.m-swatch').forEach(s => s.classList.remove('sel'));
+  el.classList.add('sel');
+  window._selectedColor = color;
+}
+window._selectedColor = '#7c6af7';
+
+function updateProgress() {
+  const fields = ['m-company','m-botname','m-welcome','m-emoji'];
+  const filled = fields.filter(id => document.getElementById(id).value.trim()).length;
+  const pct = Math.round((filled / fields.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function generateAndDownload() {
+  const company = document.getElementById('m-company').value.trim() || 'My Company';
+  const botname = document.getElementById('m-botname').value.trim() || 'Assistant';
+  const emoji = document.getElementById('m-emoji').value.trim() || '🤖';
+  const welcome = document.getElementById('m-welcome').value.trim() || `Hi! I'm ${botname}, how can I help you today?`;
+  const tone = document.getElementById('m-tone').value;
+  const kb = document.getElementById('m-kb').value.trim();
+  const apikey = document.getElementById('m-apikey').value.trim();
+  const color = window._selectedColor || '#7c6af7';
+  const colorDark = shadeColor(color, -20);
+  const colorGlow = hexToRgba(color, 0.18);
+
+  // Download chatbot
+  const html = buildChatbotHTML({ company, botname, emoji, welcome, tone, kb, apikey, color, colorDark, colorGlow });
+  triggerDownload(html, botname.replace(/\s+/g,'-').toLowerCase() + '-chatbot.html', 'text/html');
+
+  // Download setup guide after short delay
+  setTimeout(() => {
+    const guide = buildSetupGuide({ company, botname, emoji, color });
+    triggerDownload(guide, botname.replace(/\s+/g,'-').toLowerCase() + '-setup-guide.html', 'text/html');
+  }, 500);
+
+  closeModal();
+}
+
+function triggerDownload(content, filename, mime) {
+  const blob = new Blob([content], { type: mime });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+
+// ── DEMO MODAL DATA ──
+const DEMO_TEMPLATES = {
+  it: {
+    name:'IT Support Assistant', ind:'IT Support', emoji:'💬', color:'#2563eb',
+    welcome:'Hi! I\'m your IT Support assistant. Describe your issue and I\'ll walk you through a fix — no ticket needed unless we truly get stuck.',
+    quickReplies:['Paper jam on my printer','Printer shows offline','Streaky print quality','Error code C-0214'],
+    features:[
+      {icon:'🔍',title:'Error code lookup',desc:'Instantly identify error codes and the exact steps to resolve them.'},
+      {icon:'📋',title:'Step-by-step guidance',desc:'Walks users through fixes one step at a time, confirming before moving on.'},
+      {icon:'🎫',title:'Auto ticket escalation',desc:'If unresolved, auto-drafts a pre-filled support ticket with full diagnostic context.'}
+    ],
+    responses:{
+      'paper jam':'Let\'s clear that jam!\n\n1. Open the front panel of the printer\n2. Locate the green release lever and pull toward you\n3. Gently pull the jammed paper straight out — don\'t force it\n4. Close the panel firmly and run a test print\n\nDid the paper come out cleanly?',
+      'offline':'Printer offline is usually one of three things:\n\n1. Right-click printer → untick "Use Printer Offline"\n2. Make sure it\'s set as the default printer\n3. Restart the Print Spooler service (Services → Print Spooler → Restart)\n\nWhich step are you on?',
+      'streaky':'Streaks are usually a drum or toner issue:\n\n• **Low toner** — remove cartridge, rock it 5x side to side, reinsert\n• **Dirty drum** — Utility → Maintenance → Clean Drum\n\nAre the streaks horizontal lines or vertical bands?',
+      'c-0214':'Error C-0214 is a **fusing unit temperature error** — the fuser hasn\'t reached operating temperature.\n\n1. Power cycle completely (off 30 seconds, back on)\n2. Reseat the fusing unit — open the right side door\n3. Ensure room temp is above 10°C\n\nIf it returns after restart, the fuser may need replacing — I\'ll log a ticket.',
+      default:'I can help with that! To point you to the right fix quickly, could you tell me:\n• Which printer model?\n• Any error code on the display?\n\nThe more detail, the faster I can help.'
+    }
+  },
+  hr: {
+    name:'HR Policy Assistant', ind:'Human Resources', emoji:'👥', color:'#059669',
+    welcome:'Hi! I\'m your HR Assistant. Ask me anything about leave policies, benefits, onboarding or company procedures.',
+    quickReplies:['How many sick days do I get?','How do I apply for leave?','What\'s the onboarding process?','Can I work from home?'],
+    features:[
+      {icon:'📄',title:'Policy Q&A',desc:'Answers questions about leave, benefits, conduct and procedures instantly.'},
+      {icon:'📅',title:'Leave management',desc:'Guides employees through leave requests and entitlement calculations.'},
+      {icon:'🎯',title:'Onboarding guide',desc:'Walks new starters through their first-day checklist and key contacts.'}
+    ],
+    responses:{
+      'sick':'You receive **10 sick days** per calendar year. After 3 consecutive days, a medical certificate is required.\n\nTo log a sick day: notify your manager before 9am and submit through the HR portal. Would you like the portal link?',
+      'leave':'To apply for annual leave:\n\n1. Submit your request in the HR portal at least 2 weeks in advance\n2. Your manager approves or suggests an alternative\n3. You\'ll receive an email confirmation once approved\n\nYou have 15 days accrued available. Need help with anything else?',
+      'onboarding':'Your first week:\n\n• **Day 1**: IT setup, building access, team introductions\n• **Days 2–3**: Role-specific training with your manager\n• **Week 1**: Complete online compliance modules\n• **Week 2**: Shadow sessions and project handover\n\nHave you received your IT credentials yet?',
+      'work from home':'Our flexible working policy allows up to **3 days WFH per week** for eligible roles. To set up a formal arrangement, complete the Flexible Work Request form in the HR portal and discuss with your manager.\n\nWould you like guidance on the request process?',
+      default:'Happy to help! Is your question about leave, benefits, onboarding, or another policy area? A bit more detail helps me find the right answer for you.'
+    }
+  },
+  retail: {
+    name:'Customer Service Bot', ind:'Retail & E-commerce', emoji:'🛍️', color:'#a855f7',
+    welcome:'Hi! Welcome. I can help with orders, returns, products and store policies. What do you need?',
+    quickReplies:['Where\'s my order?','How do I return something?','What\'s your refund policy?','Is this item in stock?'],
+    features:[
+      {icon:'📦',title:'Order tracking',desc:'Instant order status updates without customers needing to call.'},
+      {icon:'↩️',title:'Returns & refunds',desc:'Guides customers through the returns process step by step.'},
+      {icon:'❓',title:'Product FAQs',desc:'Answers product questions from your ingested catalogue.'}
+    ],
+    responses:{
+      'order':'I can look that up! I\'ll need your order number — it starts with # and is in your confirmation email.\n\nAlternatively, log into your account → Order History for live status.',
+      'return':'Our return policy:\n\n• **30 days** from delivery to return any item\n• Must be unused, in original packaging\n• Refund in 3–5 business days\n\nTo start: Returns Portal → enter order number → select items → print prepaid label.\n\nShall I send you the portal link?',
+      'refund':'Refunds process within **3–5 business days** once we receive the item back. You\'ll get a confirmation email when it\'s done.\n\nIf it\'s been over 7 days, I can escalate this for you. What\'s your order number?',
+      'stock':'I can check! Which item are you looking for? Share the product name or code and I\'ll check availability and whether we can ship it today.',
+      default:'Happy to help! Could you give me a bit more detail — an order number, product name, or describe your question?'
+    }
+  },
+  edu: {
+    name:'Student Support Assistant', ind:'Education', emoji:'🎓', color:'#d97706',
+    welcome:'Hey! I\'m your student support assistant. Ask me about courses, deadlines, campus resources or academic policies.',
+    quickReplies:['When is enrolment deadline?','How do I get an extension?','Where is the library?','How do I contact my lecturer?'],
+    features:[
+      {icon:'📚',title:'Course information',desc:'Answers questions about units, timetables and study loads.'},
+      {icon:'⏰',title:'Key dates',desc:'Reminds students of enrolment, submission and exam period deadlines.'},
+      {icon:'🏫',title:'Campus resources',desc:'Directs students to the right service: counselling, library, IT, welfare.'}
+    ],
+    responses:{
+      'enrolment':'Semester 2 enrolment closes **July 15**. To enrol:\n\n1. Log into the student portal\n2. Select your units (max 4 per semester)\n3. Check for prerequisite conflicts\n4. Submit your enrolment\n\nNeed help choosing units?',
+      'extension':'To apply for an assignment extension:\n\n1. Log into the student portal\n2. Go to My Assessments → Extension Request\n3. Select the assignment and reason\n4. Submit at least 48hrs before the due date\n\nEmergency extensions (within 48hrs) go directly through your faculty office.',
+      'library':'Main library: **Building C, Level 2**\nHours: Mon–Fri 8am–10pm, Sat–Sun 9am–6pm\n\nOnline resources (e-books, journals, databases) available 24/7 via the library portal — use your student ID.',
+      'lecturer':'Contact your lecturer via:\n• **Email**: first.last@university.edu\n• **Office hours**: listed on the unit page in the portal\n• **LMS discussion board**: post your question there for a response within 24hrs\n\nWhich unit are you asking about?',
+      default:'I can help! Are you asking about a unit, deadline, campus service, or academic process? A bit more detail helps me point you to the right answer.'
+    }
+  },
+  health: {
+    name:'Patient Information Bot', ind:'Healthcare', emoji:'🏥', color:'#0891b2',
+    welcome:'Hello! I\'m here to help you navigate our services — appointments, clinic hours, and directing you to the right department.',
+    quickReplies:['How do I book an appointment?','What are your clinic hours?','I need a specialist referral','Is this an emergency?'],
+    features:[
+      {icon:'📅',title:'Appointment booking',desc:'Guides patients through booking, rescheduling and cancellations.'},
+      {icon:'🏥',title:'Department routing',desc:'Directs patients to the right specialist, clinic or ward.'},
+      {icon:'ℹ️',title:'Health information',desc:'Provides clear health information based on your ingested content.'}
+    ],
+    responses:{
+      'appointment':'To book an appointment:\n\n• **Online**: patient portal → Book Appointment → select doctor & time\n• **Phone**: (08) 9000 0000, Mon–Fri 8am–5pm\n• **Walk-in**: urgent same-day needs — arrive before 9am\n\nFirst visit or returning patient?',
+      'hours':'Clinic hours:\n\n• **Mon–Fri**: 8:00am – 6:00pm\n• **Saturday**: 9:00am – 1:00pm\n• **Sunday**: Closed\n\nFor after-hours urgent care, Perth After Hours Medical Centre on Hay Street is available 24/7.',
+      'specialist':'What type of specialist are you looking for?\n\n• Cardiology → Level 3, Wing B\n• Orthopaedics → Level 2, Wing A\n• Dermatology → Level 1, Wing C\n\nOr describe your symptoms and I\'ll suggest the right department.',
+      'emergency':'⚠️ If this is a medical emergency, call **000 immediately** or go to your nearest Emergency Department.\n\nFor urgent but non-emergency, our urgent care clinic is open 8am–8pm — walk-ins welcome.\n\nAre you currently experiencing an emergency?',
+      default:'I\'m here to help! Are you looking to book an appointment, find a department, or do you have a general question? Note: I can\'t provide medical diagnoses — please speak with one of our doctors for health concerns.'
+    }
+  },
+  legal: {
+    name:'Legal FAQ Assistant', ind:'Legal & Compliance', emoji:'⚖️', color:'#475569',
+    welcome:'Hello. I can help with general legal questions and guide you to the right service. Note: I don\'t provide legal advice — always consult a qualified solicitor for your situation.',
+    quickReplies:['What makes a contract valid?','How long does conveyancing take?','Do I need a will?','How do I find the right solicitor?'],
+    features:[
+      {icon:'📋',title:'Legal FAQs',desc:'Explains common legal concepts and processes in plain English.'},
+      {icon:'⚠️',title:'Auto disclaimers',desc:'Every response includes appropriate disclaimers to protect your firm.'},
+      {icon:'👤',title:'Solicitor routing',desc:'Matches client queries to the right practice area.'}
+    ],
+    responses:{
+      'contract':'For a contract to be legally valid it needs:\n\n1. **Offer** — one party proposes terms\n2. **Acceptance** — the other agrees\n3. **Consideration** — something of value exchanged\n4. **Intention** — both parties intend legal obligations\n5. **Capacity** — both parties are legally able to contract\n\n⚠️ *General information only — not legal advice. Please consult a solicitor for your situation.*',
+      'conveyancing':'Residential conveyancing typically takes **6–12 weeks** from exchange to completion, depending on the chain.\n\nKey stages: instruction → searches → exchange of contracts → completion.\n\nWould you like to speak with one of our conveyancing solicitors?\n\n⚠️ *General information only.*',
+      'will':'A Will sets out how you want your estate distributed. Without one, the law decides — which may not reflect your wishes.\n\nYou should consider a Will if you own property, have dependants, or have specific wishes about your estate.\n\nWould you like to book a Wills & Estates consultation?\n\n⚠️ *General information only.*',
+      'solicitor':'Our practice areas:\n\n• Property & Conveyancing\n• Family Law\n• Wills & Estates\n• Commercial & Business Law\n• Employment Law\n\nWhich area do you need help with? I\'ll connect you with a specialist.',
+      default:'I can provide general information on many legal topics. What area of law is your question related to — property, family, employment, or something else?\n\n⚠️ *General information only — not legal advice.*'
+    }
+  },
+  hotel: {
+    name:'Hotel Concierge Bot', ind:'Hospitality', emoji:'🏨', color:'#b45309',
+    welcome:'Welcome! I\'m your virtual concierge. How can I make your stay more comfortable today?',
+    quickReplies:['What time is check-out?','Can I get room service?','What\'s nearby to visit?','I need extra towels'],
+    features:[
+      {icon:'🛎️',title:'Room service & requests',desc:'Handles requests for amenities, housekeeping, and dining — day or night.'},
+      {icon:'🗺️',title:'Local recommendations',desc:'Suggests restaurants, attractions and transport tailored to guests.'},
+      {icon:'🔑',title:'Check-in / check-out',desc:'Answers all arrival and departure questions including late check-out.'}
+    ],
+    responses:{
+      'check-out':'Standard check-out is **11:00am**.\n\nLate check-out (until 2pm) is available for $30 — subject to availability. To request, let me know your room number and I\'ll check.\n\nWould you like an express check-out so your bill is ready at the door?',
+      'room service':'Room service is available **24 hours**. Order by:\n\n• Calling reception on **ext. 0**\n• Using the TV menu in your room\n• Just tell me what you\'d like!\n\nWe can accommodate all dietary requirements. What would you like to order?',
+      'nearby':'Great local highlights:\n\n🍽️ **Dining**: The Terrace (5 min walk) — excellent local cuisine\n🏛️ **Culture**: City Art Gallery (10 min walk) — free entry\n🛍️ **Shopping**: Central Mall (3 min walk)\n🌿 **Nature**: Riverside Walk (8 min walk)\n\nAny specific preference — food, culture, or activities?',
+      'towels':'Of course! Extra towels are on their way to your room right now. Could you confirm your room number?\n\nDelivery takes 10–15 minutes. Anything else I can arrange for you?',
+      default:'I\'m delighted to help make your stay perfect! Whether it\'s room requests, local tips, transport, or dining recommendations — just ask. What can I arrange for you?'
+    }
+  },
+  finance: {
+    name:'Financial Services Assistant', ind:'Finance & Banking', emoji:'💹', color:'#0369a1',
+    welcome:'Hello! I\'m here to help with account questions, product information, and directing you to the right advisor.',
+    quickReplies:['I think I\'ve been scammed','What accounts do you offer?','How do I reset my PIN?','What are your loan rates?'],
+    features:[
+      {icon:'🔒',title:'Secure escalation',desc:'Sensitive queries are instantly escalated to a human advisor with full context.'},
+      {icon:'💼',title:'Product guidance',desc:'Explains account types, loan products and investment options clearly.'},
+      {icon:'🚨',title:'Fraud reporting',desc:'Immediately routes fraud concerns to the security team with urgency flags.'}
+    ],
+    responses:{
+      'scammed':'🚨 **This needs immediate attention.** Do not share any more information with anyone claiming to be from a bank.\n\n**Right now:**\n1. Call our fraud line: **1800 000 000** (24/7)\n2. Change your online banking password\n3. Do NOT transfer any money\n\nI\'m flagging this as urgent — a fraud specialist will call back within 15 minutes. Is your money at immediate risk?',
+      'accounts':'Our account types:\n\n• **Everyday Account** — zero fees, unlimited transactions, tap-and-go\n• **Savings Account** — 4.85% p.a., no fees\n• **Term Deposit** — fixed rates from 90 days to 5 years\n• **Business Account** — tailored for sole traders and companies\n\nShall I compare these in more detail or connect you with an advisor?',
+      'pin':'To reset your PIN:\n\n• **Online banking**: Settings → Security → Change PIN\n• **Mobile app**: Profile → Security → PIN reset\n• **ATM**: Insert card → Forgotten PIN → follow prompts\n• **Branch**: bring photo ID\n\nFor security I can\'t reset PINs directly. Anything else I can help with?',
+      'loan':'Current loan rates:\n\n• **Personal loan**: from 8.99% p.a.\n• **Home loan (variable)**: from 5.89% p.a.\n• **Home loan (fixed 3yr)**: 5.65% p.a.\n• **Car loan**: from 7.49% p.a.\n\nRates depend on your credit profile. Would you like a personalised quote or to speak with a lending specialist?\n\n⚠️ *Rates indicative only.*',
+      default:'I can help with that. For security I can\'t access account details here directly. Is this about a product, a transaction query, or would you like to speak with an advisor?'
+    }
+  }
+};
+
+let activeDemoId = null;
+
+function openDemo(id) {
+  const t = DEMO_TEMPLATES[id];
+  if (!t) return;
+  activeDemoId = id;
+
+  document.getElementById('demoHeadEmoji').textContent = t.emoji;
+  document.getElementById('demoHeadTitle').textContent = t.name;
+  document.getElementById('demoHeadTag').textContent = t.ind;
+  document.getElementById('demoAvCircle').textContent = t.emoji;
+  document.getElementById('demoAvCircle').style.background = t.color;
+  document.getElementById('demoAvName').textContent = t.name;
+  document.getElementById('demoSendBtn').style.background = t.color;
+
+  // Features list
+  const fl = document.getElementById('demoFeatsList');
+  fl.innerHTML = t.features.map(f => `
+    <div class="demo-feat-row">
+      <div class="demo-feat-icon" style="background:${t.color}18">${f.icon}</div>
+      <div><div class="demo-feat-title">${f.title}</div><div class="demo-feat-desc">${f.desc}</div></div>
+    </div>`).join('');
+
+  // Download button
+  const dlBtn = document.getElementById('demoDlBtn');
+  dlBtn.textContent = `⬇ Download Free — ${t.name}`;
+  dlBtn.style.background = t.color;
+  dlBtn.onclick = () => { closeDemo(); openModal(id); };
+
+  // Clear and seed messages
+  const msgs = document.getElementById('demoMessages');
+  msgs.innerHTML = '';
+  addDemoMsg('b', t.welcome, true);
+
+  document.getElementById('demoTextInput').value = '';
+  document.getElementById('demoModal').classList.add('open');
+}
+
+function closeDemo() {
+  document.getElementById('demoModal').classList.remove('open');
+}
+
+document.getElementById('demoModal').addEventListener('click', function(e) {
+  if (e.target === this) closeDemo();
+});
+
+function addDemoMsg(role, text, withChips = false) {
+  const t = DEMO_TEMPLATES[activeDemoId];
+  const msgs = document.getElementById('demoMessages');
+  const row = document.createElement('div');
+  row.className = 'dm ' + role;
+  const isB = role === 'b';
+  const formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>');
+  let chips = '';
+  if (withChips && isB && t.quickReplies) {
+    chips = `<div class="demo-quick-chips">${t.quickReplies.map(q =>
+      `<span class="demo-chip" onclick="demoQuickSend('${q.replace(/'/g, "\\'")}')" style="border-color:${t.color}30">→ ${q}</span>`
+    ).join('')}</div>`;
+  }
+  const avStyle = isB ? `style="background:${t.color}"` : '';
+  row.innerHTML = `<div class="dm-av" ${avStyle}>${isB ? t.emoji : 'ME'}</div><div><div class="dm-bub" style="${isB ? '' : `background:${t.color};color:#fff;`}">${formatted}</div>${chips}</div>`;
+  msgs.appendChild(row);
+  row.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+function getDemoReply(msg) {
+  const t = DEMO_TEMPLATES[activeDemoId];
+  const m = msg.toLowerCase();
+  for (const [key, resp] of Object.entries(t.responses)) {
+    if (key !== 'default' && m.includes(key)) return resp;
+  }
+  return t.responses.default;
+}
+
+function showDemoTyping() {
+  const t = DEMO_TEMPLATES[activeDemoId];
+  const msgs = document.getElementById('demoMessages');
+  const row = document.createElement('div');
+  row.className = 'dm b';
+  row.id = 'demoTypingRow';
+  row.innerHTML = `<div class="dm-av" style="background:${t.color}">${t.emoji}</div><div class="dm-bub"><div class="demo-typing-row"><div class="demo-tdot" style="background:${t.color}"></div><div class="demo-tdot" style="background:${t.color}"></div><div class="demo-tdot" style="background:${t.color}"></div></div></div>`;
+  msgs.appendChild(row);
+  row.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+function hideDemoTyping() {
+  const t = document.getElementById('demoTypingRow');
+  if (t) t.remove();
+}
+
+function demoQuickSend(text) {
+  addDemoMsg('u', text);
+  showDemoTyping();
+  setTimeout(() => { hideDemoTyping(); addDemoMsg('b', getDemoReply(text)); }, 900 + Math.random() * 500);
+}
+
+function demoSend() {
+  const inp = document.getElementById('demoTextInput');
+  const val = inp.value.trim();
+  if (!val) return;
+  inp.value = '';
+  addDemoMsg('u', val);
+  showDemoTyping();
+  setTimeout(() => { hideDemoTyping(); addDemoMsg('b', getDemoReply(val)); }, 900 + Math.random() * 500);
+}
+
+// ── SETUP GUIDE BUILDER ──
+function buildSetupGuide({ company, botname, emoji, color }) {
+  const slug = botname.replace(/\s+/g,'-').toLowerCase();
+  const colorDark = shadeColor(color, -20);
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>${botname} — Setup Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#f6f6fb;color:#1a1a2e;min-height:100vh;}
+.topbar{background:#1a1a2e;padding:22px 5vw;display:flex;align-items:center;gap:14px;}
+.topbar-icon{width:42px;height:42px;background:${color};border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.topbar-name{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:#fff;}
+.topbar-sub{font-size:12px;color:rgba(255,255,255,.45);margin-top:1px;}
+.banner{background:linear-gradient(135deg,${color}20,${color}08);border-bottom:3px solid ${color};padding:26px 5vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+.banner h2{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:700;margin-bottom:5px;}
+.banner p{font-size:13.5px;color:#555;line-height:1.6;max-width:520px;}
+.free-chip{background:${color};color:#fff;padding:8px 20px;border-radius:8px;font-weight:700;font-size:13px;white-space:nowrap;}
+.wrap{max-width:780px;margin:0 auto;padding:40px 5vw 60px;}
+.toc{background:#fff;border:1px solid #e5e5f0;border-radius:12px;padding:18px 22px;margin-bottom:36px;}
+.toc-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:10px;}
+.toc a{display:block;font-size:13px;color:${color};text-decoration:none;padding:3px 0;padding-left:14px;position:relative;}
+.toc a::before{content:'→';position:absolute;left:0;font-weight:600;}
+.step-wrap{margin-bottom:36px;}
+.step-hd{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+.step-circle{width:40px;height:40px;background:${color};color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:16px;flex-shrink:0;}
+.step-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;}
+.step-card{background:#fff;border:1px solid #e5e5f0;border-radius:12px;padding:18px 20px;}
+.step-card p{font-size:13.5px;line-height:1.7;color:#333;margin-bottom:10px;}
+.step-card ol,.step-card ul{margin-left:18px;display:flex;flex-direction:column;gap:7px;}
+.step-card li{font-size:13.5px;line-height:1.6;color:#333;}
+.code{background:#1a1a2e;border-radius:7px;padding:10px 14px;font-family:monospace;font-size:13px;color:#a5b4fc;margin:10px 0;word-break:break-all;}
+.tip{background:${color}10;border-left:3px solid ${color};border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0;font-size:13px;color:#1a1a2e;line-height:1.6;}
+.warn{background:#fff8e6;border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0;font-size:13px;color:#6b4c00;line-height:1.6;}
+footer{background:#1a1a2e;text-align:center;padding:20px;font-size:12px;color:rgba(255,255,255,.3);}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-icon">${emoji}</div>
+  <div><div class="topbar-name">${botname} — Setup Guide</div><div class="topbar-sub">${company} · DIYChatbots.io</div></div>
+</div>
+<div class="banner">
+  <div><h2>You're 5 steps away from going live 🚀</h2><p>Plain English, no jargon, no coding needed. Estimated time: <strong>10–15 minutes</strong> from start to a live chatbot on the internet.</p></div>
+  <div class="free-chip">100% Free to Deploy</div>
+</div>
+<div class="wrap">
+  <div class="toc">
+    <div class="toc-title">📋 Contents</div>
+    <a href="#s1">Step 1 — Create a free GitHub account</a>
+    <a href="#s2">Step 2 — Get your free Anthropic API key</a>
+    <a href="#s3">Step 3 — Create a repository on GitHub</a>
+    <a href="#s4">Step 4 — Upload your chatbot file</a>
+    <a href="#s5">Step 5 — Enable GitHub Pages (go live!)</a>
+    <a href="#s6">Step 6 — Add your knowledge base</a>
+    <a href="#s7">Troubleshooting & tips</a>
+  </div>
+
+  <div class="step-wrap" id="s1">
+    <div class="step-hd"><div class="step-circle">1</div><div class="step-title">Create a free GitHub account</div></div>
+    <div class="step-card">
+      <p>GitHub is where your chatbot will be hosted — for free, forever. Think of it like Google Drive, but for websites. You don't need to know how to code.</p>
+      <ol>
+        <li>Open your browser and go to <strong>github.com</strong></li>
+        <li>Click the green <strong>"Sign up"</strong> button</li>
+        <li>Enter your email address and create a password</li>
+        <li>Choose a username (this will appear in your chatbot's web address)</li>
+        <li>Verify your email — GitHub sends you a confirmation code</li>
+        <li>That's it! No credit card required.</li>
+      </ol>
+      <div class="tip">💡 Already have a GitHub account? Skip to Step 2.</div>
+    </div>
+  </div>
+
+  <div class="step-wrap" id="s2">
+    <div class="step-hd"><div class="step-circle">2</div><div class="step-title">Get your free Anthropic API key</div></div>
+    <div class="step-card">
+      <p>The AI brain behind ${botname} is powered by Anthropic's Claude. You need an API key to activate the live AI. Getting one is free and takes about 2 minutes.</p>
+      <ol>
+        <li>Go to <strong>console.anthropic.com</strong> in your browser</li>
+        <li>Click <strong>"Sign up"</strong> and create a free account with your email</li>
+        <li>Once logged in, click <strong>"API Keys"</strong> in the left sidebar</li>
+        <li>Click <strong>"Create Key"</strong> — give it any name (e.g. "${botname}")</li>
+        <li>Copy the key — it starts with <strong>sk-ant-api03-…</strong></li>
+        <li>Save it somewhere safe (e.g. a note on your phone)</li>
+      </ol>
+      <div class="tip">💡 When you open your chatbot in the browser, it will ask for this key once. It stays in your browser session only — never stored anywhere.</div>
+      <div class="warn">⚠️ Keep your API key private. Don't share it in emails, screenshots, or public posts. The chatbot also has a "Demo mode" that works without a key — useful for showing stakeholders.</div>
+    </div>
+  </div>
+
+  <div class="step-wrap" id="s3">
+    <div class="step-hd"><div class="step-circle">3</div><div class="step-title">Create a repository on GitHub</div></div>
+    <div class="step-card">
+      <p>A "repository" is just a folder on GitHub where your chatbot file will live.</p>
+      <ol>
+        <li>Log into <strong>github.com</strong></li>
+        <li>Click the <strong>"+"</strong> icon in the top-right corner → <strong>"New repository"</strong></li>
+        <li>In the "Repository name" field, type:</li>
+      </ol>
+      <div class="code">${slug}</div>
+      <ol start="4">
+        <li>Set the visibility to <strong>Public</strong> (required for free GitHub Pages hosting)</li>
+        <li>Tick the box <strong>"Add a README file"</strong></li>
+        <li>Click the green <strong>"Create repository"</strong> button</li>
+      </ol>
+      <div class="tip">💡 You'll be taken to your new repository page — it looks like a folder with just a README file in it.</div>
+    </div>
+  </div>
+
+  <div class="step-wrap" id="s4">
+    <div class="step-hd"><div class="step-circle">4</div><div class="step-title">Upload your chatbot file</div></div>
+    <div class="step-card">
+      <p>Now we upload the HTML file you downloaded from DIYChatbots.</p>
+      <ol>
+        <li>Inside your repository, click <strong>"Add file"</strong> → <strong>"Upload files"</strong></li>
+        <li>Drag the file <strong>(${slug}-chatbot.html)</strong> into the upload area, or click "choose your files"</li>
+        <li><strong>⚠️ Important:</strong> Before clicking Commit, you need to rename it. In the file list that appears after upload, click the filename and change it to exactly:</li>
+      </ol>
+      <div class="code">index.html</div>
+      <ol start="4">
+        <li>Scroll down and click <strong>"Commit changes"</strong> (the green button)</li>
+      </ol>
+      <div class="warn">⚠️ The file MUST be named <strong>index.html</strong> exactly (all lowercase). If it's named anything else, GitHub Pages won't know which file to show. This is the most common mistake — double-check the name before committing!</div>
+    </div>
+  </div>
+
+  <div class="step-wrap" id="s5">
+    <div class="step-hd"><div class="step-circle">5</div><div class="step-title">Enable GitHub Pages — go live!</div></div>
+    <div class="step-card">
+      <p>This is the step that publishes your chatbot to the internet. It takes under 2 minutes to activate and about 2 minutes for GitHub to build your site.</p>
+      <ol>
+        <li>In your repository, click the <strong>"Settings"</strong> tab at the top</li>
+        <li>In the left sidebar, scroll down and click <strong>"Pages"</strong></li>
+        <li>Under the <strong>"Source"</strong> section, click the dropdown and select: <strong>Deploy from a branch</strong></li>
+        <li>Set the Branch to <strong>main</strong> and the folder to <strong>/ (root)</strong></li>
+        <li>Click <strong>"Save"</strong></li>
+        <li>Wait 1–2 minutes, then refresh the page</li>
+        <li>A green bar will appear at the top of the Pages settings with your live URL, which looks like:</li>
+      </ol>
+      <div class="code">https://your-username.github.io/${slug}</div>
+      <div class="tip">🎉 That's it! Open that URL in your browser — your chatbot is live on the internet. Share this link with anyone and they can use it immediately — no install, no login required.</div>
+    </div>
+  </div>
+
+  <div class="step-wrap" id="s6">
+    <div class="step-hd"><div class="step-circle">6</div><div class="step-title">Add your knowledge base</div></div>
+    <div class="step-card">
+      <p>This is what makes ${botname} smart about <em>your</em> business. Open your live chatbot URL, then click the <strong>"📚 KB"</strong> button in the top-right corner.</p>
+      <p>You can add content three ways:</p>
+      <ul>
+        <li><strong>Text tab</strong> — paste in FAQs, policies, product descriptions, or any information about your business</li>
+        <li><strong>File tab</strong> — upload .txt or .md files (e.g. an exported FAQ document)</li>
+        <li><strong>URL tab</strong> — add a reference link to your help page or product page</li>
+      </ul>
+      <div class="tip">💡 <strong>Good things to add:</strong> Your FAQs, product or service descriptions, opening hours, policies, troubleshooting steps, pricing, contact details. The more relevant content you add, the better the AI answers.</div>
+      <div class="warn">⚠️ Knowledge base content added in the browser is session-based — it resets when the page is closed. For permanent content, paste it into the "Knowledge Base" field when downloading the chatbot from DIYChatbots.io.</div>
+    </div>
+  </div>
+
+  <div class="step-wrap" id="s7">
+    <div class="step-hd"><div class="step-circle" style="background:#f59e0b">?</div><div class="step-title">Troubleshooting & tips</div></div>
+    <div class="step-card">
+      <p><strong>Page shows "404 Not Found"</strong><br/>The file is not named index.html, or GitHub Pages hasn't activated yet. Wait 2 minutes and refresh. Double-check the filename is exactly "index.html".</p>
+      <p><strong>The AI isn't responding / gives errors</strong><br/>Check your API key starts with sk-ant-api03- and was entered correctly. Try clicking "Demo mode" to test the interface without a key.</p>
+      <p><strong>How do I update the chatbot?</strong><br/>Download a new version from DIYChatbots.io, then upload it to your GitHub repository — same steps as before. The site republishes automatically within ~60 seconds.</p>
+      <p><strong>How do I embed it on my website?</strong><br/>Use this iframe code anywhere on your site:</p>
+      <div class="code">&lt;iframe src="https://your-username.github.io/${slug}" width="100%" height="700px" frameborder="0"&gt;&lt;/iframe&gt;</div>
+      <p><strong>The chatbot is slow to respond</strong><br/>This is normal on the free Anthropic tier. Response time is typically 1–3 seconds. For faster responses, upgrade your Anthropic API plan.</p>
+    </div>
+  </div>
+</div>
+<footer>DIYChatbots.io — Free templates, easy deployment. Made for everyone.</footer>
+</body>
+</html>`;
+}
+
+
+function shadeColor(hex, pct) {
+  const num = parseInt(hex.replace('#',''),16);
+  const r = Math.max(0,Math.min(255,(num>>16)+pct));
+  const g = Math.max(0,Math.min(255,((num>>8)&0xff)+pct));
+  const b = Math.max(0,Math.min(255,(num&0xff)+pct));
+  return '#'+((r<<16)|(g<<8)|b).toString(16).padStart(6,'0');
+}
+
+function hexToRgba(hex, a) {
+  const num = parseInt(hex.replace('#',''),16);
+  return `rgba(${num>>16},${(num>>8)&0xff},${num&0xff},${a})`;
+}
+
+function buildChatbotHTML({ company, botname, emoji, welcome, tone, kb, apikey, color, colorDark, colorGlow }) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>${botname} — ${company} AI Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--accent:${color};--accent-dark:${colorDark};--accent-glow:${colorGlow};--bg:#0d0d14;--panel:#161622;--surface:#1e1e2c;--border:#2a2a3a;--text:#f0f0f8;--muted:#7a7a9a;--sans:'DM Sans',sans-serif;--mono:'DM Mono',monospace;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex;flex-direction:column;height:100vh;}
+header{background:var(--panel);border-bottom:1px solid var(--border);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;position:relative;}
+header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent 50%);}
+.hlogo{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;color:var(--text);}
+.hlogo-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.hright{display:flex;align-items:center;gap:8px;}
+.pill{display:flex;align-items:center;gap:5px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.2);border-radius:20px;padding:4px 10px;font-size:11px;color:#34d399;}
+.dot{width:5px;height:5px;background:#34d399;border-radius:50%;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.main{display:flex;flex:1;overflow:hidden;}
+.sidebar{width:300px;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;}
+.sidebar.hide{display:none;}
+.sb-head{padding:16px;border-bottom:1px solid var(--border);}
+.sb-title{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+.sb-sub{font-size:12px;color:var(--muted);}
+.sb-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;}
+.tabs{display:flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:3px;}
+.tab{flex:1;padding:6px;text-align:center;font-size:11px;font-weight:500;border-radius:5px;cursor:pointer;transition:all .2s;color:var(--muted);border:none;background:transparent;font-family:var(--sans);}
+.tab.on{background:var(--accent);color:#fff;}
+.ipanel{display:none;flex-direction:column;gap:8px;}
+.ipanel.on{display:flex;}
+.fl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.fi{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:8px 11px;font-size:12.5px;color:var(--text);font-family:var(--sans);outline:none;transition:border .2s;}
+.fi:focus{border-color:var(--accent);}
+.fi::placeholder{color:#444460;}
+textarea.fi{resize:vertical;min-height:90px;line-height:1.5;}
+.btn-add{width:100%;padding:9px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:600;font-family:var(--sans);cursor:pointer;transition:background .2s;}
+.btn-add:hover{background:var(--accent-dark);}
+.dz{border:2px dashed var(--border);border-radius:9px;padding:24px 12px;text-align:center;cursor:pointer;background:var(--surface);}
+.dz:hover{border-color:var(--accent);}
+.dz-icon{font-size:24px;margin-bottom:6px;}
+.dz-t{font-size:12px;font-weight:500;margin-bottom:3px;}
+.dz-s{font-size:11px;color:var(--muted);}
+.kbl{display:flex;flex-direction:column;gap:5px;}
+.kbe{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:9px 11px;display:flex;align-items:flex-start;gap:8px;}
+.kbe-icon{font-size:12px;flex-shrink:0;margin-top:1px;}
+.kbe-body{flex:1;min-width:0;}
+.kbe-t{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.kbe-p{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.kbe-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;flex-shrink:0;transition:color .15s;}
+.kbe-del:hover{color:var(--accent);}
+.empty-kb{text-align:center;padding:16px;color:#444460;font-size:12px;line-height:1.6;}
+.chat{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.avatar-zone{padding:16px 22px 0;display:flex;align-items:flex-end;gap:12px;flex-shrink:0;}
+.av{width:60px;height:60px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 0 20px var(--accent-glow);animation:breathe 3s ease-in-out infinite;flex-shrink:0;}
+@keyframes breathe{0%,100%{box-shadow:0 0 20px var(--accent-glow)}50%{box-shadow:0 0 36px calc(var(--accent-glow))}}
+.av-info{padding-bottom:4px;}
+.av-name{font-size:17px;font-weight:700;color:var(--text);}
+.av-tag{font-size:12px;color:var(--muted);font-style:italic;}
+.msgs{flex:1;overflow-y:auto;padding:18px 22px;display:flex;flex-direction:column;gap:14px;}
+.msgs::-webkit-scrollbar{width:3px;}
+.msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.mrow{display:flex;gap:8px;max-width:85%;}
+.mrow.u{align-self:flex-end;flex-direction:row-reverse;}
+.mav{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.mrow.b .mav{background:var(--accent);font-size:13px;}
+.mrow.u .mav{background:var(--surface);border:1px solid var(--border);font-size:10px;font-weight:700;color:var(--muted);}
+.bub{padding:10px 14px;border-radius:13px;font-size:13.5px;line-height:1.6;}
+.mrow.b .bub{background:var(--panel);border:1px solid var(--border);border-bottom-left-radius:3px;}
+.mrow.u .bub{background:var(--accent);color:#fff;border-bottom-right-radius:3px;}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+.chip{padding:5px 11px;background:var(--surface);border:1px solid var(--border);border-radius:18px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:var(--sans);}
+.chip:hover{border-color:var(--accent);color:var(--text);}
+.kb-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--accent);background:var(--accent-glow);border:1px solid rgba(124,106,247,0.15);border-radius:4px;padding:2px 7px;margin-top:5px;}
+.typing{display:flex;gap:4px;align-items:center;padding:13px 15px;}
+.tdot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:bounce 1.2s infinite;}
+.tdot:nth-child(2){animation-delay:.2s;}
+.tdot:nth-child(3){animation-delay:.4s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.ticket-card{background:#1a1000;border:1px solid #3a2500;border-radius:9px;padding:10px 12px;margin-top:6px;font-size:12px;color:#fbbf24;}
+.ticket-card strong{display:block;color:#f59e0b;font-size:13px;margin-bottom:3px;}
+.input-area{padding:12px 20px 16px;border-top:1px solid var(--border);background:var(--panel);flex-shrink:0;}
+.input-wrap{display:flex;gap:8px;align-items:flex-end;}
+.ci{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:11px 14px;font-size:14px;color:var(--text);font-family:var(--sans);outline:none;resize:none;max-height:110px;min-height:44px;line-height:1.5;transition:border .2s;}
+.ci:focus{border-color:var(--accent);}
+.ci::placeholder{color:#444460;}
+.sb{width:44px;height:44px;background:var(--accent);border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.sb:hover{background:var(--accent-dark);}
+.sb svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;}
+.hint{font-size:11px;color:#444460;margin-top:6px;display:flex;align-items:center;gap:5px;}
+.kb-hint{color:var(--accent);}
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(4px);}
+.modal-box{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:26px;width:400px;max-width:90vw;}
+.modal-box h3{font-size:18px;font-weight:700;margin-bottom:6px;}
+.modal-box p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:18px;}
+.modal-box a{color:var(--accent);text-decoration:none;}
+.modal-btns{display:flex;gap:8px;}
+.mbtn{flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;font-family:var(--sans);cursor:pointer;border:none;transition:all .2s;}
+.mbtn.p{background:var(--accent);color:#fff;}
+.mbtn.p:hover{background:var(--accent-dark);}
+.mbtn.g{background:transparent;color:var(--muted);border:1px solid var(--border);}
+.mbtn.g:hover{color:var(--text);}
+.modal-note-sm{font-size:11px;color:#444460;margin-top:10px;line-height:1.5;}
+</style>
+</head>
+<body>
+<header>
+  <div class="hlogo">
+    <div class="hlogo-icon">${emoji}</div>
+    <span>${company}</span>
+  </div>
+  <div class="hright">
+    <div class="pill"><span class="dot"></span><span id="statusLbl">AI Online</span></div>
+    <button style="background:var(--surface);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:var(--sans);" onclick="toggleSidebar()">📚 KB <span id="kbC">0</span></button>
+  </div>
+</header>
+<div class="main">
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-head"><div class="sb-title">Knowledge Base</div><div class="sb-sub">Add content for the AI to reference.</div></div>
+    <div class="sb-body">
+      <div class="tabs">
+        <button class="tab on" onclick="sbTab('text',this)">Text</button>
+        <button class="tab" onclick="sbTab('file',this)">File</button>
+        <button class="tab" onclick="sbTab('url',this)">URL</button>
+      </div>
+      <div class="ipanel on" id="sp-text">
+        <div><div class="fl">Title</div><input class="fi" id="kbTitle" placeholder="Document title"/></div>
+        <div><div class="fl">Content</div><textarea class="fi" id="kbContent" placeholder="Paste any content here…"></textarea></div>
+        <button class="btn-add" onclick="addKb()">+ Add to KB</button>
+      </div>
+      <div class="ipanel" id="sp-file">
+        <div class="dz" onclick="document.getElementById('fi').click()" ondragover="ev.preventDefault()" ondrop="handleDrop(event)">
+          <div class="dz-icon">📄</div><div class="dz-t">Drop or click to upload</div><div class="dz-s">.txt .md .csv .json</div>
+        </div>
+        <input type="file" id="fi" accept=".txt,.md,.csv,.json" multiple style="display:none" onchange="handleFiles(event)"/>
+      </div>
+      <div class="ipanel" id="sp-url">
+        <div><div class="fl">URL</div><input class="fi" id="kbUrl" placeholder="https://…" type="url"/></div>
+        <div><div class="fl">Description</div><input class="fi" id="kbUrlDesc" placeholder="What does this page cover?"/></div>
+        <button class="btn-add" onclick="addUrl()">+ Add URL</button>
+      </div>
+      <div class="fl" style="margin-top:4px;">Ingested documents</div>
+      <div class="kbl" id="kbList"><div class="empty-kb" id="kbEmpty">No documents yet.<br/>Add content to enhance AI responses.</div></div>
+    </div>
+  </aside>
+  <div class="chat">
+    <div class="avatar-zone">
+      <div class="av" id="avEl">${emoji}</div>
+      <div class="av-info"><div class="av-name">${botname}</div><div class="av-tag" id="avTag">${company} AI Assistant</div></div>
+    </div>
+    <div class="msgs" id="msgs">
+      <div class="mrow b"><div class="mav">${emoji}</div><div><div class="bub">${welcome}</div></div></div>
+    </div>
+    <div class="input-area">
+      <div class="input-wrap">
+        <textarea class="ci" id="ci" placeholder="Ask me anything…" rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,110)+'px'"></textarea>
+        <button class="sb" onclick="send()"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+      </div>
+      <div class="hint">Enter to send · Shift+Enter new line <span id="kbHintSpan" style="display:none">· <span class="kb-hint">📚 <span id="kbHintN">0</span> KB docs active</span></span></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-ov" id="apiModal">
+  <div class="modal-box">
+    <h3>${botname} Setup</h3>
+    <p>Enter your Anthropic API key to activate the AI. Your key stays in browser session only — never stored.<br/><br/><a href="https://console.anthropic.com" target="_blank">Get a key at console.anthropic.com →</a></p>
+    <input class="fi" id="apiIn" type="password" placeholder="sk-ant-api03-…" style="margin-bottom:12px;" value="${apikey}"/>
+    <div class="modal-btns">
+      <button class="mbtn g" onclick="skipApi()">Demo mode</button>
+      <button class="mbtn p" onclick="saveApi()">Connect AI</button>
+    </div>
+    <p class="modal-note-sm">Demo mode uses scripted responses. Connect an API key for live AI answers informed by your knowledge base.</p>
+  </div>
+</div>
+
+<script>
+let apiKey='';let demoMode=${apikey ? 'false' : 'true'};let kbEntries=[];let sbOpen=true;
+const SYS=\`You are ${botname}, an AI assistant for ${company}. Tone: ${tone}. Be helpful, concise, and practical. If you cannot resolve an issue, acknowledge it and offer to escalate.\n${kb ? 'KNOWLEDGE BASE:\n' + kb : ''}\`;
+
+function saveApi(){const v=document.getElementById('apiIn').value.trim();if(!v.startsWith('sk-')){alert('Invalid key');return;}apiKey=v;document.getElementById('apiModal').style.display='none';document.getElementById('statusLbl').textContent='AI Connected';}
+function skipApi(){demoMode=true;document.getElementById('apiModal').style.display='none';document.getElementById('statusLbl').textContent='Demo Mode';}
+function toggleSidebar(){sbOpen=!sbOpen;document.getElementById('sidebar').classList.toggle('hide',!sbOpen);}
+function sbTab(n,el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.ipanel').forEach(p=>p.classList.remove('on'));el.classList.add('on');document.getElementById('sp-'+n).classList.add('on');}
+
+function addKb(){const t=document.getElementById('kbTitle').value.trim();const c=document.getElementById('kbContent').value.trim();if(!t||!c)return;kbEntries.push({id:Date.now(),icon:'📝',title:t,content:c,preview:c.slice(0,60)+'…'});document.getElementById('kbTitle').value='';document.getElementById('kbContent').value='';renderKb();}
+function addUrl(){const u=document.getElementById('kbUrl').value.trim();const d=document.getElementById('kbUrlDesc').value.trim()||u;if(!u)return;kbEntries.push({id:Date.now(),icon:'🔗',title:d,content:'[URL: '+u+'] '+d,preview:u});document.getElementById('kbUrl').value='';document.getElementById('kbUrlDesc').value='';renderKb();}
+function handleFiles(e){Array.from(e.target.files).forEach(f=>{const r=new FileReader();r.onload=ev=>{kbEntries.push({id:Date.now(),icon:'📄',title:f.name,content:ev.target.result,preview:f.name+' ('+Math.round(f.size/1024)+'kb)'});renderKb();};r.readAsText(f);});}
+function handleDrop(e){e.preventDefault();handleFiles({target:{files:e.dataTransfer.files}});}
+function delKb(id){kbEntries=kbEntries.filter(e=>e.id!==id);renderKb();}
+function renderKb(){const l=document.getElementById('kbList');const emp=document.getElementById('kbEmpty');l.innerHTML='';if(!kbEntries.length){l.appendChild(emp);return;}kbEntries.forEach(e=>{const d=document.createElement('div');d.className='kbe';d.innerHTML=\`<span class="kbe-icon">\${e.icon}</span><div class="kbe-body"><div class="kbe-t">\${e.title}</div><div class="kbe-p">\${e.preview}</div></div><button class="kbe-del" onclick="delKb(\${e.id})">✕</button>\`;l.appendChild(d);});const n=kbEntries.length;document.getElementById('kbC').textContent=n;const h=document.getElementById('kbHintSpan');h.style.display=n?'inline':'none';document.getElementById('kbHintN').textContent=n;}
+
+async function send(){const ci=document.getElementById('ci');const text=ci.value.trim();if(!text)return;ci.value='';ci.style.height='auto';addMsg('u',text);showTyping();try{let reply;if(demoMode||!apiKey){reply=await demoReply(text);}else{reply=await aiReply(text);}hideTyping();addMsg('b',reply,kbEntries.length>0);}catch(err){hideTyping();addMsg('b','⚠️ Error: '+err.message);}}
+
+async function aiReply(msg){let sys=SYS;if(kbEntries.length){sys+='\n\nADDITIONAL KB:\n'+kbEntries.map(e=>'['+e.title+']: '+e.content.slice(0,600)).join('\n\n');}const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:sys,messages:[{role:'user',content:msg}]})});if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'API error '+res.status);}const d=await res.json();return d.content[0].text;}
+
+async function demoReply(msg){await new Promise(r=>setTimeout(r,900+Math.random()*500));if(kbEntries.length)return 'I\'d reference your '+kbEntries.length+' knowledge base document'+(kbEntries.length>1?'s':'')+' to answer that. Connect an Anthropic API key for live AI responses informed by your content.';return 'Thanks for your message! In the live version I\'d give you a detailed, AI-powered answer based on your knowledge base. Connect an API key at setup to activate full responses.';}
+
+function addMsg(role,text,hasKb=false){const msgs=document.getElementById('msgs');const row=document.createElement('div');row.className='mrow '+role;const isB=role==='b';const fmt=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br/>');row.innerHTML=\`<div class="mav">\${isB?'${emoji}':'ME'}</div><div class="bub">\${fmt}\${isB&&hasKb?'<div class=\\"kb-tag\\">📚 KB referenced</div>':''}</div>\`;msgs.appendChild(row);row.scrollIntoView({behavior:'smooth',block:'end'});}
+
+let typingRow=null;
+function showTyping(){const msgs=document.getElementById('msgs');typingRow=document.createElement('div');typingRow.className='mrow b';typingRow.id='tr';typingRow.innerHTML='<div class="mav">${emoji}</div><div class="bub"><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div></div>';msgs.appendChild(typingRow);typingRow.scrollIntoView({behavior:'smooth',block:'end'});}
+function hideTyping(){const t=document.getElementById('tr');if(t)t.remove();}
+
+${apikey ? `document.getElementById('apiModal').style.display='none'; apiKey='${apikey}'; document.getElementById('statusLbl').textContent='AI Connected';` : ''}
+<\/script>
+</body>
+</html>`;
+}
+</script>
+</body>
+</html>
