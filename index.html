@@ -871,8 +871,9 @@ textarea.modal-input{resize:vertical;min-height:80px;}
       </div>
 
       <div class="modal-section">
-        <div class="modal-section-title">Your Anthropic API Key (optional)</div>
-        <input class="modal-input" id="m-apikey" type="password" placeholder="sk-ant-api03-… (can be added later in the app)" oninput="updateProgress()"/>
+        <div class="modal-section-title">Your backend URL (optional — leave blank for demo mode)</div>
+        <input class="modal-input" id="m-backend" type="text" placeholder="https://your-bot.your-name.workers.dev" oninput="updateProgress()"/>
+        <p style="font-size:12px;color:var(--muted2);margin-top:6px;line-height:1.5;">Your API key is <strong>never</strong> put in this file. Instead you set up a free backend (a small proxy) that holds the key safely, and paste its URL here. The setup guide walks you through it. Leave blank to download a demo-only version.</p>
       </div>
 
       <button class="modal-deploy-btn" id="deployBtn" onclick="generateAndDownload()">⬇ Download Free — Chatbot + Setup Guide</button>
@@ -973,13 +974,13 @@ function generateAndDownload() {
   const welcome = document.getElementById('m-welcome').value.trim() || `Hi! I'm ${botname}, how can I help you today?`;
   const tone = document.getElementById('m-tone').value;
   const kb = document.getElementById('m-kb').value.trim();
-  const apikey = document.getElementById('m-apikey').value.trim();
+  const backendUrl = document.getElementById('m-backend').value.trim();
   const color = window._selectedColor || '#7c6af7';
   const colorDark = shadeColor(color, -20);
   const colorGlow = hexToRgba(color, 0.18);
 
   // Download chatbot
-  const html = buildChatbotHTML({ company, botname, emoji, welcome, tone, kb, apikey, color, colorDark, colorGlow });
+  const html = buildChatbotHTML({ company, botname, emoji, welcome, tone, kb, backendUrl, color, colorDark, colorGlow });
   triggerDownload(html, botname.replace(/\s+/g,'-').toLowerCase() + '-chatbot.html', 'text/html');
 
   // Download setup guide after short delay
@@ -1298,7 +1299,7 @@ footer{background:#1a1a2e;text-align:center;padding:20px;font-size:12px;color:rg
   <div class="toc">
     <div class="toc-title">📋 Contents</div>
     <a href="#s1">Step 1 — Create a free GitHub account</a>
-    <a href="#s2">Step 2 — Get your free Anthropic API key</a>
+    <a href="#s2">Step 2 — Set up your secure backend (holds your API key)</a>
     <a href="#s3">Step 3 — Create a repository on GitHub</a>
     <a href="#s4">Step 4 — Upload your chatbot file</a>
     <a href="#s5">Step 5 — Enable GitHub Pages (go live!)</a>
@@ -1323,19 +1324,19 @@ footer{background:#1a1a2e;text-align:center;padding:20px;font-size:12px;color:rg
   </div>
 
   <div class="step-wrap" id="s2">
-    <div class="step-hd"><div class="step-circle">2</div><div class="step-title">Get your free Anthropic API key</div></div>
+    <div class="step-hd"><div class="step-circle">2</div><div class="step-title">Set up your secure backend (holds your API key)</div></div>
     <div class="step-card">
-      <p>The AI brain behind ${botname} is powered by Anthropic's Claude. You need an API key to activate the live AI. Getting one is free and takes about 2 minutes.</p>
+      <p>The AI behind ${botname} is powered by Anthropic's Claude. Your API key must never go inside this chatbot file, because anyone visiting your website can read the file's code. Instead you put the key in a small free backend (a "proxy") that keeps it private. This takes about 5 minutes and stays free.</p>
       <ol>
-        <li>Go to <strong>console.anthropic.com</strong> in your browser</li>
-        <li>Click <strong>"Sign up"</strong> and create a free account with your email</li>
-        <li>Once logged in, click <strong>"API Keys"</strong> in the left sidebar</li>
-        <li>Click <strong>"Create Key"</strong> — give it any name (e.g. "${botname}")</li>
-        <li>Copy the key — it starts with <strong>sk-ant-api03-…</strong></li>
-        <li>Save it somewhere safe (e.g. a note on your phone)</li>
+        <li>Get a free Anthropic API key at <strong>console.anthropic.com</strong> → sign up → <strong>"API Keys"</strong> → <strong>"Create Key"</strong>. Copy it (it starts with <strong>sk-ant-api03-…</strong>) and keep it private.</li>
+        <li>Create a free account at <strong>dash.cloudflare.com</strong> and open <strong>Workers &amp; Pages → Create → Worker</strong>.</li>
+        <li>Paste in the proxy code from your <strong>backend (proxy.js)</strong> file and click <strong>Deploy</strong>.</li>
+        <li>In the Worker's <strong>Settings → Variables</strong>, add a secret named <strong>ANTHROPIC_API_KEY</strong> and paste your key as its value. Save.</li>
+        <li>Copy your Worker's URL (looks like <strong>https://your-bot.your-name.workers.dev</strong>).</li>
+        <li>Back on DIYChatbots, paste that URL into the <strong>"Your backend URL"</strong> box and download your chatbot again.</li>
       </ol>
-      <div class="tip">💡 When you open your chatbot in the browser, it will ask for this key once. It stays in your browser session only — never stored anywhere.</div>
-      <div class="warn">⚠️ Keep your API key private. Don't share it in emails, screenshots, or public posts. The chatbot also has a "Demo mode" that works without a key — useful for showing stakeholders.</div>
+      <div class="tip">💡 Your key lives only inside the backend's private settings — never in the chatbot file, never visible to your website visitors.</div>
+      <div class="warn">⚠️ Never paste your API key into the chatbot HTML or any public file. The chatbot also has a "Demo mode" (leave the backend URL blank) that works without a key — useful for showing stakeholders.</div>
     </div>
   </div>
 
@@ -1412,7 +1413,7 @@ footer{background:#1a1a2e;text-align:center;padding:20px;font-size:12px;color:rg
     <div class="step-hd"><div class="step-circle" style="background:#f59e0b">?</div><div class="step-title">Troubleshooting & tips</div></div>
     <div class="step-card">
       <p><strong>Page shows "404 Not Found"</strong><br/>The file is not named index.html, or GitHub Pages hasn't activated yet. Wait 2 minutes and refresh. Double-check the filename is exactly "index.html".</p>
-      <p><strong>The AI isn't responding / gives errors</strong><br/>Check your API key starts with sk-ant-api03- and was entered correctly. Try clicking "Demo mode" to test the interface without a key.</p>
+      <p><strong>The AI isn't responding / gives errors</strong><br/>Check that your backend URL was pasted correctly when you generated the chatbot, and that your ANTHROPIC_API_KEY secret is set in the backend. Leave the backend URL blank to use "Demo mode" and test the interface without a key.</p>
       <p><strong>How do I update the chatbot?</strong><br/>Download a new version from DIYChatbots.io, then upload it to your GitHub repository — same steps as before. The site republishes automatically within ~60 seconds.</p>
       <p><strong>How do I embed it on my website?</strong><br/>Use this iframe code anywhere on your site:</p>
       <div class="code">&lt;iframe src="https://your-username.github.io/${slug}" width="100%" height="700px" frameborder="0"&gt;&lt;/iframe&gt;</div>
@@ -1439,7 +1440,7 @@ function hexToRgba(hex, a) {
   return `rgba(${num>>16},${(num>>8)&0xff},${num&0xff},${a})`;
 }
 
-function buildChatbotHTML({ company, botname, emoji, welcome, tone, kb, apikey, color, colorDark, colorGlow }) {
+function buildChatbotHTML({ company, botname, emoji, welcome, tone, kb, backendUrl, color, colorDark, colorGlow }) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1605,23 +1606,20 @@ textarea.fi{resize:vertical;min-height:90px;line-height:1.5;}
 
 <div class="modal-ov" id="apiModal">
   <div class="modal-box">
-    <h3>${botname} Setup</h3>
-    <p>Enter your Anthropic API key to activate the AI. Your key stays in browser session only — never stored.<br/><br/><a href="https://console.anthropic.com" target="_blank">Get a key at console.anthropic.com →</a></p>
-    <input class="fi" id="apiIn" type="password" placeholder="sk-ant-api03-…" style="margin-bottom:12px;" value="${apikey}"/>
+    <h3>${botname}</h3>
+    <p id="setupMsg">Loading…</p>
     <div class="modal-btns">
-      <button class="mbtn g" onclick="skipApi()">Demo mode</button>
-      <button class="mbtn p" onclick="saveApi()">Connect AI</button>
+      <button class="mbtn p" onclick="closeSetup()">Start chatting</button>
     </div>
-    <p class="modal-note-sm">Demo mode uses scripted responses. Connect an API key for live AI answers informed by your knowledge base.</p>
+    <p class="modal-note-sm">No API key is stored in this file. Live answers are handled securely by your backend.</p>
   </div>
 </div>
 
 <script>
-let apiKey='';let demoMode=${apikey ? 'false' : 'true'};let kbEntries=[];let sbOpen=true;
+let BACKEND='${backendUrl}';let demoMode=BACKEND?false:true;let kbEntries=[];let sbOpen=true;
 const SYS=\`You are ${botname}, an AI assistant for ${company}. Tone: ${tone}. Be helpful, concise, and practical. If you cannot resolve an issue, acknowledge it and offer to escalate.\n${kb ? 'KNOWLEDGE BASE:\n' + kb : ''}\`;
 
-function saveApi(){const v=document.getElementById('apiIn').value.trim();if(!v.startsWith('sk-')){alert('Invalid key');return;}apiKey=v;document.getElementById('apiModal').style.display='none';document.getElementById('statusLbl').textContent='AI Connected';}
-function skipApi(){demoMode=true;document.getElementById('apiModal').style.display='none';document.getElementById('statusLbl').textContent='Demo Mode';}
+function closeSetup(){document.getElementById('apiModal').style.display='none';}
 function toggleSidebar(){sbOpen=!sbOpen;document.getElementById('sidebar').classList.toggle('hide',!sbOpen);}
 function sbTab(n,el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.ipanel').forEach(p=>p.classList.remove('on'));el.classList.add('on');document.getElementById('sp-'+n).classList.add('on');}
 
@@ -1632,11 +1630,11 @@ function handleDrop(e){e.preventDefault();handleFiles({target:{files:e.dataTrans
 function delKb(id){kbEntries=kbEntries.filter(e=>e.id!==id);renderKb();}
 function renderKb(){const l=document.getElementById('kbList');const emp=document.getElementById('kbEmpty');l.innerHTML='';if(!kbEntries.length){l.appendChild(emp);return;}kbEntries.forEach(e=>{const d=document.createElement('div');d.className='kbe';d.innerHTML=\`<span class="kbe-icon">\${e.icon}</span><div class="kbe-body"><div class="kbe-t">\${e.title}</div><div class="kbe-p">\${e.preview}</div></div><button class="kbe-del" onclick="delKb(\${e.id})">✕</button>\`;l.appendChild(d);});const n=kbEntries.length;document.getElementById('kbC').textContent=n;const h=document.getElementById('kbHintSpan');h.style.display=n?'inline':'none';document.getElementById('kbHintN').textContent=n;}
 
-async function send(){const ci=document.getElementById('ci');const text=ci.value.trim();if(!text)return;ci.value='';ci.style.height='auto';addMsg('u',text);showTyping();try{let reply;if(demoMode||!apiKey){reply=await demoReply(text);}else{reply=await aiReply(text);}hideTyping();addMsg('b',reply,kbEntries.length>0);}catch(err){hideTyping();addMsg('b','⚠️ Error: '+err.message);}}
+async function send(){const ci=document.getElementById('ci');const text=ci.value.trim();if(!text)return;ci.value='';ci.style.height='auto';addMsg('u',text);showTyping();try{let reply;if(demoMode){reply=await demoReply(text);}else{reply=await aiReply(text);}hideTyping();addMsg('b',reply,kbEntries.length>0);}catch(err){hideTyping();addMsg('b','⚠️ Error: '+err.message);}}
 
-async function aiReply(msg){let sys=SYS;if(kbEntries.length){sys+='\n\nADDITIONAL KB:\n'+kbEntries.map(e=>'['+e.title+']: '+e.content.slice(0,600)).join('\n\n');}const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:sys,messages:[{role:'user',content:msg}]})});if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'API error '+res.status);}const d=await res.json();return d.content[0].text;}
+async function aiReply(msg){let sys=SYS;if(kbEntries.length){sys+='\n\nADDITIONAL KB:\n'+kbEntries.map(e=>'['+e.title+']: '+e.content.slice(0,600)).join('\n\n');}const res=await fetch(BACKEND,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:sys,message:msg})});if(!res.ok){let m='Error '+res.status;try{const e=await res.json();if(e&&e.error)m=e.error;}catch(_){}throw new Error(m);}const d=await res.json();return d.reply;}
 
-async function demoReply(msg){await new Promise(r=>setTimeout(r,900+Math.random()*500));if(kbEntries.length)return 'I\'d reference your '+kbEntries.length+' knowledge base document'+(kbEntries.length>1?'s':'')+' to answer that. Connect an Anthropic API key for live AI responses informed by your content.';return 'Thanks for your message! In the live version I\'d give you a detailed, AI-powered answer based on your knowledge base. Connect an API key at setup to activate full responses.';}
+async function demoReply(msg){await new Promise(r=>setTimeout(r,900+Math.random()*500));if(kbEntries.length)return 'This is a demo reply. Once your backend is connected, I\'ll answer using your '+kbEntries.length+' knowledge base document'+(kbEntries.length>1?'s':'')+'.';return 'This is a demo reply with sample text. Connect your backend to switch on live AI answers based on your knowledge base.';}
 
 function addMsg(role,text,hasKb=false){const msgs=document.getElementById('msgs');const row=document.createElement('div');row.className='mrow '+role;const isB=role==='b';const fmt=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br/>');row.innerHTML=\`<div class="mav">\${isB?'${emoji}':'ME'}</div><div class="bub">\${fmt}\${isB&&hasKb?'<div class=\\"kb-tag\\">📚 KB referenced</div>':''}</div>\`;msgs.appendChild(row);row.scrollIntoView({behavior:'smooth',block:'end'});}
 
@@ -1644,7 +1642,7 @@ let typingRow=null;
 function showTyping(){const msgs=document.getElementById('msgs');typingRow=document.createElement('div');typingRow.className='mrow b';typingRow.id='tr';typingRow.innerHTML='<div class="mav">${emoji}</div><div class="bub"><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div></div>';msgs.appendChild(typingRow);typingRow.scrollIntoView({behavior:'smooth',block:'end'});}
 function hideTyping(){const t=document.getElementById('tr');if(t)t.remove();}
 
-${apikey ? `document.getElementById('apiModal').style.display='none'; apiKey='${apikey}'; document.getElementById('statusLbl').textContent='AI Connected';` : ''}
+(function(){var sm=document.getElementById('setupMsg');var st=document.getElementById('statusLbl');if(BACKEND){document.getElementById('apiModal').style.display='none';if(st)st.textContent='AI Connected';}else{if(sm)sm.textContent='This is running in demo mode with sample replies. To switch on live AI, set up your free backend and add its URL when you generate the chatbot.';if(st)st.textContent='Demo Mode';}})();
 <\/script>
 </body>
 </html>`;
