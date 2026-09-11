@@ -1,0 +1,22 @@
+# DIYChatbots
+
+> DIYChatbots is a free tool that lets a small business owner with no coding experience generate a ready-to-deploy AI chatbot for their website, self-host it for free, and keep their own AI API key private. No signup, no subscription, no message limits — the only recurring cost is optional AI usage billed directly to the business's own Anthropic account.
+
+DIYChatbots generates a single self-contained HTML file plus a plain-English setup guide. The chatbot is customized by industry template, company name, persona/tone, welcome message, brand color, and a knowledge base (pasted text, uploaded documents, or reference URLs). It is hosted for free on GitHub Pages and talks to Anthropic's Claude API through a small serverless backend (a Cloudflare Worker) that the business owner deploys themselves, so their API key is never exposed in the public chatbot file.
+
+## Who it's for
+
+Small business owners, sole traders, and non-profits with no technical background who want an AI assistant on their website but don't want to pay a monthly SaaS subscription just to try one. Distinct from hosted AI chatbot platforms (Chatbase, Tidio, SiteGPT, Resolve247, Voiceflow, Botpress), which require a paid account from day one — DIYChatbots' generator and hosting are free forever, because the business hosts and pays for their own AI usage directly rather than paying DIYChatbots.
+
+## Key pages
+
+- [Homepage](https://diychatbots.com/): template gallery (12 industries), live builder preview, pricing, and FAQ
+- [AI Employee Terms & Guidelines](https://diychatbots.com/ai-employee-terms.html): what a generated chatbot can and can't do, data flow, a sample customer-facing AI disclaimer, and acceptable-use guidance for deploying it responsibly
+- [Contact & Feedback](https://diychatbots.com/contact.html): request a new industry template or report an issue
+- [Pricing](https://diychatbots.com/pricing.md): machine-readable pricing summary
+- [Setup Guide](https://github.com/ekbm/DIYchatbots/blob/main/SETUP-GUIDE.md): step-by-step deployment instructions
+- [Source code](https://github.com/ekbm/DIYchatbots): public repository, dual-licensed (see LICENSE.md — generated chatbots are unrestricted and free for any use; the generator tool itself is free for personal/non-commercial use)
+
+## Industry templates available
+
+IT Support, Human Resources, Retail & E-commerce, Education, Healthcare, Legal & Compliance, Hospitality, Finance & Banking, Sales & Product Info, Documentation (manual/document Q&A), Restaurants & Cafés, Small Shops & Boutiques.
