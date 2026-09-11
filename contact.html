@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contact & Feedback — DIYChatbots</title>
+<meta name="description" content="Request a new industry template, report a bug, or send feedback to the DIYChatbots team."/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,500&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-rgb:22,17,12;
+  --bg:#16110c;
+  --bg2:#1d1712;
+  --bg3:#241c15;
+  --surface:#2b2119;
+  --surface2:#34281d;
+  --border:#3d2f22;
+  --border2:#4d3c2a;
+  --accent:#d97a3f;
+  --accent2:#f0a869;
+  --accent-rgb:217,122,63;
+  --accent2-rgb:240,168,105;
+  --green:#34d399;
+  --green-rgb:52,211,153;
+  --amber:#fbbf24;
+  --coral:#fb7185;
+  --text:#f5ede1;
+  --muted:#a8967f;
+  --muted2:#8f7d66;
+  --sans:'Plus Jakarta Sans',sans-serif;
+  --display:'Fraunces',serif;
+  --mono:'JetBrains Mono',monospace;
+}
+[data-theme="light"]{
+  --bg-rgb:250,247,242;
+  --bg:#faf7f2;
+  --bg2:#f2ebe0;
+  --bg3:#ece2d2;
+  --surface:#ffffff;
+  --surface2:#f5efe4;
+  --border:#e4d8c5;
+  --border2:#d2c0a3;
+  --accent:#9c4b1c;
+  --accent2:#935018;
+  --accent-rgb:156,75,28;
+  --accent2-rgb:147,80,24;
+  --green:#087a4e;
+  --green-rgb:8,122,78;
+  --amber:#8f5808;
+  --coral:#c73a52;
+  --text:#241c15;
+  --muted:#6e5c48;
+  --muted2:#7a6852;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;line-height:1.65;-webkit-font-smoothing:antialiased;}
+a{color:var(--accent);}
+::selection{background:rgba(var(--accent-rgb),0.25);}
+
+nav{position:sticky;top:0;z-index:100;padding:0 5vw;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(var(--bg-rgb),0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--display);font-size:1.35rem;font-weight:700;letter-spacing:-0.01em;color:var(--text);font-style:italic;text-decoration:none;}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:20px;align-items:center;}
+.nav-links a{font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+.theme-toggle{background:var(--surface);border:1px solid var(--border);color:var(--text);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.theme-toggle:hover{border-color:var(--accent);}
+.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;line-height:1;cursor:pointer;padding:4px 6px;}
+@media(max-width:560px){
+  .nav-toggle{display:flex;align-items:center;}
+  .nav-links{position:fixed;top:64px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--bg);border-bottom:1px solid var(--border);padding:0 5vw;max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .nav-links.open{max-height:70vh;padding-bottom:14px;}
+  .nav-links a{padding:13px 0;border-bottom:1px solid var(--border);width:100%;}
+  .nav-links .theme-toggle{align-self:flex-start;margin-top:10px;}
+}
+
+.wrap{max-width:640px;margin:0 auto;padding:0 5vw 100px;}
+
+.masthead{padding:48px 0 32px;border-bottom:1px solid var(--border);margin-bottom:40px;}
+.doc-label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.doc-title{font-family:var(--display);font-size:clamp(2rem,5vw,2.6rem);font-weight:700;line-height:1.1;letter-spacing:-0.01em;text-wrap:balance;margin-bottom:14px;}
+.doc-sub{font-size:1.02rem;color:var(--muted);max-width:56ch;line-height:1.7;}
+
+.form-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px;}
+.field-group{margin-bottom:20px;}
+.field-label{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:7px;display:block;letter-spacing:.02em;}
+.field-input,.field-select,.field-textarea{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:11px 13px;font-size:14px;color:var(--text);font-family:var(--sans);outline:none;transition:border .2s;}
+.field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--accent);}
+.field-input::placeholder,.field-textarea::placeholder{color:var(--muted2);}
+.field-textarea{resize:vertical;min-height:140px;line-height:1.6;}
+.field-hint{font-size:12px;color:var(--muted2);margin-top:6px;}
+.field-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238f7d66' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+
+.submit-btn{width:100%;padding:14px;background:#b85a24;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;font-family:var(--sans);cursor:pointer;transition:all .2s;}
+.submit-btn:hover{background:#9c4b1c;transform:translateY(-1px);}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+.form-status{margin-top:16px;font-size:13.5px;text-align:center;min-height:20px;}
+.form-status.ok{color:var(--green);}
+.form-status.err{color:var(--coral);}
+
+.privacy-note{font-size:12px;color:var(--muted2);margin-top:22px;line-height:1.6;text-align:center;}
+
+footer{padding:32px 5vw 40px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--muted2);max-width:640px;margin:0 auto;}
+footer a{color:var(--muted2);text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<script>(function(){try{var t=localStorage.getItem('dc-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
+
+<nav>
+  <a class="nav-logo" href="index.html">DIY<span>Chatbots</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html#templates">Templates</a>
+    <a href="index.html#faq">FAQ</a>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle light/dark theme" title="Toggle light/dark theme">🌙</button>
+  </div>
+  <button class="nav-toggle" id="navToggle" onclick="toggleNav()" aria-label="Open menu" aria-expanded="false">☰</button>
+</nav>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="doc-label">Contact &amp; Feedback</div>
+    <h1 class="doc-title">Missing a template? Found a bug?</h1>
+    <p class="doc-sub">Tell us what industry you need a chatbot template for, flag something that's broken, or just say hi. Every message comes straight to the person building this — no ticket system, no bot in between.</p>
+  </div>
+
+  <div class="form-card">
+    <form id="feedbackForm">
+      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY"/>
+      <input type="hidden" name="subject" value="DIYChatbots — new contact form submission"/>
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off"/>
+
+      <div class="field-group">
+        <label class="field-label" for="f-type">What's this about?</label>
+        <select class="field-select" id="f-type" name="What it's about" required>
+          <option value="">Choose one…</option>
+          <option>Request a new template</option>
+          <option>Report a bug</option>
+          <option>General feedback</option>
+          <option>Something else</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="f-name">Name (optional)</label>
+        <input class="field-input" id="f-name" name="name" type="text" placeholder="Your name"/>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="f-email">Email (optional)</label>
+        <input class="field-input" id="f-email" name="email" type="email" placeholder="you@example.com"/>
+        <div class="field-hint">Only needed if you'd like a reply.</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="f-message">Message</label>
+        <textarea class="field-textarea" id="f-message" name="message" placeholder="e.g. 'Could you add a template for hair salons / barbershops?' or describe the bug you ran into…" required></textarea>
+      </div>
+
+      <button class="submit-btn" type="submit" id="submitBtn">Send message</button>
+      <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+
+  <p class="privacy-note">Sent directly and privately — nothing you submit here is published or shown to other visitors.</p>
+
+</div>
+
+<footer>
+  <span>DIYChatbots &middot; Free templates, easy deployment.</span>
+  <a href="index.html">&larr; Back to DIYChatbots</a>
+</footer>
+
+<script>
+function applyThemeIcon(){
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  const btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = isLight ? '☀️' : '🌙';
+}
+function toggleTheme(){
+  const html = document.documentElement;
+  const isLight = html.getAttribute('data-theme') === 'light';
+  if (isLight) { html.removeAttribute('data-theme'); }
+  else { html.setAttribute('data-theme','light'); }
+  try { localStorage.setItem('dc-theme', isLight ? 'dark' : 'light'); } catch(e){}
+  applyThemeIcon();
+}
+applyThemeIcon();
+
+function toggleNav(){
+  const nav = document.getElementById('navLinks');
+  const btn = document.getElementById('navToggle');
+  const open = nav.classList.toggle('open');
+  btn.textContent = open ? '✕' : '☰';
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+document.getElementById('navLinks').addEventListener('click', function(e){
+  if (e.target.tagName === 'A') toggleNav();
+});
+
+document.getElementById('feedbackForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('submitBtn');
+  const status = document.getElementById('formStatus');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  status.className = 'form-status';
+  status.textContent = '';
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form)
+    });
+    const result = await res.json();
+    if (result.success) {
+      status.className = 'form-status ok';
+      status.textContent = "Thanks — your message is on its way!";
+      form.reset();
+    } else {
+      throw new Error(result.message || 'Submission failed');
+    }
+  } catch (err) {
+    status.className = 'form-status err';
+    status.textContent = "Something went wrong sending that. Please try again in a moment.";
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Send message';
+  }
+});
+</script>
+
+</body>
+</html>
