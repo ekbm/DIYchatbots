@@ -8,23 +8,23 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0a0a0f;
-  --bg2:#111118;
-  --bg3:#16161f;
-  --surface:#1c1c28;
-  --surface2:#22222f;
-  --border:#2a2a3a;
-  --border2:#363650;
-  --accent:#7c6af7;
-  --accent2:#a78bfa;
-  --accent-glow:rgba(124,106,247,0.2);
+  --bg:#16110c;
+  --bg2:#1d1712;
+  --bg3:#241c15;
+  --surface:#2b2119;
+  --surface2:#34281d;
+  --border:#3d2f22;
+  --border2:#4d3c2a;
+  --accent:#d97a3f;
+  --accent2:#f0a869;
+  --accent-glow:rgba(217,122,63,0.2);
   --green:#34d399;
   --amber:#fbbf24;
   --coral:#fb7185;
-  --sky:#38bdf8;
-  --text:#f0effe;
-  --muted:#8b8ba7;
-  --muted2:#5a5a75;
+  --sky:#c9a24b;
+  --text:#f5ede1;
+  --muted:#a8967f;
+  --muted2:#8f7d66;
   --sans:'Plus Jakarta Sans',sans-serif;
   --display:'Fraunces',serif;
   --mono:'JetBrains Mono',monospace;
@@ -42,21 +42,23 @@ nav{position:sticky;top:0;z-index:100;padding:0 5vw;height:64px;display:flex;ali
 .nav-links{display:flex;gap:28px;align-items:center;}
 .nav-links a{font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s;font-weight:400;}
 .nav-links a:hover{color:var(--text);}
+.nav-links a.btn-primary,.nav-links a.btn-primary:hover{color:#fff;}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);transition:all .2s;text-decoration:none;}
-.btn-primary{background:var(--accent);color:#fff;box-shadow:0 0 24px var(--accent-glow);}
-.btn-primary:hover{background:#6c5ae7;transform:translateY(-1px);box-shadow:0 0 32px rgba(124,106,247,0.35);}
+.btn-primary{background:#b85a24;color:#fff;box-shadow:0 0 24px var(--accent-glow);}
+.btn-primary:hover{background:#9c4b1c;transform:translateY(-1px);box-shadow:0 0 32px rgba(217,122,63,0.35);}
 .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border2);}
 .btn-ghost:hover{color:var(--text);border-color:var(--accent);}
 
 /* ── HERO ── */
 .hero{position:relative;padding:100px 5vw 80px;max-width:1100px;margin:0 auto;z-index:1;}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(124,106,247,0.12);border:1px solid rgba(124,106,247,0.25);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:500;color:var(--accent2);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:24px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(217,122,63,0.12);border:1px solid rgba(217,122,63,0.25);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:500;color:var(--accent2);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:24px;}
 .hero-eyebrow::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
 .hero h1{font-family:var(--display);font-size:clamp(2.6rem,5.5vw,4.8rem);font-weight:700;line-height:1.08;letter-spacing:-0.02em;margin-bottom:24px;}
 .hero h1 .line2{color:var(--accent2);}
 .hero-sub{font-size:1.1rem;color:var(--muted);max-width:560px;line-height:1.75;margin-bottom:40px;font-weight:400;letter-spacing:0;}
-.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:60px;}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+.hero-reassure{font-size:13px;color:var(--muted);margin-bottom:46px;}
 .btn-lg{padding:13px 28px;font-size:15px;border-radius:10px;}
 .hero-stats{display:flex;gap:40px;flex-wrap:wrap;}
 .stat{border-left:2px solid var(--border2);padding-left:18px;}
@@ -65,8 +67,8 @@ nav{position:sticky;top:0;z-index:100;padding:0 5vw;height:64px;display:flex;ali
 
 /* floating blobs */
 .blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
-.blob1{width:400px;height:400px;background:rgba(124,106,247,0.12);top:-100px;right:-50px;}
-.blob2{width:300px;height:300px;background:rgba(56,189,248,0.07);bottom:-50px;left:10%;}
+.blob1{width:400px;height:400px;background:rgba(217,122,63,0.14);top:-100px;right:-50px;}
+.blob2{width:300px;height:300px;background:rgba(240,168,105,0.10);bottom:-50px;left:10%;}
 
 /* ── SECTION COMMON ── */
 .section{padding:80px 5vw;max-width:1200px;margin:0 auto;position:relative;z-index:1;}
@@ -87,7 +89,7 @@ nav{position:sticky;top:0;z-index:100;padding:0 5vw;height:64px;display:flex;ali
 /* ── TEMPLATES ── */
 .templates-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
 .template-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .25s;cursor:pointer;position:relative;}
-.template-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 40px rgba(124,106,247,0.15);}
+.template-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 40px rgba(217,122,63,0.15);}
 .template-card::before{content:'';position:absolute;inset:0;border-radius:16px;opacity:0;transition:opacity .25s;pointer-events:none;}
 .template-card:hover::before{opacity:1;}
 .template-preview{height:160px;display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;overflow:hidden;}
@@ -102,7 +104,7 @@ nav{position:sticky;top:0;z-index:100;padding:0 5vw;height:64px;display:flex;ali
 .template-tag{position:absolute;top:12px;right:12px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;letter-spacing:0.05em;text-transform:uppercase;}
 .tag-new{background:rgba(52,211,153,0.2);color:#34d399;border:1px solid rgba(52,211,153,0.3);}
 .tag-popular{background:rgba(251,191,36,0.2);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);}
-.tag-pro{background:rgba(124,106,247,0.2);color:var(--accent2);border:1px solid rgba(124,106,247,0.3);}
+.tag-pro{background:rgba(217,122,63,0.2);color:var(--accent2);border:1px solid rgba(217,122,63,0.3);}
 .template-body{padding:20px;}
 .template-industry{font-family:var(--mono);font-size:10px;letter-spacing:0.09em;text-transform:uppercase;color:var(--muted2);margin-bottom:6px;}
 .template-name{font-family:var(--display);font-size:18px;font-weight:700;margin-bottom:7px;letter-spacing:-0.01em;line-height:1.2;}
@@ -159,7 +161,7 @@ nav{position:sticky;top:0;z-index:100;padding:0 5vw;height:64px;display:flex;ali
 /* ── PRICING ── */
 .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
 .pricing-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;position:relative;}
-.pricing-card.featured{border-color:var(--accent);background:linear-gradient(180deg,rgba(124,106,247,0.06),transparent);}
+.pricing-card.featured{border-color:var(--accent);background:linear-gradient(180deg,rgba(217,122,63,0.06),transparent);}
 .pricing-card.featured::before{content:'Most popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;white-space:nowrap;}
 .plan-name{font-family:var(--display);font-size:17px;font-weight:700;margin-bottom:6px;letter-spacing:-0.01em;}
 .plan-price{font-family:var(--display);font-size:2.4rem;font-weight:700;line-height:1;margin-bottom:4px;letter-spacing:-0.02em;}
@@ -202,8 +204,8 @@ textarea.modal-input{resize:vertical;min-height:80px;}
 .modal-colors{display:flex;gap:8px;flex-wrap:wrap;}
 .m-swatch{width:30px;height:30px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s;}
 .m-swatch.sel{border-color:#fff;transform:scale(1.15);}
-.modal-deploy-btn{width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;font-family:var(--sans);cursor:pointer;transition:all .2s;margin-top:4px;letter-spacing:0;}
-.modal-deploy-btn:hover{background:#6c5ae7;transform:translateY(-1px);}
+.modal-deploy-btn{width:100%;padding:14px;background:#b85a24;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;font-family:var(--sans);cursor:pointer;transition:all .2s;margin-top:4px;letter-spacing:0;}
+.modal-deploy-btn:hover{background:#9c4b1c;transform:translateY(-1px);}
 .modal-deploy-btn:disabled{background:var(--border2);color:var(--muted);cursor:not-allowed;transform:none;}
 .modal-note{font-size:12.5px;color:var(--muted2);text-align:center;margin-top:10px;line-height:1.6;}
 
@@ -227,7 +229,7 @@ textarea.modal-input{resize:vertical;min-height:80px;}
 .demo-head-left{display:flex;align-items:center;gap:10px;}
 .demo-head-emoji{font-size:22px;}
 .demo-head-title{font-family:var(--display);font-size:1.1rem;font-weight:700;letter-spacing:-0.01em;}
-.demo-head-tag{font-family:var(--mono);font-size:10px;color:var(--accent);background:rgba(124,106,247,0.1);border:1px solid rgba(124,106,247,0.2);padding:3px 9px;border-radius:20px;letter-spacing:.07em;text-transform:uppercase;}
+.demo-head-tag{font-family:var(--mono);font-size:10px;color:var(--accent);background:rgba(217,122,63,0.1);border:1px solid rgba(217,122,63,0.2);padding:3px 9px;border-radius:20px;letter-spacing:.07em;text-transform:uppercase;}
 .demo-modal-close{background:var(--bg3);border:1px solid var(--border);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:14px;transition:all .2s;flex-shrink:0;}
 .demo-modal-close:hover{color:var(--text);border-color:var(--border2);}
 .demo-modal-body{display:grid;grid-template-columns:1fr 320px;flex:1;overflow:hidden;min-height:0;}
@@ -266,14 +268,22 @@ textarea.modal-input{resize:vertical;min-height:80px;}
 .demo-right-panel::-webkit-scrollbar{width:3px;}
 .demo-section-label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:8px;}
 .demo-feat-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
-.demo-feat-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:rgba(124,106,247,0.1);}
+.demo-feat-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:rgba(217,122,63,0.1);}
 .demo-feat-title{font-size:13px;font-weight:600;margin-bottom:2px;}
 .demo-feat-desc{font-size:11.5px;color:var(--muted);line-height:1.5;}
-.demo-dl-btn{width:100%;padding:12px;border-radius:10px;font-size:14px;font-weight:600;font-family:var(--display);cursor:pointer;border:none;transition:all .2s;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;gap:7px;}
-.demo-dl-btn:hover{background:#6c5ae7;transform:translateY(-1px);}
+.demo-dl-btn{width:100%;padding:12px;border-radius:10px;font-size:14px;font-weight:600;font-family:var(--display);cursor:pointer;border:none;transition:all .2s;background:#b85a24;color:#fff;display:flex;align-items:center;justify-content:center;gap:7px;}
+.demo-dl-btn:hover{background:#9c4b1c;transform:translateY(-1px);}
 .demo-dl-note{font-size:11px;color:var(--muted2);text-align:center;margin-top:6px;line-height:1.5;}
-.setup-tip-box{background:rgba(124,106,247,0.06);border:1px solid rgba(124,106,247,0.18);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6;}
+.setup-tip-box{background:rgba(217,122,63,0.06);border:1px solid rgba(217,122,63,0.18);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.6;}
 .setup-tip-box strong{color:var(--text);}
+.faq-list{display:flex;flex-direction:column;gap:10px;max-width:720px;}
+.faq-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.faq-item summary{padding:16px 20px;cursor:pointer;font-weight:600;font-size:14.5px;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary::after{content:'+';font-size:20px;color:var(--accent);flex-shrink:0;transition:transform .2s;}
+.faq-item[open] summary::after{transform:rotate(45deg);}
+.faq-item[open] summary{border-bottom:1px solid var(--border);}
+.faq-answer{padding:2px 20px 18px;font-size:13.5px;color:var(--muted);line-height:1.7;}
 </style>
 </head>
 <body>
@@ -284,6 +294,7 @@ textarea.modal-input{resize:vertical;min-height:80px;}
   <div class="nav-links">
     <a href="#templates">Templates</a>
     <a href="#builder">Builder</a>
+    <a href="#faq">FAQ</a>
     <a href="#pricing">Pricing</a>
     <a class="btn btn-ghost" href="#templates">Browse Templates</a>
     <a class="btn btn-primary" href="#" onclick="openModal('generic')">Start Building →</a>
@@ -296,17 +307,18 @@ textarea.modal-input{resize:vertical;min-height:80px;}
   <div class="blob blob2"></div>
   <div class="hero">
     <div class="hero-eyebrow">No code required</div>
-    <h1>Your AI chatbot.<br/><span class="line2">Your brand. 10 minutes.</span></h1>
-    <p class="hero-sub">Pick a template for your industry, add your knowledge base, customise the branding — and deploy a fully AI-powered support agent to GitHub Pages for free.</p>
+    <h1>Your AI chatbot.<br/><span class="line2">Your brand. No developer.</span></h1>
+    <p class="hero-sub">Pick a template, tell it about your business, and put a working AI assistant on your website — free, with a step-by-step guide made for people who've never touched code.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary btn-lg" href="#templates">Browse Templates ↓</a>
       <a class="btn btn-ghost btn-lg" href="#builder">See How It Works</a>
     </div>
+    <p class="hero-reassure">No credit card. No coding. Cancel anytime — it's just a file on your computer.</p>
     <div class="hero-stats">
       <div class="stat"><div class="stat-num">8+</div><div class="stat-label">Industry templates</div></div>
       <div class="stat"><div class="stat-num">0</div><div class="stat-label">Coding required</div></div>
-      <div class="stat"><div class="stat-num">Free</div><div class="stat-label">GitHub Pages hosting</div></div>
-      <div class="stat"><div class="stat-num">10 min</div><div class="stat-label">From zero to live</div></div>
+      <div class="stat"><div class="stat-num">Free</div><div class="stat-label">Hosting, always</div></div>
+      <div class="stat"><div class="stat-num">~20 min</div><div class="stat-label">First-timer setup</div></div>
     </div>
   </div>
 </section>
@@ -575,14 +587,14 @@ textarea.modal-input{resize:vertical;min-height:80px;}
           <div class="field-group">
             <label class="field-label">Brand colour</label>
             <div class="color-row">
-              <div class="color-swatch active" style="background:#7c6af7" onclick="setColor(this,'#7c6af7')"></div>
+              <div class="color-swatch active" style="background:#d97a3f" onclick="setColor(this,'#d97a3f')"></div>
               <div class="color-swatch" style="background:#003087" onclick="setColor(this,'#003087')"></div>
               <div class="color-swatch" style="background:#059669" onclick="setColor(this,'#059669')"></div>
               <div class="color-swatch" style="background:#dc2626" onclick="setColor(this,'#dc2626')"></div>
               <div class="color-swatch" style="background:#d97706" onclick="setColor(this,'#d97706')"></div>
               <div class="color-swatch" style="background:#0ea5e9" onclick="setColor(this,'#0ea5e9')"></div>
               <div class="color-swatch" style="background:#ec4899" onclick="setColor(this,'#ec4899')"></div>
-              <input class="field-input color-input" id="cfg-color" type="text" value="#7c6af7" oninput="setColorDirect(this.value)"/>
+              <input class="field-input color-input" id="cfg-color" type="text" value="#d97a3f" oninput="setColorDirect(this.value)"/>
             </div>
           </div>
           <div class="field-group">
@@ -652,7 +664,7 @@ textarea.modal-input{resize:vertical;min-height:80px;}
         <div class="panel-label">Live preview</div>
         <div class="mini-chat" id="miniChatPreview">
           <div class="mini-chat-header">
-            <div class="mini-avatar" id="prev-avatar" style="background:#7c6af7">💬</div>
+            <div class="mini-avatar" id="prev-avatar" style="background:#d97a3f">💬</div>
             <div>
               <div class="mini-name" id="prev-name">Acme Assistant</div>
               <div class="mini-status">● Online</div>
@@ -686,11 +698,43 @@ textarea.modal-input{resize:vertical;min-height:80px;}
 
 <div class="divider"></div>
 
+<!-- TRUST / KNOW YOUR AI EMPLOYEE -->
+<section class="section" id="trust">
+  <div class="section-eyebrow">Before you deploy</div>
+  <div class="section-title">Know your AI employee</div>
+  <p class="section-sub">An AI assistant is a genuinely useful hire — but it's still a new kind of hire. Here's exactly what it can and can't do, so you deploy it with confidence, not crossed fingers.</p>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-icon">📚</div>
+      <div class="how-title">It only knows what you teach it</div>
+      <div class="how-desc">Your chatbot answers from the knowledge base and instructions you give it — nothing more. No content, no confident guessing about your business.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-icon">🤝</div>
+      <div class="how-title">It hands off when it's unsure</div>
+      <div class="how-desc">Every template includes an escalation message so tricky or sensitive questions get routed to a real person instead of the AI guessing.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-icon">🔎</div>
+      <div class="how-title">Review it before customers see it</div>
+      <div class="how-desc">Use the free demo mode and live preview to test real questions your customers would ask, before it ever goes live on your site.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-icon">🔌</div>
+      <div class="how-title">You're always in control</div>
+      <div class="how-desc">It's a file you own, on hosting you control. Take it down, edit its instructions, or turn off the backend at any moment — no contract, no lock-in.</div>
+    </div>
+  </div>
+  <p style="font-size:12.5px;color:var(--muted2);margin-top:20px;line-height:1.6;max-width:640px;">Like any new team member, give it clear instructions and check its early answers. It's a tool to handle the repetitive questions so you can focus on the ones that need a human touch — not a replacement for your judgement on anything sensitive, legal, medical, or financial.</p>
+</section>
+
+<div class="divider"></div>
+
 <!-- PRICING -->
 <section class="section" id="pricing">
   <div class="section-eyebrow">Pricing</div>
   <div class="section-title">Simple, transparent pricing</div>
-  <p class="section-sub">The chatbot itself is always free to host. You only pay for AI API usage — and only when it's actually answering questions.</p>
+  <p class="section-sub">The chatbot itself is always free to host. You only pay for AI API usage — and only when it's actually answering questions. Most small businesses spend just a few dollars a month, and you set your own spending limit with your AI provider so it can never run away on you.</p>
   <div class="pricing-grid">
     <div class="pricing-card">
       <div class="plan-name">Starter</div>
@@ -744,14 +788,51 @@ textarea.modal-input{resize:vertical;min-height:80px;}
 </section>
 
 <div class="divider"></div>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="section-eyebrow">Common questions</div>
+  <div class="section-title">Before you get started</div>
+  <p class="section-sub">Answers to what everyone asks the first time.</p>
+  <div class="faq-list">
+    <details class="faq-item">
+      <summary>Do I need a website already?</summary>
+      <div class="faq-answer">No. GitHub Pages gives your chatbot its own free web address on its own. If you already have a website, you can drop it in with a one-line embed code from the setup guide — but it works perfectly well on its own too.</div>
+    </details>
+    <details class="faq-item">
+      <summary>What if I get stuck or mess up the setup?</summary>
+      <div class="faq-answer">Every step has a plain-English guide with click-by-click instructions and a troubleshooting section for the most common mistakes. Nothing you do can break your computer or cost you money by accident — worst case, you delete the files and start again.</div>
+    </details>
+    <details class="faq-item">
+      <summary>What if my chatbot says something wrong to a customer?</summary>
+      <div class="faq-answer">Test it in demo mode first with real questions your customers ask. Every template includes a built-in hand-off message for anything it's unsure about, and you can edit or turn it off at any time — it only ever answers from the information you give it.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Is my customers' data safe?</summary>
+      <div class="faq-answer">Conversations go straight from your chatbot to your own private backend to Anthropic's Claude API and back — nothing passes through DIYChatbots' servers, because we don't have any. You control the backend, so you control where the data goes.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Do I need to know how to code?</summary>
+      <div class="faq-answer">No. Every step is point-and-click — creating accounts, pasting a file, ticking a couple of settings. You will be copying and pasting a few things exactly as shown, which is the most "technical" part of the whole process.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Can I cancel or remove it later?</summary>
+      <div class="faq-answer">Yes, any time. There's no subscription to DIYChatbots to cancel — you can delete the GitHub repository, pause the backend, or simply stop paying for AI usage, and the chatbot stops working immediately.</div>
+    </details>
+  </div>
+</section>
+
+<div class="divider"></div>
 <footer>
   <div class="footer-logo">DIY<span>Chatbots</span></div>
   <div class="footer-links">
     <a href="#templates">Templates</a>
     <a href="#builder">Builder</a>
+    <a href="#trust">Know Your AI Employee</a>
+    <a href="#faq">FAQ</a>
     <a href="#pricing">Pricing</a>
-    <a href="#">GitHub</a>
-    <a href="#">Docs</a>
+    <a href="https://github.com/ekbm/DIYchatbots" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://github.com/ekbm/DIYchatbots/blob/main/SETUP-GUIDE.md" target="_blank" rel="noopener">Docs</a>
   </div>
   <div class="footer-copy">© 2026 DIYChatbots. Built for everyone.</div>
 </footer>
@@ -830,7 +911,7 @@ textarea.modal-input{resize:vertical;min-height:80px;}
         <div style="margin-top:10px;">
           <label class="modal-label" style="margin-bottom:8px;display:block;">Brand colour</label>
           <div class="modal-colors">
-            <div class="m-swatch sel" style="background:#7c6af7" onclick="selectSwatch(this,'#7c6af7')"></div>
+            <div class="m-swatch sel" style="background:#d97a3f" onclick="selectSwatch(this,'#d97a3f')"></div>
             <div class="m-swatch" style="background:#003087" onclick="selectSwatch(this,'#003087')"></div>
             <div class="m-swatch" style="background:#059669" onclick="selectSwatch(this,'#059669')"></div>
             <div class="m-swatch" style="background:#dc2626" onclick="selectSwatch(this,'#dc2626')"></div>
@@ -885,7 +966,7 @@ textarea.modal-input{resize:vertical;min-height:80px;}
 <script>
 // ── PREVIEW UPDATES ──
 let currentEmoji = '💬';
-let currentColor = '#7c6af7';
+let currentColor = '#d97a3f';
 
 function updatePreview() {
   document.getElementById('prev-name').textContent = document.getElementById('cfg-botname').value || 'Your Bot';
@@ -958,7 +1039,7 @@ function selectSwatch(el, color) {
   el.classList.add('sel');
   window._selectedColor = color;
 }
-window._selectedColor = '#7c6af7';
+window._selectedColor = '#d97a3f';
 
 function updateProgress() {
   const fields = ['m-company','m-botname','m-welcome','m-emoji'];
@@ -975,7 +1056,7 @@ function generateAndDownload() {
   const tone = document.getElementById('m-tone').value;
   const kb = document.getElementById('m-kb').value.trim();
   const backendUrl = document.getElementById('m-backend').value.trim();
-  const color = window._selectedColor || '#7c6af7';
+  const color = window._selectedColor || '#d97a3f';
   const colorDark = shadeColor(color, -20);
   const colorGlow = hexToRgba(color, 0.18);
 
@@ -1536,7 +1617,7 @@ textarea.fi{resize:vertical;min-height:90px;line-height:1.5;}
 .chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
 .chip{padding:5px 11px;background:var(--surface);border:1px solid var(--border);border-radius:18px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:var(--sans);}
 .chip:hover{border-color:var(--accent);color:var(--text);}
-.kb-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--accent);background:var(--accent-glow);border:1px solid rgba(124,106,247,0.15);border-radius:4px;padding:2px 7px;margin-top:5px;}
+.kb-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--accent);background:var(--accent-glow);border:1px solid rgba(217,122,63,0.15);border-radius:4px;padding:2px 7px;margin-top:5px;}
 .typing{display:flex;gap:4px;align-items:center;padding:13px 15px;}
 .tdot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:bounce 1.2s infinite;}
 .tdot:nth-child(2){animation-delay:.2s;}
