@@ -13,12 +13,13 @@
 //   4. Open the Worker -> Settings -> Variables and Secrets, then add:
 //        ANTHROPIC_API_KEY  = your sk-ant-... key   (mark it as a Secret)
 //        ALLOWED_ORIGIN     = your website address, e.g. https://your-name.github.io
-//                             (optional but recommended — limits who can use this proxy)
+//                             (strongly recommended — without this, anyone who finds
+//                             your Worker URL can use it and spend your AI credits)
 //   5. Copy the Worker URL (looks like https://your-bot.your-name.workers.dev)
 //   6. Paste that URL into the "Your backend URL" box on DIYchatbots and
 //      download your chatbot again.
 
-const MODEL = "claude-sonnet-4-6"; // current model name; check Anthropic docs if this ever errors
+const MODEL = "claude-sonnet-5"; // current model name; check Anthropic docs if this ever errors
 const MAX_TOKENS = 600;
 
 export default {

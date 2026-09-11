@@ -1249,12 +1249,14 @@ function demoSend() {
 // ── SETUP GUIDE BUILDER ──
 function buildSetupGuide({ company, botname, emoji, color }) {
   const slug = botname.replace(/\s+/g,'-').toLowerCase();
+  const hSlug = escHtml(slug);
+  const hCompany = escHtml(company), hBotname = escHtml(botname), hEmoji = escHtml(emoji);
   const colorDark = shadeColor(color, -20);
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>${botname} — Setup Guide</title>
+<title>${hBotname} — Setup Guide</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -1288,8 +1290,8 @@ footer{background:#1a1a2e;text-align:center;padding:20px;font-size:12px;color:rg
 </head>
 <body>
 <div class="topbar">
-  <div class="topbar-icon">${emoji}</div>
-  <div><div class="topbar-name">${botname} — Setup Guide</div><div class="topbar-sub">${company} · DIYChatbots.io</div></div>
+  <div class="topbar-icon">${hEmoji}</div>
+  <div><div class="topbar-name">${hBotname} — Setup Guide</div><div class="topbar-sub">${hCompany} · DIYChatbots.io</div></div>
 </div>
 <div class="banner">
   <div><h2>You're 5 steps away from going live 🚀</h2><p>Plain English, no jargon, no coding needed. Estimated time: <strong>10–15 minutes</strong> from start to a live chatbot on the internet.</p></div>
@@ -1326,7 +1328,7 @@ footer{background:#1a1a2e;text-align:center;padding:20px;font-size:12px;color:rg
   <div class="step-wrap" id="s2">
     <div class="step-hd"><div class="step-circle">2</div><div class="step-title">Set up your secure backend (holds your API key)</div></div>
     <div class="step-card">
-      <p>The AI behind ${botname} is powered by Anthropic's Claude. Your API key must never go inside this chatbot file, because anyone visiting your website can read the file's code. Instead you put the key in a small free backend (a "proxy") that keeps it private. This takes about 5 minutes and stays free.</p>
+      <p>The AI behind ${hBotname} is powered by Anthropic's Claude. Your API key must never go inside this chatbot file, because anyone visiting your website can read the file's code. Instead you put the key in a small free backend (a "proxy") that keeps it private. This takes about 5 minutes and stays free.</p>
       <ol>
         <li>Get a free Anthropic API key at <strong>console.anthropic.com</strong> → sign up → <strong>"API Keys"</strong> → <strong>"Create Key"</strong>. Copy it (it starts with <strong>sk-ant-api03-…</strong>) and keep it private.</li>
         <li>Create a free account at <strong>dash.cloudflare.com</strong> and open <strong>Workers &amp; Pages → Create → Worker</strong>.</li>
@@ -1349,7 +1351,7 @@ footer{background:#1a1a2e;text-align:center;padding:20px;font-size:12px;color:rg
         <li>Click the <strong>"+"</strong> icon in the top-right corner → <strong>"New repository"</strong></li>
         <li>In the "Repository name" field, type:</li>
       </ol>
-      <div class="code">${slug}</div>
+      <div class="code">${hSlug}</div>
       <ol start="4">
         <li>Set the visibility to <strong>Public</strong> (required for free GitHub Pages hosting)</li>
         <li>Tick the box <strong>"Add a README file"</strong></li>
@@ -1365,7 +1367,7 @@ footer{background:#1a1a2e;text-align:center;padding:20px;font-size:12px;color:rg
       <p>Now we upload the HTML file you downloaded from DIYChatbots.</p>
       <ol>
         <li>Inside your repository, click <strong>"Add file"</strong> → <strong>"Upload files"</strong></li>
-        <li>Drag the file <strong>(${slug}-chatbot.html)</strong> into the upload area, or click "choose your files"</li>
+        <li>Drag the file <strong>(${hSlug}-chatbot.html)</strong> into the upload area, or click "choose your files"</li>
         <li><strong>⚠️ Important:</strong> Before clicking Commit, you need to rename it. In the file list that appears after upload, click the filename and change it to exactly:</li>
       </ol>
       <div class="code">index.html</div>
@@ -1389,7 +1391,7 @@ footer{background:#1a1a2e;text-align:center;padding:20px;font-size:12px;color:rg
         <li>Wait 1–2 minutes, then refresh the page</li>
         <li>A green bar will appear at the top of the Pages settings with your live URL, which looks like:</li>
       </ol>
-      <div class="code">https://your-username.github.io/${slug}</div>
+      <div class="code">https://your-username.github.io/${hSlug}</div>
       <div class="tip">🎉 That's it! Open that URL in your browser — your chatbot is live on the internet. Share this link with anyone and they can use it immediately — no install, no login required.</div>
     </div>
   </div>
@@ -1397,7 +1399,7 @@ footer{background:#1a1a2e;text-align:center;padding:20px;font-size:12px;color:rg
   <div class="step-wrap" id="s6">
     <div class="step-hd"><div class="step-circle">6</div><div class="step-title">Add your knowledge base</div></div>
     <div class="step-card">
-      <p>This is what makes ${botname} smart about <em>your</em> business. Open your live chatbot URL, then click the <strong>"📚 KB"</strong> button in the top-right corner.</p>
+      <p>This is what makes ${hBotname} smart about <em>your</em> business. Open your live chatbot URL, then click the <strong>"📚 KB"</strong> button in the top-right corner.</p>
       <p>You can add content three ways:</p>
       <ul>
         <li><strong>Text tab</strong> — paste in FAQs, policies, product descriptions, or any information about your business</li>
@@ -1416,7 +1418,7 @@ footer{background:#1a1a2e;text-align:center;padding:20px;font-size:12px;color:rg
       <p><strong>The AI isn't responding / gives errors</strong><br/>Check that your backend URL was pasted correctly when you generated the chatbot, and that your ANTHROPIC_API_KEY secret is set in the backend. Leave the backend URL blank to use "Demo mode" and test the interface without a key.</p>
       <p><strong>How do I update the chatbot?</strong><br/>Download a new version from DIYChatbots.io, then upload it to your GitHub repository — same steps as before. The site republishes automatically within ~60 seconds.</p>
       <p><strong>How do I embed it on my website?</strong><br/>Use this iframe code anywhere on your site:</p>
-      <div class="code">&lt;iframe src="https://your-username.github.io/${slug}" width="100%" height="700px" frameborder="0"&gt;&lt;/iframe&gt;</div>
+      <div class="code">&lt;iframe src="https://your-username.github.io/${hSlug}" width="100%" height="700px" frameborder="0"&gt;&lt;/iframe&gt;</div>
       <p><strong>The chatbot is slow to respond</strong><br/>This is normal on the free Anthropic tier. Response time is typically 1–3 seconds. For faster responses, upgrade your Anthropic API plan.</p>
     </div>
   </div>
@@ -1440,12 +1442,32 @@ function hexToRgba(hex, a) {
   return `rgba(${num>>16},${(num>>8)&0xff},${num&0xff},${a})`;
 }
 
+// Escapes a value for safe use as HTML text/attribute content in the generated file.
+function escHtml(str) {
+  return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// Escapes a value for safe use inside a JS string/template literal in the generated file
+// (so pasted text containing backticks, template expressions, quotes, or a closing script tag can't break or inject into it).
+function escJs(str) {
+  return String(str)
+    .replace(/\\/g, '\\\\')
+    .replace(/`/g, '\\`')
+    .replace(/\$\{/g, '\\${')
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '\\"')
+    .replace(/\r?\n/g, '\\n')
+    .replace(/<\/script/gi, '<\\/script');
+}
+
 function buildChatbotHTML({ company, botname, emoji, welcome, tone, kb, backendUrl, color, colorDark, colorGlow }) {
+  const hCompany = escHtml(company), hBotname = escHtml(botname), hEmoji = escHtml(emoji), hWelcome = escHtml(welcome);
+  const jCompany = escJs(company), jBotname = escJs(botname), jTone = escJs(tone), jKb = escJs(kb), jBackend = escJs(backendUrl);
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>${botname} — ${company} AI Assistant</title>
+<title>${hBotname} — ${hCompany} AI Assistant</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -1549,8 +1571,8 @@ textarea.fi{resize:vertical;min-height:90px;line-height:1.5;}
 <body>
 <header>
   <div class="hlogo">
-    <div class="hlogo-icon">${emoji}</div>
-    <span>${company}</span>
+    <div class="hlogo-icon">${hEmoji}</div>
+    <span>${hCompany}</span>
   </div>
   <div class="hright">
     <div class="pill"><span class="dot"></span><span id="statusLbl">AI Online</span></div>
@@ -1588,11 +1610,11 @@ textarea.fi{resize:vertical;min-height:90px;line-height:1.5;}
   </aside>
   <div class="chat">
     <div class="avatar-zone">
-      <div class="av" id="avEl">${emoji}</div>
-      <div class="av-info"><div class="av-name">${botname}</div><div class="av-tag" id="avTag">${company} AI Assistant</div></div>
+      <div class="av" id="avEl">${hEmoji}</div>
+      <div class="av-info"><div class="av-name">${hBotname}</div><div class="av-tag" id="avTag">${hCompany} AI Assistant</div></div>
     </div>
     <div class="msgs" id="msgs">
-      <div class="mrow b"><div class="mav">${emoji}</div><div><div class="bub">${welcome}</div></div></div>
+      <div class="mrow b"><div class="mav">${hEmoji}</div><div><div class="bub">${hWelcome}</div></div></div>
     </div>
     <div class="input-area">
       <div class="input-wrap">
@@ -1606,7 +1628,7 @@ textarea.fi{resize:vertical;min-height:90px;line-height:1.5;}
 
 <div class="modal-ov" id="apiModal">
   <div class="modal-box">
-    <h3>${botname}</h3>
+    <h3>${hBotname}</h3>
     <p id="setupMsg">Loading…</p>
     <div class="modal-btns">
       <button class="mbtn p" onclick="closeSetup()">Start chatting</button>
@@ -1616,8 +1638,8 @@ textarea.fi{resize:vertical;min-height:90px;line-height:1.5;}
 </div>
 
 <script>
-let BACKEND='${backendUrl}';let demoMode=BACKEND?false:true;let kbEntries=[];let sbOpen=true;
-const SYS=\`You are ${botname}, an AI assistant for ${company}. Tone: ${tone}. Be helpful, concise, and practical. If you cannot resolve an issue, acknowledge it and offer to escalate.\n${kb ? 'KNOWLEDGE BASE:\n' + kb : ''}\`;
+let BACKEND='${jBackend}';let demoMode=BACKEND?false:true;let kbEntries=[];let sbOpen=true;
+const SYS=\`You are ${jBotname}, an AI assistant for ${jCompany}. Tone: ${jTone}. Be helpful, concise, and practical. If you cannot resolve an issue, acknowledge it and offer to escalate.\n${kb ? 'KNOWLEDGE BASE:\n' + jKb : ''}\`;
 
 function closeSetup(){document.getElementById('apiModal').style.display='none';}
 function toggleSidebar(){sbOpen=!sbOpen;document.getElementById('sidebar').classList.toggle('hide',!sbOpen);}
@@ -1632,14 +1654,14 @@ function renderKb(){const l=document.getElementById('kbList');const emp=document
 
 async function send(){const ci=document.getElementById('ci');const text=ci.value.trim();if(!text)return;ci.value='';ci.style.height='auto';addMsg('u',text);showTyping();try{let reply;if(demoMode){reply=await demoReply(text);}else{reply=await aiReply(text);}hideTyping();addMsg('b',reply,kbEntries.length>0);}catch(err){hideTyping();addMsg('b','⚠️ Error: '+err.message);}}
 
-async function aiReply(msg){let sys=SYS;if(kbEntries.length){sys+='\n\nADDITIONAL KB:\n'+kbEntries.map(e=>'['+e.title+']: '+e.content.slice(0,600)).join('\n\n');}const res=await fetch(BACKEND,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:sys,message:msg})});if(!res.ok){let m='Error '+res.status;try{const e=await res.json();if(e&&e.error)m=e.error;}catch(_){}throw new Error(m);}const d=await res.json();return d.reply;}
+async function aiReply(msg){let sys=SYS;if(kbEntries.length){sys+='\\n\\nADDITIONAL KB:\\n'+kbEntries.map(e=>'['+e.title+']: '+e.content.slice(0,600)).join('\\n\\n');}const res=await fetch(BACKEND,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:sys,message:msg})});if(!res.ok){let m='Error '+res.status;try{const e=await res.json();if(e&&e.error)m=e.error;}catch(_){}throw new Error(m);}const d=await res.json();return d.reply;}
 
-async function demoReply(msg){await new Promise(r=>setTimeout(r,900+Math.random()*500));if(kbEntries.length)return 'This is a demo reply. Once your backend is connected, I\'ll answer using your '+kbEntries.length+' knowledge base document'+(kbEntries.length>1?'s':'')+'.';return 'This is a demo reply with sample text. Connect your backend to switch on live AI answers based on your knowledge base.';}
+async function demoReply(msg){await new Promise(r=>setTimeout(r,900+Math.random()*500));if(kbEntries.length)return 'This is a demo reply. Once your backend is connected, I\\'ll answer using your '+kbEntries.length+' knowledge base document'+(kbEntries.length>1?'s':'')+'.';return 'This is a demo reply with sample text. Connect your backend to switch on live AI answers based on your knowledge base.';}
 
-function addMsg(role,text,hasKb=false){const msgs=document.getElementById('msgs');const row=document.createElement('div');row.className='mrow '+role;const isB=role==='b';const fmt=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br/>');row.innerHTML=\`<div class="mav">\${isB?'${emoji}':'ME'}</div><div class="bub">\${fmt}\${isB&&hasKb?'<div class=\\"kb-tag\\">📚 KB referenced</div>':''}</div>\`;msgs.appendChild(row);row.scrollIntoView({behavior:'smooth',block:'end'});}
+function addMsg(role,text,hasKb=false){const msgs=document.getElementById('msgs');const row=document.createElement('div');row.className='mrow '+role;const isB=role==='b';const fmt=text.replace(/\\*\\*(.*?)\\*\\*/g,'<strong>$1</strong>').replace(/\\n/g,'<br/>');row.innerHTML=\`<div class="mav">\${isB?'${hEmoji}':'ME'}</div><div class="bub">\${fmt}\${isB&&hasKb?'<div class=\\"kb-tag\\">📚 KB referenced</div>':''}</div>\`;msgs.appendChild(row);row.scrollIntoView({behavior:'smooth',block:'end'});}
 
 let typingRow=null;
-function showTyping(){const msgs=document.getElementById('msgs');typingRow=document.createElement('div');typingRow.className='mrow b';typingRow.id='tr';typingRow.innerHTML='<div class="mav">${emoji}</div><div class="bub"><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div></div>';msgs.appendChild(typingRow);typingRow.scrollIntoView({behavior:'smooth',block:'end'});}
+function showTyping(){const msgs=document.getElementById('msgs');typingRow=document.createElement('div');typingRow.className='mrow b';typingRow.id='tr';typingRow.innerHTML='<div class="mav">${hEmoji}</div><div class="bub"><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div></div>';msgs.appendChild(typingRow);typingRow.scrollIntoView({behavior:'smooth',block:'end'});}
 function hideTyping(){const t=document.getElementById('tr');if(t)t.remove();}
 
 (function(){var sm=document.getElementById('setupMsg');var st=document.getElementById('statusLbl');if(BACKEND){document.getElementById('apiModal').style.display='none';if(st)st.textContent='AI Connected';}else{if(sm)sm.textContent='This is running in demo mode with sample replies. To switch on live AI, set up your free backend and add its URL when you generate the chatbot.';if(st)st.textContent='Demo Mode';}})();
