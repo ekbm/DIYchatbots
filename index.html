@@ -74,6 +74,7 @@ nav{position:sticky;top:0;z-index:100;padding:0 5vw;height:64px;display:flex;ali
 .nav-links a{font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s;font-weight:400;}
 .nav-links a:hover{color:var(--text);}
 .nav-links a.btn-primary,.nav-links a.btn-primary:hover{color:#fff;}
+.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;line-height:1;cursor:pointer;padding:4px 6px;}
 .theme-toggle{background:var(--surface);border:1px solid var(--border);color:var(--text);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
 .theme-toggle:hover{border-color:var(--accent);}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:none;font-family:var(--sans);transition:all .2s;text-decoration:none;}
@@ -136,6 +137,8 @@ nav{position:sticky;top:0;z-index:100;padding:0 5vw;height:64px;display:flex;ali
 .tp-finance{background:linear-gradient(135deg,#0a1520,#102030);}
 .tp-sales{background:linear-gradient(135deg,#0a1f1c,#123a32);}
 .tp-docs{background:linear-gradient(135deg,#160f2e,#241a4a);}
+.tp-restaurant{background:linear-gradient(135deg,#2a0f0f,#4a1a1a);}
+.tp-shop{background:linear-gradient(135deg,#241a0a,#3a2e12);}
 .template-tag{position:absolute;top:12px;right:12px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;letter-spacing:0.05em;text-transform:uppercase;}
 .tag-new{background:rgba(var(--green-rgb),0.2);color:var(--green);border:1px solid rgba(var(--green-rgb),0.3);}
 .tag-popular{background:rgba(var(--amber-rgb),0.2);color:var(--amber);border:1px solid rgba(var(--amber-rgb),0.3);}
@@ -248,9 +251,16 @@ textarea.modal-input{resize:vertical;min-height:80px;}
 .progress-bar{height:3px;background:var(--border);border-radius:2px;margin:16px 0;overflow:hidden;}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width .4s ease;}
 
+@media(max-width:1060px){
+  .nav-toggle{display:flex;align-items:center;}
+  .nav-links{position:fixed;top:64px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--bg);border-bottom:1px solid var(--border);padding:0 5vw;max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .nav-links.open{max-height:70vh;overflow-y:auto;padding-bottom:14px;}
+  .nav-links a{padding:13px 0;border-bottom:1px solid var(--border);width:100%;}
+  .nav-links a.btn{width:100%;justify-content:center;margin-top:10px;border-bottom:none;}
+  .nav-links .theme-toggle{align-self:flex-start;margin-top:10px;}
+}
 @media(max-width:600px){
   .hero h1{font-size:2.4rem;}
-  .nav-links a:not(:last-child){display:none;}
   .builder-panels{grid-template-columns:1fr;}
   .config-panel{border-right:none;border-bottom:1px solid var(--border);}
   footer{flex-direction:column;gap:16px;text-align:center;}
@@ -327,15 +337,17 @@ textarea.modal-input{resize:vertical;min-height:80px;}
 <!-- NAV -->
 <nav>
   <div class="nav-logo">DIY<span>Chatbots</span></div>
-  <div class="nav-links">
+  <div class="nav-links" id="navLinks">
     <a href="#templates">Templates</a>
     <a href="#builder">Builder</a>
     <a href="#faq">FAQ</a>
     <a href="#pricing">Pricing</a>
+    <a href="ai-employee-terms.html">AI Employee Terms</a>
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle light/dark theme" title="Toggle light/dark theme">🌙</button>
     <a class="btn btn-ghost" href="#templates">Browse Templates</a>
     <a class="btn btn-primary" href="#" onclick="openModal('generic')">Start Building →</a>
   </div>
+  <button class="nav-toggle" id="navToggle" onclick="toggleNav()" aria-label="Open menu" aria-expanded="false">☰</button>
 </nav>
 
 <!-- HERO -->
@@ -352,7 +364,7 @@ textarea.modal-input{resize:vertical;min-height:80px;}
     </div>
     <p class="hero-reassure">No credit card. No coding. Cancel anytime — it's just a file on your computer.</p>
     <div class="hero-stats">
-      <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Industry templates</div></div>
+      <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Industry templates</div></div>
       <div class="stat"><div class="stat-num">0</div><div class="stat-label">Coding required</div></div>
       <div class="stat"><div class="stat-num">Free</div><div class="stat-label">Hosting, always</div></div>
       <div class="stat"><div class="stat-num">~20 min</div><div class="stat-label">First-timer setup</div></div>
@@ -623,6 +635,50 @@ textarea.modal-input{resize:vertical;min-height:80px;}
       </div>
     </div>
 
+    <!-- Restaurant -->
+    <div class="template-card">
+      <div class="template-preview tp-restaurant" onclick="openDemo('restaurant')" style="cursor:pointer;">
+        🍽️
+        <span class="template-tag tag-new">New</span>
+      </div>
+      <div class="template-body">
+        <div class="template-industry">Restaurants & Cafés</div>
+        <div class="template-name">Restaurant Assistant</div>
+        <div class="template-desc">Handle reservations, menu and dietary questions, and hours — so your staff aren't stuck on the phone during the dinner rush.</div>
+        <div class="template-features">
+          <span class="feat-tag">Reservation requests</span>
+          <span class="feat-tag">Menu & dietary info</span>
+          <span class="feat-tag">Hours & location</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="template-cta" style="background:var(--surface);border:1px solid var(--accent);color:var(--accent);" onclick="openDemo('restaurant')">▶ Live Demo</button>
+          <button class="template-cta" onclick="openModal('restaurant')">Download Free →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Small Shop -->
+    <div class="template-card">
+      <div class="template-preview tp-shop" onclick="openDemo('shop')" style="cursor:pointer;">
+        🏪
+        <span class="template-tag tag-new">New</span>
+      </div>
+      <div class="template-body">
+        <div class="template-industry">Small Shops & Boutiques</div>
+        <div class="template-name">Local Shop Assistant</div>
+        <div class="template-desc">Answer stock, opening hours, and promotion questions for your physical store — built for shops without an online store.</div>
+        <div class="template-features">
+          <span class="feat-tag">Stock & availability</span>
+          <span class="feat-tag">Store hours & location</span>
+          <span class="feat-tag">Promotions</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="template-cta" style="background:var(--surface);border:1px solid var(--accent);color:var(--accent);" onclick="openDemo('shop')">▶ Live Demo</button>
+          <button class="template-cta" onclick="openModal('shop')">Download Free →</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -807,6 +863,7 @@ textarea.modal-input{resize:vertical;min-height:80px;}
     </div>
   </div>
   <p style="font-size:12.5px;color:var(--muted2);margin-top:20px;line-height:1.6;max-width:640px;">Like any new team member, give it clear instructions and check its early answers. It's a tool to handle the repetitive questions so you can focus on the ones that need a human touch — not a replacement for your judgement on anything sensitive, legal, medical, or financial.</p>
+  <a href="ai-employee-terms.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-size:13.5px;font-weight:600;color:var(--accent);text-decoration:none;">Read the full AI Employee Terms &amp; Guidelines →</a>
 </section>
 
 <div class="divider"></div>
@@ -909,7 +966,7 @@ textarea.modal-input{resize:vertical;min-height:80px;}
   <div class="footer-links">
     <a href="#templates">Templates</a>
     <a href="#builder">Builder</a>
-    <a href="#trust">Know Your AI Employee</a>
+    <a href="ai-employee-terms.html">AI Employee Terms</a>
     <a href="#faq">FAQ</a>
     <a href="#pricing">Pricing</a>
     <a href="https://github.com/ekbm/DIYchatbots" target="_blank" rel="noopener">GitHub</a>
@@ -1061,6 +1118,18 @@ function toggleTheme(){
 }
 applyThemeIcon();
 
+// ── MOBILE NAV ──
+function toggleNav(){
+  const nav = document.getElementById('navLinks');
+  const btn = document.getElementById('navToggle');
+  const open = nav.classList.toggle('open');
+  btn.textContent = open ? '✕' : '☰';
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+document.getElementById('navLinks').addEventListener('click', function(e){
+  if (e.target.tagName === 'A') toggleNav();
+});
+
 // ── PREVIEW UPDATES ──
 let currentEmoji = '💬';
 let currentColor = '#d97a3f';
@@ -1114,6 +1183,8 @@ const templateMeta = {
   finance:{ label:'Finance & Banking', title:'Financial Services Assistant', emoji:'💹', desc:'Account queries and product guidance' },
   sales:  { label:'Sales & Product Info', title:'Product Advisor Bot', emoji:'🎯', desc:'Pre-sales product Q&A and comparisons' },
   docs:   { label:'Documentation', title:'Manual & Document Assistant', emoji:'📘', desc:'Upload manuals, get instant answers' },
+  restaurant: { label:'Restaurants & Cafés', title:'Restaurant Assistant', emoji:'🍽️', desc:'Reservations, menu, and hours' },
+  shop:   { label:'Small Shops & Boutiques', title:'Local Shop Assistant', emoji:'🏪', desc:'Stock, hours, and promotions' },
 };
 
 function openModal(type) {
@@ -1352,6 +1423,40 @@ const DEMO_TEMPLATES = {
       'error':'Checking the Troubleshooting appendix... error codes starting with **E-0x** are usually connection issues. Try a full power cycle first (off 30 seconds, back on). Which exact code are you seeing?',
       'troubleshooting':'Yes — the manual has a full Troubleshooting section covering the most common issues. What are you running into? Describe it and I\'ll pull the relevant fix.',
       default:'I can search the uploaded manuals and guides for that. Could you tell me a bit more — a product name, a page topic, or an error code?'
+    }
+  },
+  restaurant: {
+    name:'Restaurant Assistant', ind:'Restaurants & Cafés', emoji:'🍽️', color:'#b91c1c',
+    welcome:'Hi! I can help with reservations, our menu, or anything else about dining with us. What can I help with?',
+    quickReplies:['Do you take reservations?','What\'s on the menu?','Do you have vegan options?','What are your opening hours?'],
+    features:[
+      {icon:'📅',title:'Reservation requests',desc:'Takes booking requests around the clock, even after the phones stop ringing.'},
+      {icon:'🥗',title:'Menu & dietary info',desc:'Answers allergy and dietary questions straight from your actual menu.'},
+      {icon:'🕐',title:'Hours & location',desc:'Handles the "are you open right now?" questions instantly, every time.'}
+    ],
+    responses:{
+      'reservation':'I\'d love to get you booked in! For parties up to 6, tell me: date, time, and number of guests and I\'ll pencil it in — our team will confirm by phone or email shortly after. For parties of 7+, we\'ll need to call you directly.',
+      'menu':'Our full menu is on the website\'s Menu page, updated seasonally. Popular picks right now: the wood-fired pizzas and the weekend brunch board. Looking for something specific — mains, drinks, or desserts?',
+      'vegan':'Yes! We\'ve got a dedicated vegan and vegetarian section, and most mains can be adapted — just flag it when you order. For serious allergies, please tell your server directly so the kitchen can take extra care.',
+      'hours':'We\'re open:\n\n• **Tue–Fri**: 11:30am – 10pm\n• **Sat–Sun**: 9am – 10pm\n• **Monday**: Closed\n\nKitchen closes 30 minutes before close. Walk-ins always welcome, but a reservation guarantees your table.',
+      default:'Happy to help! Are you after a reservation, menu info, or something about hours or location?'
+    }
+  },
+  shop: {
+    name:'Local Shop Assistant', ind:'Small Shops & Boutiques', emoji:'🏪', color:'#a16207',
+    welcome:'Hi! I can help with stock, opening hours, or anything else about the shop. What are you after?',
+    quickReplies:['Do you have this in stock?','What are your opening hours?','Any promotions on right now?','Where are you located?'],
+    features:[
+      {icon:'📦',title:'Stock & availability',desc:'Tells customers what\'s in stock right now, without them driving over to check.'},
+      {icon:'🏷️',title:'Promotions',desc:'Shares current sales and offers automatically — update once, it stays current everywhere.'},
+      {icon:'📍',title:'Store hours & location',desc:'Answers hours, parking, and directions questions instantly, even when you\'re closed.'}
+    ],
+    responses:{
+      'stock':'I can check! Tell me the item (and size or colour if it applies) and I\'ll let you know if we have it on the shelf, or if we can order it in. Want me to hold one for you at the counter?',
+      'promotion':'Right now we\'ve got **20% off** our new-season range, and a loyalty stamp card for regulars — 10 visits gets you $20 off. Anything specific you\'re shopping for? I can flag if it\'s included.',
+      'hours':'We\'re open:\n\n• **Mon–Fri**: 9am – 5:30pm\n• **Saturday**: 9am – 4pm\n• **Sunday**: Closed\n\nPublic holiday hours can vary — worth a quick check before you head over on those days.',
+      'located':'We\'re at [Shop Address] — there\'s free 30-minute parking right out front, plus the public car park two doors down. Look for the [awning colour] awning!',
+      default:'Happy to help — are you checking on stock, our hours, a current promotion, or how to find us?'
     }
   }
 };
