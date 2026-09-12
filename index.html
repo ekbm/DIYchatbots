@@ -348,6 +348,13 @@ textarea.modal-input{resize:vertical;min-height:80px;}
 .modal-deploy-btn{width:100%;padding:14px;background:#b85a24;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;font-family:var(--sans);cursor:pointer;transition:all .2s;margin-top:4px;letter-spacing:0;}
 .modal-deploy-btn:hover{background:#9c4b1c;transform:translateY(-1px);}
 .modal-deploy-btn:disabled{background:var(--border2);color:var(--muted);cursor:not-allowed;transform:none;}
+.whatyouneed-box{background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:14px 16px;margin-bottom:16px;}
+.whatyouneed-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.whatyouneed-list{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:10px;}
+.whatyouneed-list li{font-size:12.5px;color:var(--muted);display:flex;align-items:baseline;gap:7px;}
+.whatyouneed-list li::before{content:'○';color:var(--accent);font-size:10px;flex-shrink:0;}
+.whatyouneed-list li strong{color:var(--text);}
+.whatyouneed-note{font-size:11.5px;color:var(--muted2);line-height:1.5;}
 .modal-note{font-size:12.5px;color:var(--muted2);text-align:center;margin-top:10px;line-height:1.6;}
 
 /* PROGRESS */
@@ -1179,8 +1186,18 @@ textarea.modal-input{resize:vertical;min-height:80px;}
         <p style="font-size:12px;color:var(--muted2);margin-top:6px;line-height:1.5;">Your API key is <strong>never</strong> put in this file. Instead you set up a free backend (a small proxy) that holds the key safely, and paste its URL here. The setup guide walks you through it. Leave blank to download a demo-only version.</p>
       </div>
 
+      <div class="whatyouneed-box">
+        <div class="whatyouneed-title">What you'll need to go fully live (all free)</div>
+        <ul class="whatyouneed-list">
+          <li><strong>A GitHub account</strong> — to host your chatbot page</li>
+          <li><strong>A Cloudflare account</strong> — to run your private backend</li>
+          <li><strong>An Anthropic API key</strong> — to power real AI answers</li>
+        </ul>
+        <p class="whatyouneed-note">None of these are needed just to download and try demo mode — only to connect real AI. The setup guide walks you through creating all three, step by step.</p>
+      </div>
+
       <button class="modal-deploy-btn" id="deployBtn" onclick="generateAndDownload()">⬇ Download Free — Chatbot + Setup Guide</button>
-      <p class="modal-note">Two files will download: your <strong>chatbot HTML file</strong> and a <strong>plain-English setup guide</strong> covering GitHub account creation, uploading, enabling free hosting, and adding your knowledge base. No account needed.</p>
+      <p class="modal-note">Two files will download: your <strong>chatbot HTML file</strong> and a <strong>plain-English setup guide</strong> covering GitHub account creation, uploading, enabling free hosting, and adding your knowledge base. No DIYChatbots account needed — ever.</p>
     </div>
   </div>
 </div>
