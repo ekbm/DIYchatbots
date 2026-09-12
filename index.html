@@ -1211,7 +1211,7 @@ textarea.modal-input{resize:vertical;min-height:80px;}
 // ── DOWNLOAD COUNTER ──
 // Fill this in once counter-worker.js is deployed (see that file for setup steps).
 // Leave blank to keep the counter badges hidden — nothing else breaks.
-const COUNTER_BACKEND = '';
+const COUNTER_BACKEND = 'https://diychatbots-counter.moses1977.workers.dev';
 
 async function loadDownloadCounts(){
   if (!COUNTER_BACKEND) return;
@@ -1830,7 +1830,7 @@ footer{background:#1a1a2e;text-align:center;padding:20px;font-size:12px;color:rg
         <li>Get a free Anthropic API key at <strong>console.anthropic.com</strong> → sign up → <strong>"API Keys"</strong> → <strong>"Create Key"</strong>. Copy it (it starts with <strong>sk-ant-api03-…</strong>) and keep it private.</li>
         <li>Create a free account at <strong>dash.cloudflare.com</strong> and open <strong>Workers &amp; Pages → Create → Worker</strong>.</li>
         <li>Paste in the proxy code from your <strong>backend (proxy.js)</strong> file and click <strong>Deploy</strong>.</li>
-        <li>In the Worker's <strong>Settings → Variables</strong>, add a secret named <strong>ANTHROPIC_API_KEY</strong> and paste your key as its value. Save.</li>
+        <li>In the Worker's <strong>Settings → Variables</strong>, add a secret named <strong>ANTHROPIC_API_KEY</strong> and paste your key as its value. Then click <strong>"Save and deploy"</strong> (or "Deploy") — this step matters, not just clicking Save. Skip it and your key won't actually be readable yet, even though it looks saved.</li>
         <li>Copy your Worker's URL (looks like <strong>https://your-bot.your-name.workers.dev</strong>).</li>
         <li>Back on DIYChatbots, paste that URL into the <strong>"Your backend URL"</strong> box and download your chatbot again.</li>
       </ol>
@@ -1912,7 +1912,7 @@ footer{background:#1a1a2e;text-align:center;padding:20px;font-size:12px;color:rg
     <div class="step-hd"><div class="step-circle" style="background:#f59e0b">?</div><div class="step-title">Troubleshooting & tips</div></div>
     <div class="step-card">
       <p><strong>Page shows "404 Not Found"</strong><br/>The file is not named index.html, or GitHub Pages hasn't activated yet. Wait 2 minutes and refresh. Double-check the filename is exactly "index.html".</p>
-      <p><strong>The AI isn't responding / gives errors</strong><br/>Check that your backend URL was pasted correctly when you generated the chatbot, and that your ANTHROPIC_API_KEY secret is set in the backend. Leave the backend URL blank to use "Demo mode" and test the interface without a key.</p>
+      <p><strong>The AI isn't responding / gives errors</strong><br/>Check that your backend URL was pasted correctly when you generated the chatbot, and that your ANTHROPIC_API_KEY secret is set in the backend. If you added the key but it still doesn't work, go back into the Worker and click "Save and deploy" again — adding a variable doesn't always take effect until you deploy again after adding it. Leave the backend URL blank to use "Demo mode" and test the interface without a key.</p>
       <p><strong>How do I update the chatbot?</strong><br/>Download a new version from DIYChatbots.io, then upload it to your GitHub repository — same steps as before. The site republishes automatically within ~60 seconds.</p>
       <p><strong>How do I embed it on my website?</strong><br/>Use this iframe code anywhere on your site:</p>
       <div class="code">&lt;iframe src="https://your-username.github.io/${hSlug}" width="100%" height="700px" frameborder="0"&gt;&lt;/iframe&gt;</div>

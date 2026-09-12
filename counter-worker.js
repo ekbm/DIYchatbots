@@ -8,9 +8,14 @@
 //   1. In your Cloudflare account: Workers & Pages -> KV -> Create a namespace
 //      called DOWNLOAD_COUNTS.
 //   2. Workers & Pages -> Create -> Worker -> paste in this WHOLE file -> Deploy.
-//   3. Open the Worker -> Settings -> Bindings -> Add binding -> KV namespace.
+//   3. Open the Worker -> Bindings -> Add binding -> KV namespace.
 //        Variable name: DOWNLOAD_COUNTS   (must match exactly, case-sensitive)
-//        KV namespace:  DOWNLOAD_COUNTS   (the one you created in step 1)
+//        KV namespace:  the one you created in step 1 (its own name doesn't matter)
+//      IMPORTANT: after adding the binding, go back to the code editor and make a
+//      trivial change (add/remove a blank line) so "Deploy" lights up, then click
+//      Deploy again. Adding a binding alone does not update the already-deployed
+//      version — you'll get "TypeError: Cannot read properties of undefined
+//      (reading 'get')" on /counts until you redeploy after the binding exists.
 //   4. Open the Worker -> Settings -> Variables and Secrets, and add:
 //        ALLOWED_ORIGIN = https://diychatbots.com
 //                         (recommended — stops other sites from spamming your counts)

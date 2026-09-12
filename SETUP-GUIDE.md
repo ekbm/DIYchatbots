@@ -18,6 +18,7 @@ The golden rule: your API key only ever goes into the backend (part A). It never
 4. Open the Worker → Settings → Variables and Secrets, and add:
    - `ANTHROPIC_API_KEY` = your `sk-ant-` key (mark it as a Secret).
    - `ALLOWED_ORIGIN` = your website address, e.g. `https://your-name.github.io` (optional, but recommended — it limits who can use your backend).
+   - **Click "Save and deploy" (or "Deploy") after adding these — don't just navigate away.** Adding the key isn't enough on its own; skip this and your key won't actually be readable yet, and your chatbot will show an error even though the key looks saved.
 5. Copy the Worker's URL. It looks like `https://your-bot.your-name.workers.dev`.
 
 You now have a private backend. Nothing public can see your key.
